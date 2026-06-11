@@ -1,0 +1,197 @@
+.storiesBar {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 24px 0;
+  width: 100%;
+  scrollbar-width: none; /* Firefox */
+}
+
+.storiesBar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.thumbnailWrapper {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 3px;
+  border: 2px solid var(--color-accent);
+  transition: transform var(--transition-fast);
+}
+
+.story:hover .thumbnailWrapper {
+  transform: scale(1.05);
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-surface);
+}
+
+.label {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Modal Overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn var(--transition-fast);
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter-mobile);
+}
+
+@media (max-width: 480px) {
+  .modalContent {
+    max-height: 100vh;
+  }
+}
+
+.modalImageWrapper {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background-color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: #fff;
+  z-index: 1010;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
+
+.modalFooter {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1005;
+}
+
+.modalLabel {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-align: center;
+}
+
+.modalCTA {
+  background-color: #fff;
+  color: var(--color-text-primary);
+  padding: 14px 36px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 2px;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modalCTA:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+  z-index: 1005;
+}
+
+.navButton:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.prevButton {
+  left: 20px;
+}
+
+.nextButton {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .navButton {
+    display: none; /* Hide nav arrows on mobile, use swipe/tap eventually */
+  }
+}

@@ -1,0 +1,165 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: var(--color-surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity var(--transition-medium);
+}
+
+.hoverImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.card:hover .hoverImage {
+  opacity: 1;
+}
+
+.card:hover .primaryImage {
+  opacity: 0;
+}
+
+/* Badges */
+.badgeContainer {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  color: #fff;
+}
+
+.badgeNew {
+  background-color: var(--color-text-primary);
+}
+
+.badgeSale {
+  background-color: var(--color-accent);
+}
+
+.badgeSoldOut {
+  background-color: var(--color-sold-out);
+}
+
+/* Size Quick Add Overlay */
+.sizeOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(100%);
+  transition: transform var(--transition-medium);
+  z-index: 15;
+}
+
+.card:hover .sizeOverlay {
+  transform: translateY(0);
+}
+
+.sizeTitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  color: var(--color-text-muted);
+}
+
+.sizeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.sizeButton {
+  border: 1px solid var(--color-border);
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  background-color: #fff;
+  transition: all var(--transition-fast);
+}
+
+.sizeButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Details */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.comparePrice {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.salePrice {
+  color: var(--color-accent);
+}
