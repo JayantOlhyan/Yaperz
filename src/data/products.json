@@ -1,0 +1,325 @@
+[
+  {
+    "id": "1",
+    "title": "Brown Wildloom Heavyweight Hoodie",
+    "slug": "brown-wildloom-heavyweight-hoodie",
+    "price": 18500,
+    "compare_at_price": 22000,
+    "category": "Hoodies",
+    "collections": ["new-in", "winter-collection", "bluorng-iconics"],
+    "tags": ["brown", "winter", "heavyweight", "oversized"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "colors": ["Brown", "Beige"],
+    "images": [
+      "/images/products/hoodie-brown-1.jpg",
+      "/images/products/hoodie-brown-2.jpg"
+    ],
+    "inventory": 8,
+    "description": "Crafted from 500GSM ultra-heavyweight loopback organic cotton. Features custom 'Wildloom' graphic embroidery across the chest, double-lined drop-shoulder hood without drawstrings, and kangaroo pouch pocket. Relaxed unisex fit. Pre-shrunk and soft-washed for the ultimate premium feel.",
+    "care": "Machine wash cold inside out with similar colors. Do not bleach. Hang dry in shade. Iron medium heat inside out. Do not iron directly on print/embroidery."
+  },
+  {
+    "id": "2",
+    "title": "Racing Club Leather Bomber Jacket",
+    "slug": "racing-club-leather-bomber-jacket",
+    "price": 32000,
+    "compare_at_price": 35000,
+    "category": "Jackets",
+    "collections": ["new-in", "bluorng-racing-club", "bluorng-iconics"],
+    "tags": ["black", "leather", "racing", "jacket"],
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Black", "White"],
+    "images": [
+      "/images/products/jacket-racing-1.jpg",
+      "/images/products/jacket-racing-2.jpg"
+    ],
+    "inventory": 3,
+    "description": "Constructed from premium full-grain nappa leather. Adorned with custom racing club chenille patches on the chest, sleeves, and back. Finished with heavy metal zip closure, button-snap collar, and ribbed cuffs and hem. Interior features satin lining with dual utility pockets.",
+    "care": "Professional dry clean by leather specialist only. Do not wash. Do not iron."
+  },
+  {
+    "id": "3",
+    "title": "Basics Oversized Tee - Off White",
+    "slug": "basics-oversized-tee-off-white",
+    "price": 3500,
+    "compare_at_price": null,
+    "category": "T-shirts",
+    "collections": ["summer-basics", "new-arrivals-feb-drop-26"],
+    "tags": ["white", "basics", "tee", "oversized"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "colors": ["Off-White", "Black", "Grey"],
+    "images": [
+      "/images/products/tee-basics-white-1.jpg",
+      "/images/products/tee-basics-white-2.jpg"
+    ],
+    "inventory": 25,
+    "description": "A daily wardrobe essential. Built from 260GSM heavy combed cotton jersey. Cut in a boxy, oversized silhouette with wide sleeves and a thick mock-neck rib collar. Minimalist embroidered logo on the back yoke.",
+    "care": "Wash inside out with cold water. Use mild detergent. Dry flat in shade to prevent stretching. Warm iron if needed."
+  },
+  {
+    "id": "4",
+    "title": "Yacht Club Striped Resort Shirt",
+    "slug": "yacht-club-striped-resort-shirt",
+    "price": 4800,
+    "compare_at_price": 5500,
+    "category": "Shirts",
+    "collections": ["new-in", "yacht-summer-june-25"],
+    "tags": ["blue", "white", "shirt", "resort"],
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Blue Stripe", "Green Stripe"],
+    "images": [
+      "/images/products/shirt-yacht-1.jpg",
+      "/images/products/shirt-yacht-2.jpg"
+    ],
+    "inventory": 12,
+    "description": "Lightweight linen-tencel blend shirt featuring wide vertical resort stripes. Classic camp collar, relaxed button-down front, and chest pocket. Designed for breathable warm-weather luxury.",
+    "care": "Hand wash or gentle machine wash cold. Do not tumble dry. Line dry. Light steam iron."
+  },
+  {
+    "id": "5",
+    "title": "Polo Club Knitted Ribbed Polo",
+    "slug": "polo-club-knitted-ribbed-polo",
+    "price": 4200,
+    "compare_at_price": null,
+    "category": "Polos",
+    "collections": ["bluorng-polo-club", "new-arrivals-feb-drop-26"],
+    "tags": ["green", "polo", "knit", "ribbed"],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Forest Green", "Cream"],
+    "images": [
+      "/images/products/polo-knit-1.jpg",
+      "/images/products/polo-knit-2.jpg"
+    ],
+    "inventory": 15,
+    "description": "Knitted from premium long-staple cotton yarn in a custom vertical rib texture. Standard collar with a buttonless open placket. Features short sleeves, ribbed bands, and a tailored yet relaxed drape.",
+    "care": "Hand wash cold. Lay flat to dry on a towel. Do not wring. Store folded, do not hang as it may warp the knit shape."
+  },
+  {
+    "id": "6",
+    "title": "Signature Varsity Jacket - Cobalt",
+    "slug": "signature-varsity-jacket-cobalt",
+    "price": 24500,
+    "compare_at_price": 28000,
+    "category": "Jackets",
+    "collections": ["winter-collection", "bluorng-iconics"],
+    "tags": ["blue", "jacket", "varsity", "winter"],
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Cobalt Blue", "Forest Green"],
+    "images": [
+      "/images/products/jacket-varsity-1.jpg",
+      "/images/products/jacket-varsity-2.jpg"
+    ],
+    "inventory": 2,
+    "description": "Classic collegiate varsity styling. Featuring a heavy wool-blend body and full-grain leather sleeves. Embroidered artwork on chest and large signature back chenille graphic. Quilted satin lining for cold-weather comfort.",
+    "care": "Dry clean only. Store in a cool, dry garment bag."
+  },
+  {
+    "id": "7",
+    "title": "Racing Team Cap - Emerald Green",
+    "slug": "racing-team-cap-emerald-green",
+    "price": 2200,
+    "compare_at_price": 2800,
+    "category": "Caps",
+    "collections": ["caps", "bluorng-racing-club"],
+    "tags": ["green", "cap", "racing", "accessories"],
+    "sizes": ["One Size"],
+    "colors": ["Emerald Green", "Vintage Black"],
+    "images": [
+      "/images/products/cap-racing-1.jpg",
+      "/images/products/cap-racing-2.jpg"
+    ],
+    "inventory": 30,
+    "description": "Unstructured 6-panel strapback cap made from premium cotton twill. Detailed with 3D embroidery of the Racing Club insignia on front and brand text on the rear arch. Adjustable metal buckle closure.",
+    "care": "Hand wash with cold water and mild soap. Shape and air dry."
+  },
+  {
+    "id": "8",
+    "title": "Classic Utility Cargo Pants - Charcoal",
+    "slug": "classic-utility-cargo-pants-charcoal",
+    "price": 6500,
+    "compare_at_price": 7500,
+    "category": "Cargos",
+    "collections": ["new-in", "summer-basics"],
+    "tags": ["grey", "pants", "cargos", "utility"],
+    "sizes": ["28", "30", "32", "34", "36"],
+    "colors": ["Charcoal Grey", "Olive Green"],
+    "images": [
+      "/images/products/cargo-pants-1.jpg",
+      "/images/products/cargo-pants-2.jpg"
+    ],
+    "inventory": 14,
+    "description": "Heavyweight cotton canvas cargo pants. Features 8 pockets, adjustable drawstring cuffs at the ankles to toggle fit, custom branded hardware, and a semi-relaxed leg width.",
+    "care": "Machine wash cold inside out. Tumble dry low. Warm iron if necessary."
+  },
+  {
+    "id": "9",
+    "title": "Acid Wash Denim Case - iPhone 15 Pro",
+    "slug": "acid-wash-denim-case-iphone-15-pro",
+    "price": 1800,
+    "compare_at_price": null,
+    "category": "Cases",
+    "collections": ["iphone-case"],
+    "tags": ["blue", "case", "iphone", "accessories"],
+    "sizes": ["iPhone 15 Pro", "iPhone 15 Pro Max", "iPhone 14 Pro"],
+    "colors": ["Acid Wash Blue", "Black Denim"],
+    "images": [
+      "/images/products/case-denim-1.jpg",
+      "/images/products/case-denim-2.jpg"
+    ],
+    "inventory": 40,
+    "description": "Premium protective snap-on iPhone case wrapped in real acid-washed denim fabric. Features raised edges for camera and screen protection, and embossed brand logo on the inner microfiber lining.",
+    "care": "Wipe with a slightly damp cloth. Avoid submerging in water or contact with oil."
+  },
+  {
+    "id": "10",
+    "title": "Carbon Fiber Protective Case",
+    "slug": "carbon-fiber-protective-case",
+    "price": 2000,
+    "compare_at_price": 2500,
+    "category": "Cases",
+    "collections": ["iphone-case", "bluorng-racing-club"],
+    "tags": ["black", "case", "iphone", "accessories"],
+    "sizes": ["iPhone 15 Pro", "iPhone 15 Pro Max"],
+    "colors": ["Carbon Black"],
+    "images": [
+      "/images/products/case-carbon-1.jpg",
+      "/images/products/case-carbon-2.jpg"
+    ],
+    "inventory": 18,
+    "description": "Real matte carbon fiber weave hybrid case. MagSafe compatible, shockproof bumpers, and an ultra-thin tactile feel.",
+    "care": "Wipe clean with a microfiber cloth."
+  },
+  {
+    "id": "11",
+    "title": "Heavyweight Knit Beanie - Vintage Black",
+    "slug": "heavyweight-knit-beanie-vintage-black",
+    "price": 1800,
+    "compare_at_price": null,
+    "category": "Caps",
+    "collections": ["winter-collection", "caps"],
+    "tags": ["black", "cap", "beanie", "winter"],
+    "sizes": ["One Size"],
+    "colors": ["Vintage Black", "Sand"],
+    "images": [
+      "/images/products/beanie-black-1.jpg",
+      "/images/products/beanie-black-2.jpg"
+    ],
+    "inventory": 45,
+    "description": "Double-layered wool blend ribbed beanie. Wide foldover cuff with woven brand label stitch.",
+    "care": "Hand wash cold. Dry flat."
+  },
+  {
+    "id": "12",
+    "title": "Retro Racing Tee - Bright Orange",
+    "slug": "retro-racing-tee-bright-orange",
+    "price": 3800,
+    "compare_at_price": 4500,
+    "category": "T-shirts",
+    "collections": ["new-in", "bluorng-racing-club"],
+    "tags": ["orange", "tee", "racing", "oversized"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "colors": ["Bright Orange", "White"],
+    "images": [
+      "/images/products/tee-racing-orange-1.jpg",
+      "/images/products/tee-racing-orange-2.jpg"
+    ],
+    "inventory": 10,
+    "description": "Inspired by vintage motorsport graphics. Heavyweight 280GSM cotton featuring dynamic puff-printed graphics across chest and sleeves. Pre-shrunk for an optimal streetwear fit.",
+    "care": "Wash cold inside out. Gentle cycle. Do not tumble dry. Do not iron prints."
+  },
+  {
+    "id": "13",
+    "title": "Premium Linen Casual Shirt - Sand",
+    "slug": "premium-linen-casual-shirt-sand",
+    "price": 4500,
+    "compare_at_price": null,
+    "category": "Shirts",
+    "collections": ["yacht-summer-june-25"],
+    "tags": ["beige", "shirt", "linen"],
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Sand", "Olive"],
+    "images": [
+      "/images/products/shirt-linen-sand-1.jpg",
+      "/images/products/shirt-linen-sand-2.jpg"
+    ],
+    "inventory": 15,
+    "description": "100% pure organic linen casual shirt. Soft-washed for an effortless relaxed texture. Features a classic collar, clean front buttons, and rounded cuffs.",
+    "care": "Machine wash cold gentle. Iron warm with steam while slightly damp. Hang dry."
+  },
+  {
+    "id": "14",
+    "title": "Loopback Winter Hoodie - Cobalt Blue",
+    "slug": "loopback-winter-hoodie-cobalt-blue",
+    "price": 16500,
+    "compare_at_price": 19500,
+    "category": "Hoodies",
+    "collections": ["winter-collection"],
+    "tags": ["blue", "winter", "hoodie", "oversized"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "colors": ["Cobalt Blue"],
+    "images": [
+      "/images/products/hoodie-cobalt-1.jpg",
+      "/images/products/hoodie-cobalt-2.jpg"
+    ],
+    "inventory": 4,
+    "description": "450GSM loopback cotton hoodie in an electric cobalt blue dye. Features minimal tone-on-tone embroidery, double-lined hood, and standard fit cuffs.",
+    "care": "Wash cold inside out. Air dry in shade."
+  },
+  {
+    "id": "15",
+    "title": "Polo Club Knitted Polo - Burgundy",
+    "slug": "polo-club-knitted-polo-burgundy",
+    "price": 4200,
+    "compare_at_price": null,
+    "category": "Polos",
+    "collections": ["bluorng-polo-club"],
+    "tags": ["red", "polo", "knit"],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Burgundy", "Cream"],
+    "images": [
+      "/images/products/polo-burgundy-1.jpg",
+      "/images/products/polo-burgundy-2.jpg"
+    ],
+    "inventory": 9,
+    "description": "Fine-knit breathable cotton polo shirt. Contrasting collar trims, ribbed sleeve hems, and a vintage three-button closure.",
+    "care": "Hand wash cold. Lay flat to dry."
+  },
+  {
+    "id": "16",
+    "title": "Signature Box Logo Tee - Charcoal",
+    "slug": "signature-box-logo-tee-charcoal",
+    "price": 3500,
+    "compare_at_price": null,
+    "category": "T-shirts",
+    "collections": ["summer-basics"],
+    "tags": ["grey", "basics", "tee", "oversized"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "colors": ["Charcoal Grey", "Off-White"],
+    "images": [
+      "/images/products/tee-box-charcoal-1.jpg",
+      "/images/products/tee-box-charcoal-2.jpg"
+    ],
+    "inventory": 20,
+    "description": "Clean and understated. Heavyweight 260GSM combed cotton jersey with our high-density signature box print across the front.",
+    "care": "Wash inside out cold. Dry in shade."
+  },
+  {
+    "id": "17",
+    "title": "Classic Utility Cargo Pants - Olive",
+    "slug": "classic-utility-cargo-pants-olive",
+    "price": 6500,
+    "compare_at_price": 7500,
+    "category": "Cargos",
+    "collections": ["summer-basics"],
+    "tags": ["green", "pants", "cargos", "utility"],
+    "sizes": ["28", "30", "32", "34", "36"],
+    "colors": ["Olive Green", "Charcoal Grey"],
+    "images": [
+      "/images/products/cargo-pants-olive-1.jpg",
+      "/images/products/cargo-pants-olive-2.jpg"
+    ],
+    "inventory": 0,
+    "description": "Premium olive utility cargos. Multi-pocket design, pre-shrunk soft cotton canvas. Heavy duty stitching, sharp details.",
+    "care": "Machine wash cold inside out."
+  }
+]
