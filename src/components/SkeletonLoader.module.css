@@ -1,0 +1,349 @@
+/* Skeleton base styling with shimmer animation */
+.skeletonBlock {
+  background: linear-gradient(
+    90deg,
+    #f2f2f2 25%,
+    #e8e8e8 50%,
+    #f2f2f2 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 2px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .skeletonBlock {
+    animation: pulse 2s ease-in-out infinite;
+    background: #eaeaea;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Page structural styles matching the collections page */
+.gridContainer {
+  width: 100%;
+}
+
+.headerSkeleton {
+  margin-bottom: 40px;
+}
+
+.titleSkeleton {
+  height: 38px;
+  width: 250px;
+  margin-bottom: 12px;
+}
+
+.countSkeleton {
+  height: 16px;
+  width: 120px;
+}
+
+.toolbarSkeleton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 16px 0;
+  margin-bottom: 40px;
+}
+
+.btnSkeleton {
+  height: 38px;
+  width: 120px;
+}
+
+/* Sidebar and Main Layout skeleton */
+.layoutSkeleton {
+  display: flex;
+  gap: 40px;
+}
+
+.sidebarSkeleton {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .sidebarSkeleton {
+    display: none;
+  }
+}
+
+.filterBlockSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filterTitleSkeleton {
+  height: 14px;
+  width: 100px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.filterItemSkeleton {
+  height: 18px;
+  width: 150px;
+}
+
+.sizeGridSkeleton {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.sizeBtnSkeleton {
+  height: 34px;
+  width: 100%;
+}
+
+.colorGridSkeleton {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.colorSwatchSkeleton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+/* Product Card Grid Skeleton */
+.mainSkeleton {
+  flex: 1;
+}
+
+.gridSkeleton {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px 24px;
+}
+
+@media (max-width: 1024px) {
+  .gridSkeleton {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .gridSkeleton {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 12px;
+  }
+}
+
+/* Card Skeleton matching ProductCard */
+.cardSkeleton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.imageWrapperSkeleton {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  margin-bottom: 16px;
+}
+
+.cardInfoSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitleSkeleton {
+  height: 16px;
+  width: 70%;
+}
+
+.cardPriceSkeleton {
+  height: 16px;
+  width: 40%;
+}
+
+/* PDP (Product Detail Page) Skeleton Layout */
+.pdpContainer {
+  padding: 40px 0 80px 0;
+}
+
+.pdpLayout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  margin-bottom: 80px;
+}
+
+@media (max-width: 1024px) {
+  .pdpLayout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* PDP Left: Images Gallery Skeleton */
+.pdpGallerySkeleton {
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .pdpGallerySkeleton {
+    flex-direction: column-reverse;
+  }
+}
+
+.pdpThumbnailsSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .pdpThumbnailsSkeleton {
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+.pdpThumbSkeleton {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .pdpThumbSkeleton {
+    width: 60px;
+    height: 75px;
+  }
+}
+
+.pdpMainImageSkeleton {
+  flex: 1;
+  aspect-ratio: 4 / 5;
+}
+
+/* PDP Right: Info Panel Skeleton */
+.pdpInfoPanelSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pdpMetaSkeleton {
+  height: 14px;
+  width: 80px;
+}
+
+.pdpTitleSkeleton {
+  height: 36px;
+  width: 85%;
+}
+
+.pdpPriceSkeleton {
+  height: 24px;
+  width: 150px;
+}
+
+.pdpVariantSectionSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 20px;
+}
+
+.pdpVariantLabelSkeleton {
+  height: 14px;
+  width: 120px;
+}
+
+.pdpBtnGridSkeleton {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pdpColorSwatchSkeleton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.pdpSizeBtnSkeleton {
+  width: 60px;
+  height: 40px;
+}
+
+.pdpCtaSkeleton {
+  height: 54px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.pdpAccordionsSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 24px;
+}
+
+.pdpAccordionSkeleton {
+  height: 48px;
+  width: 100%;
+}
+
+/* Related Products Section Skeleton */
+.relatedSectionSkeleton {
+  border-top: 1px solid var(--color-border);
+  padding-top: 60px;
+}
+
+.relatedTitleSkeleton {
+  height: 28px;
+  width: 200px;
+  margin-bottom: 32px;
+}
+
+.relatedGridSkeleton {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .relatedGridSkeleton {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
