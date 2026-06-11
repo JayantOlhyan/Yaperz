@@ -86,10 +86,10 @@ export const Footer: React.FC = () => {
             <h3 className={styles.columnTitle}>Connect With Us</h3>
             <ul className={styles.linksList}>
               <li className={styles.linkItem}>
-                <a href="tel:+919599191998">+91 95991 91998</a>
+                <a href="tel:+918285172372">+91 82851 72372</a>
               </li>
               <li className={styles.linkItem}>
-                <a href="https://wa.me/919599191998" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/918285172372" target="_blank" rel="noopener noreferrer">
                   WhatsApp Support
                 </a>
               </li>

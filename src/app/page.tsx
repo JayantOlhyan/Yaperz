@@ -22,7 +22,7 @@ export default function Home() {
     {
       city: 'Delhi',
       address: 'M-81, Block M, GK-II, New Delhi 110048',
-      phone: '+91 95991 91998',
+      phone: '+91 82851 72372',
       email: 'delhi@yaperz.com',
       hours: '11:00 AM - 9:00 PM',
       mapLink: 'https://maps.google.com/?q=M-81,+Block+M,+GK-II,+New+Delhi'

@@ -21,7 +21,7 @@ export default function StoreLocatorPage() {
       city: 'Delhi',
       name: 'Yaperz Flagship GK-II',
       address: 'M-81, Block M, Greater Kailash II, New Delhi 110048',
-      phone: '+91 95991 91998',
+      phone: '+91 82851 72372',
       email: 'delhi@yaperz.com',
       hours: '11:00 AM - 9:00 PM',
       mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.8123049103986!2d77.2403698762573!3d28.545366487900746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3c4e3650c8d%3A0xc3b8398ff0c31e92!2sGreater%20Kailash%20II%2C%20New%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
