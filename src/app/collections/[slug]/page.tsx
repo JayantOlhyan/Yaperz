@@ -4,6 +4,7 @@ import React, { useState, useEffect, use } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Filter, X, RotateCcw } from 'lucide-react';
 import { ProductCard } from '../../../components/ProductCard';
+import { SkeletonLoader } from '../../../components/SkeletonLoader';
 import productsData from '../../../data/products.json';
 import { Product } from '../../../types';
 import styles from './page.module.css';
@@ -17,6 +18,10 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // State for skeleton loading simulation
+  const [isLoading, setIsLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
   // State triggers for filters
   const [inStockOnly, setInStockOnly] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -25,6 +30,18 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
   const [sortOption, setSortOption] = useState<string>('featured');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
+  // Simulated API loading duration of 800ms
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      const fadeTimer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 400); // matches the 400ms CSS crossfade duration
+      return () => clearTimeout(fadeTimer);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Constants
   const colorsList = [
@@ -210,260 +227,270 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
 
   return (
     <div className={`${styles.container} container`}>
-      {/* Page Header */}
-      <div className={styles.header}>
-        <h1 className={styles.title}>{getCollectionTitle()}</h1>
-        <p className={styles.count}>{filteredProducts.length} Products found</p>
-      </div>
+      <div className={styles.loadingContainer}>
+        {isTransitioning && (
+          <div className={`${styles.skeletonWrapper} ${isLoading ? styles.skeletonWrapperActive : styles.skeletonWrapperFade}`}>
+            <SkeletonLoader type="product-grid" count={sortedProducts.length || 6} />
+          </div>
+        )}
 
-      {/* Filter toolbar */}
-      <div className={styles.toolbar}>
-        <button onClick={() => setIsMobileFiltersOpen(true)} className={styles.mobileFilterBtn}>
-          <Filter size={16} /> Filters
-        </button>
-        <div>
-          <select
-            value={sortOption}
-            onChange={(e) => handleSortChange(e.target.value)}
-            className={styles.sortSelect}
-          >
-            <option value="featured">Featured</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="newest">Newest</option>
-          </select>
-        </div>
-      </div>
+        <div className={`${styles.contentWrapper} ${!isLoading ? styles.contentWrapperActive : ''}`}>
+          {/* Page Header */}
+          <div className={styles.header}>
+            <h1 className={styles.title}>{getCollectionTitle()}</h1>
+            <p className={styles.count}>{filteredProducts.length} Products found</p>
+          </div>
 
-      {/* Active Filter Chips */}
-      {(selectedSizes.length > 0 || selectedColors.length > 0 || inStockOnly || maxPrice !== 40000 || selectedCategories.length > 0) && (
-        <div className={styles.activeChips}>
-          {inStockOnly && (
-            <div onClick={handleStockToggle} className={styles.chip}>
-              In Stock Only <X size={12} />
+          {/* Filter toolbar */}
+          <div className={styles.toolbar}>
+            <button onClick={() => setIsMobileFiltersOpen(true)} className={styles.mobileFilterBtn}>
+              <Filter size={16} /> Filters
+            </button>
+            <div>
+              <select
+                value={sortOption}
+                onChange={(e) => handleSortChange(e.target.value)}
+                className={styles.sortSelect}
+              >
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Active Filter Chips */}
+          {(selectedSizes.length > 0 || selectedColors.length > 0 || inStockOnly || maxPrice !== 40000 || selectedCategories.length > 0) && (
+            <div className={styles.activeChips}>
+              {inStockOnly && (
+                <div onClick={handleStockToggle} className={styles.chip}>
+                  In Stock Only <X size={12} />
+                </div>
+              )}
+              {selectedSizes.map((size) => (
+                <div key={size} onClick={() => toggleSize(size)} className={styles.chip}>
+                  Size: {size} <X size={12} />
+                </div>
+              ))}
+              {selectedColors.map((color) => (
+                <div key={color} onClick={() => toggleColor(color)} className={styles.chip}>
+                  Color: {color} <X size={12} />
+                </div>
+              ))}
+              {selectedCategories.map((cat) => (
+                <div key={cat} onClick={() => toggleCategory(cat)} className={styles.chip}>
+                  Category: {cat} <X size={12} />
+                </div>
+              ))}
+              {maxPrice !== 40000 && (
+                <div onClick={() => { setMaxPrice(40000); updateURL({ sizes: selectedSizes, colors: selectedColors, inStock: inStockOnly, price: 40000, sort: sortOption, categories: selectedCategories }); }} className={styles.chip}>
+                  Under RS. {maxPrice.toLocaleString('en-IN')} <X size={12} />
+                </div>
+              )}
+              <div onClick={clearAllFilters} className={styles.chip} style={{ color: 'var(--color-accent)', borderColor: 'var(--color-accent)' }}>
+                <RotateCcw size={12} /> Clear All
+              </div>
             </div>
           )}
-          {selectedSizes.map((size) => (
-            <div key={size} onClick={() => toggleSize(size)} className={styles.chip}>
-              Size: {size} <X size={12} />
-            </div>
-          ))}
-          {selectedColors.map((color) => (
-            <div key={color} onClick={() => toggleColor(color)} className={styles.chip}>
-              Color: {color} <X size={12} />
-            </div>
-          ))}
-          {selectedCategories.map((cat) => (
-            <div key={cat} onClick={() => toggleCategory(cat)} className={styles.chip}>
-              Category: {cat} <X size={12} />
-            </div>
-          ))}
-          {maxPrice !== 40000 && (
-            <div onClick={() => { setMaxPrice(40000); updateURL({ sizes: selectedSizes, colors: selectedColors, inStock: inStockOnly, price: 40000, sort: sortOption, categories: selectedCategories }); }} className={styles.chip}>
-              Under RS. {maxPrice.toLocaleString('en-IN')} <X size={12} />
-            </div>
-          )}
-          <div onClick={clearAllFilters} className={styles.chip} style={{ color: 'var(--color-accent)', borderColor: 'var(--color-accent)' }}>
-            <RotateCcw size={12} /> Clear All
-          </div>
-        </div>
-      )}
 
-      {/* Main Layout grid */}
-      <div className={styles.layout}>
-        {/* Left Sidebar (Desktop Filters) */}
-        <aside className={styles.sidebar}>
-          {/* Availability */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Availability</h3>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={inStockOnly}
-                onChange={handleStockToggle}
-                className={styles.checkboxInput}
-              />
-              In Stock Only
-            </label>
-          </div>
-
-          {/* Size Button Grid */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Filter by Size</h3>
-            <div className={styles.sizeGrid}>
-              {sizesList.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => toggleSize(size)}
-                  className={`${styles.sizeBtn} ${selectedSizes.includes(size) ? styles.sizeBtnActive : ''}`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Color Visual Swatches */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Filter by Color</h3>
-            <div className={styles.colorGrid}>
-              {colorsList.map((col) => (
-                <button
-                  key={col.name}
-                  onClick={() => toggleColor(col.name)}
-                  className={`${styles.colorButton} ${selectedColors.includes(col.name) ? styles.colorButtonActive : ''}`}
-                  style={{ backgroundColor: col.value }}
-                  title={col.name}
-                  aria-label={`Filter by ${col.name}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Category List */}
-          {slug === 'all-products' && (
-            <div className={styles.filterBlock}>
-              <h3 className={styles.filterTitle}>Category</h3>
-              {categoriesList.map((cat) => (
-                <label key={cat} className={styles.checkboxLabel}>
+          {/* Main Layout grid */}
+          <div className={styles.layout}>
+            {/* Left Sidebar (Desktop Filters) */}
+            <aside className={styles.sidebar}>
+              {/* Availability */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Availability</h3>
+                <label className={styles.checkboxLabel}>
                   <input
                     type="checkbox"
-                    checked={selectedCategories.includes(cat)}
-                    onChange={() => toggleCategory(cat)}
+                    checked={inStockOnly}
+                    onChange={handleStockToggle}
                     className={styles.checkboxInput}
                   />
-                  {cat}
+                  In Stock Only
                 </label>
-              ))}
-            </div>
-          )}
+              </div>
 
-          {/* Price Range Slider */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Max Price</h3>
-            <div className={styles.priceRange}>
-              <input
-                type="range"
-                min="0"
-                max="40000"
-                step="500"
-                value={maxPrice}
-                onChange={(e) => handlePriceChange(parseInt(e.target.value))}
-                onMouseUp={handlePriceMouseUp}
-                onTouchEnd={handlePriceMouseUp}
-                className={styles.slider}
-              />
-              <span className={styles.priceLabel}>
-                Under RS. {maxPrice.toLocaleString('en-IN')}
-              </span>
-            </div>
+              {/* Size Button Grid */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Filter by Size</h3>
+                <div className={styles.sizeGrid}>
+                  {sizesList.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => toggleSize(size)}
+                      className={`${styles.sizeBtn} ${selectedSizes.includes(size) ? styles.sizeBtnActive : ''}`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Color Visual Swatches */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Filter by Color</h3>
+                <div className={styles.colorGrid}>
+                  {colorsList.map((col) => (
+                    <button
+                      key={col.name}
+                      onClick={() => toggleColor(col.name)}
+                      className={`${styles.colorButton} ${selectedColors.includes(col.name) ? styles.colorButtonActive : ''}`}
+                      style={{ backgroundColor: col.value }}
+                      title={col.name}
+                      aria-label={`Filter by ${col.name}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Category List */}
+              {slug === 'all-products' && (
+                <div className={styles.filterBlock}>
+                  <h3 className={styles.filterTitle}>Category</h3>
+                  {categoriesList.map((cat) => (
+                    <label key={cat} className={styles.checkboxLabel}>
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(cat)}
+                        onChange={() => toggleCategory(cat)}
+                        className={styles.checkboxInput}
+                      />
+                      {cat}
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {/* Price Range Slider */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Max Price</h3>
+                <div className={styles.priceRange}>
+                  <input
+                    type="range"
+                    min="0"
+                    max="40000"
+                    step="500"
+                    value={maxPrice}
+                    onChange={(e) => handlePriceChange(parseInt(e.target.value))}
+                    onMouseUp={handlePriceMouseUp}
+                    onTouchEnd={handlePriceMouseUp}
+                    className={styles.slider}
+                  />
+                  <span className={styles.priceLabel}>
+                    Under RS. {maxPrice.toLocaleString('en-IN')}
+                  </span>
+                </div>
+              </div>
+            </aside>
+
+            {/* Product Grid Area */}
+            <main className={styles.main}>
+              {sortedProducts.length === 0 ? (
+                <div className={styles.emptyState}>
+                  <h3 className={styles.emptyTitle}>No products match the filters</h3>
+                  <p className={styles.emptyDesc}>Try modifying your selection or clear all filters.</p>
+                  <button onClick={clearAllFilters} className={styles.clearBtn}>
+                    Reset Filters
+                  </button>
+                </div>
+              ) : (
+                <div className={styles.grid}>
+                  {sortedProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              )}
+            </main>
           </div>
-        </aside>
 
-        {/* Product Grid Area */}
-        <main className={styles.main}>
-          {sortedProducts.length === 0 ? (
-            <div className={styles.emptyState}>
-              <h3 className={styles.emptyTitle}>No products match the filters</h3>
-              <p className={styles.emptyDesc}>Try modifying your selection or clear all filters.</p>
-              <button onClick={clearAllFilters} className={styles.clearBtn}>
-                Reset Filters
+          {/* Mobile Filters Drawer Modal */}
+          <div className={`${styles.mobileDrawer} ${isMobileFiltersOpen ? styles.mobileDrawerOpen : ''}`}>
+            <div className={styles.mobileDrawerHeader}>
+              <h2 className={styles.mobileDrawerTitle}>Filters</h2>
+              <button onClick={() => setIsMobileFiltersOpen(false)} aria-label="Close filters">
+                <X size={24} />
               </button>
             </div>
-          ) : (
-            <div className={styles.grid}>
-              {sortedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+            <div className={styles.mobileDrawerContent}>
+              {/* Mobile Availability */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Availability</h3>
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={inStockOnly}
+                    onChange={handleStockToggle}
+                    className={styles.checkboxInput}
+                  />
+                  In Stock Only
+                </label>
+              </div>
+
+              {/* Mobile Size Grid */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Filter by Size</h3>
+                <div className={styles.sizeGrid}>
+                  {sizesList.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => toggleSize(size)}
+                      className={`${styles.sizeBtn} ${selectedSizes.includes(size) ? styles.sizeBtnActive : ''}`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Color Grid */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Filter by Color</h3>
+                <div className={styles.colorGrid}>
+                  {colorsList.map((col) => (
+                    <button
+                      key={col.name}
+                      onClick={() => toggleColor(col.name)}
+                      className={`${styles.colorButton} ${selectedColors.includes(col.name) ? styles.colorButtonActive : ''}`}
+                      style={{ backgroundColor: col.value }}
+                      title={col.name}
+                      aria-label={`Filter by ${col.name}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Price Slider */}
+              <div className={styles.filterBlock}>
+                <h3 className={styles.filterTitle}>Max Price</h3>
+                <div className={styles.priceRange}>
+                  <input
+                    type="range"
+                    min="0"
+                    max="40000"
+                    step="500"
+                    value={maxPrice}
+                    onChange={(e) => handlePriceChange(parseInt(e.target.value))}
+                    onMouseUp={handlePriceMouseUp}
+                    onTouchEnd={handlePriceMouseUp}
+                    className={styles.slider}
+                  />
+                  <span className={styles.priceLabel}>
+                    Under RS. {maxPrice.toLocaleString('en-IN')}
+                  </span>
+                </div>
+              </div>
             </div>
-          )}
-        </main>
-      </div>
-
-      {/* Mobile Filters Drawer Modal */}
-      <div className={`${styles.mobileDrawer} ${isMobileFiltersOpen ? styles.mobileDrawerOpen : ''}`}>
-        <div className={styles.mobileDrawerHeader}>
-          <h2 className={styles.mobileDrawerTitle}>Filters</h2>
-          <button onClick={() => setIsMobileFiltersOpen(false)} aria-label="Close filters">
-            <X size={24} />
-          </button>
-        </div>
-        <div className={styles.mobileDrawerContent}>
-          {/* Mobile Availability */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Availability</h3>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={inStockOnly}
-                onChange={handleStockToggle}
-                className={styles.checkboxInput}
-              />
-              In Stock Only
-            </label>
-          </div>
-
-          {/* Mobile Size Grid */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Filter by Size</h3>
-            <div className={styles.sizeGrid}>
-              {sizesList.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => toggleSize(size)}
-                  className={`${styles.sizeBtn} ${selectedSizes.includes(size) ? styles.sizeBtnActive : ''}`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Color Grid */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Filter by Color</h3>
-            <div className={styles.colorGrid}>
-              {colorsList.map((col) => (
-                <button
-                  key={col.name}
-                  onClick={() => toggleColor(col.name)}
-                  className={`${styles.colorButton} ${selectedColors.includes(col.name) ? styles.colorButtonActive : ''}`}
-                  style={{ backgroundColor: col.value }}
-                  title={col.name}
-                  aria-label={`Filter by ${col.name}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Price Slider */}
-          <div className={styles.filterBlock}>
-            <h3 className={styles.filterTitle}>Max Price</h3>
-            <div className={styles.priceRange}>
-              <input
-                type="range"
-                min="0"
-                max="40000"
-                step="500"
-                value={maxPrice}
-                onChange={(e) => handlePriceChange(parseInt(e.target.value))}
-                onMouseUp={handlePriceMouseUp}
-                onTouchEnd={handlePriceMouseUp}
-                className={styles.slider}
-              />
-              <span className={styles.priceLabel}>
-                Under RS. {maxPrice.toLocaleString('en-IN')}
-              </span>
+            <div className={styles.mobileDrawerFooter}>
+              <button onClick={clearAllFilters} className={styles.resetBtn}>
+                Clear All
+              </button>
+              <button onClick={() => setIsMobileFiltersOpen(false)} className={styles.applyBtn}>
+                Apply Filters
+              </button>
             </div>
           </div>
-        </div>
-        <div className={styles.mobileDrawerFooter}>
-          <button onClick={clearAllFilters} className={styles.resetBtn}>
-            Clear All
-          </button>
-          <button onClick={() => setIsMobileFiltersOpen(false)} className={styles.applyBtn}>
-            Apply Filters
-          </button>
         </div>
       </div>
     </div>
