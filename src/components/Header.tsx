@@ -20,24 +20,24 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
 
   // Load saved location from localStorage, default to Rest of the world (USD)
-  const [selectedLocation, setSelectedLocation] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('yaperz_location');
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch (e) {
-          // Ignore
-        }
+  const [selectedLocation, setSelectedLocation] = useState({
+    code: 'INTL',
+    currency: 'USD',
+    symbol: '$',
+    countryName: 'Rest of the world'
+  });
+
+  // Load saved location on mount to avoid hydration mismatch
+  useEffect(() => {
+    const saved = localStorage.getItem('yaperz_location');
+    if (saved) {
+      try {
+        setSelectedLocation(JSON.parse(saved));
+      } catch (e) {
+        // Ignore
       }
     }
-    return {
-      code: 'INTL',
-      currency: 'USD',
-      symbol: '$',
-      countryName: 'Rest of the world'
-    };
-  });
+  }, []);
 
   const handleSelectLocation = (location: any) => {
     setSelectedLocation(location);
