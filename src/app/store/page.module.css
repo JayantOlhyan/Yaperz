@@ -1,0 +1,176 @@
+.container {
+  padding: 80px 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  margin-bottom: 48px;
+  text-align: left;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.storesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  padding: 30px;
+  background-color: var(--color-surface);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.cardActive {
+  border-color: var(--color-text-primary);
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.storeCity {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.statusBadge {
+  background-color: var(--color-success);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.address {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.infoRow {
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.value {
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.directionBtn {
+  flex: 1;
+  background-color: var(--color-text-primary);
+  color: #fff;
+  padding: 12px 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.directionBtn:hover {
+  background-color: var(--color-accent);
+}
+
+.callBtn {
+  border: 1px solid var(--color-border-dark);
+  color: var(--color-text-primary);
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.callBtn:hover {
+  background-color: var(--color-surface);
+}
+
+/* Map Embed container */
+.mapContainer {
+  width: 100%;
+  height: 600px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  position: sticky;
+  top: 120px;
+}
+
+@media (max-width: 1024px) {
+  .mapContainer {
+    height: 400px;
+    position: relative;
+    top: 0;
+  }
+}
+
+.mapPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+  text-align: center;
+}
+
+.mapText {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-top: 12px;
+}
+.mapIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
