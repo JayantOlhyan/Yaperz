@@ -1,0 +1,162 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.modalBox {
+  position: relative;
+  width: 90%;
+  max-width: 760px;
+  background-color: #FAF8F5; /* Warm off-white from screenshot */
+  padding: 48px;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: slideUp var(--transition-medium) cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.closeButton:hover {
+  color: var(--color-accent);
+  transform: scale(1.1);
+}
+
+.modalTitle {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 28px;
+  color: #222;
+  border: none;
+  padding: 0;
+}
+
+.locationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 56px;
+  row-gap: 0;
+}
+
+.locationItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0;
+  cursor: pointer;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.locationItem:hover {
+  opacity: 0.85;
+  transform: translateX(4px);
+}
+
+/* Add dividers between rows 1 and 2, and 2 and 3 */
+.locationItem:nth-child(-n+4) {
+  border-bottom: 1px solid #E5E2DC; /* Soft warm border to match off-white background */
+}
+
+.locationItemActive .countryName {
+  color: var(--color-accent);
+}
+
+.flagContainer {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.countryName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.01em;
+}
+
+.countryDetails {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 767px) {
+  .modalBox {
+    padding: 32px 24px;
+    width: 92%;
+  }
+
+  .locationGrid {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .locationItem {
+    padding: 16px 0;
+    border-bottom: 1px solid #E5E2DC;
+  }
+
+  /* Override desktop row borders to vertical stack borders */
+  .locationItem:nth-child(-n+4) {
+    border-bottom: 1px solid #E5E2DC;
+  }
+
+  .locationItem:last-child {
+    border-bottom: none;
+  }
+}
