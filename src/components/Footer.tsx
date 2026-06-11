@@ -70,9 +70,6 @@ export const Footer: React.FC = () => {
                 <Link href="/about-us">Our Story</Link>
               </li>
               <li className={styles.linkItem}>
-                <Link href="/store">Walk-in Stores</Link>
-              </li>
-              <li className={styles.linkItem}>
                 <Link href="/collaborations">Collaborations</Link>
               </li>
               <li className={styles.linkItem}>

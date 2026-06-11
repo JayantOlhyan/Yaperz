@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp, MapPin } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { StoriesBar } from '../components/StoriesBar';
 import { ProductCard } from '../components/ProductCard';
 import productsData from '../data/products.json';
@@ -17,33 +17,6 @@ export default function Home() {
   const latestDrops = allProducts.filter((p) => p.collections.includes('new-in')).slice(0, 6);
   const capProducts = allProducts.filter((p) => p.category === 'Caps').slice(0, 4);
   const caseProducts = allProducts.filter((p) => p.category === 'Cases').slice(0, 4);
-
-  const physicalStores = [
-    {
-      city: 'Delhi',
-      address: 'M-81, Block M, GK-II, New Delhi 110048',
-      phone: '+91 82851 72372',
-      email: 'delhi@yaperz.com',
-      hours: '11:00 AM - 9:00 PM',
-      mapLink: 'https://maps.google.com/?q=M-81,+Block+M,+GK-II,+New+Delhi'
-    },
-    {
-      city: 'Mumbai',
-      address: 'B1, Prem Sagar, 14th Rd, Khar West, Mumbai 400052',
-      phone: '+91 95991 99537',
-      email: 'mumbai@yaperz.com',
-      hours: '11:00 AM - 9:30 PM',
-      mapLink: 'https://maps.google.com/?q=Prem+Sagar,+14th+Rd,+Khar+West,+Mumbai'
-    },
-    {
-      city: 'Hyderabad',
-      address: '101, Vimbri Blvd, Banjara Hills, Hyderabad 500034',
-      phone: '+91 95991 98004',
-      email: 'hyd@yaperz.com',
-      hours: '11:00 AM - 9:00 PM',
-      mapLink: 'https://maps.google.com/?q=Banjara+Hills,+Hyderabad'
-    }
-  ];
 
   return (
     <>
@@ -163,42 +136,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. Walk-in Stores Preview */}
-      <section className={styles.section}>
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Walk-in Stores</h2>
-            <Link href="/store" className={styles.discoverLink}>
-              View All Stores
-            </Link>
-          </div>
-          <div className={styles.storeGrid}>
-            {physicalStores.map((store) => (
-              <div key={store.city} className={styles.storeCard}>
-                <div>
-                  <div className={styles.storeHeader}>
-                    <h3 className={styles.storeCity}>{store.city}</h3>
-                    <span className={styles.storeStatus}>Open Now</span>
-                  </div>
-                  <p className={styles.storeDetails}>
-                    {store.address}
-                    <span className={styles.storePhone}>Tel: {store.phone}</span>
-                  </p>
-                </div>
-                <a
-                  href={store.mapLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.storeCTA}
-                >
-                  Get Directions
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* 8. SEO Copy Block */}
       <section className={styles.seoCopySection}>
         <div className="container">
@@ -223,12 +160,6 @@ export default function Home() {
                 is constructed from heavy-weight fabrics (up to 500GSM loopback cotton for our hoodies and
                 280GSM combed cotton for our graphic tees). We focus on unisex sizing, dropped shoulder yokes,
                 high-density screen prints, and premium embroidery details.
-              </p>
-              <h4>Visit Us In Stores</h4>
-              <p>
-                Experience the collection in person at our walk-in flagship retail locations. Explore streetwear
-                culture, try on custom fits, and connect with the community in New Delhi, Khar West Mumbai,
-                and Banjara Hills Hyderabad.
               </p>
             </div>
           )}

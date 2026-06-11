@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, User, ShoppingBag, MapPin, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { LocationModal } from './LocationModal';
 import styles from './Header.module.css';
@@ -327,9 +327,6 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
             <Link href="/account" className={styles.actionButton} aria-label="Account">
               <User size={20} />
             </Link>
-            <Link href="/store" className={styles.actionButton} aria-label="Store locator">
-              <MapPin size={20} />
-            </Link>
             <button
               onClick={openCart}
               className={styles.actionButton}
@@ -409,11 +406,6 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
                   </Link>
                 </div>
               )}
-            </li>
-            <li className={styles.menuNavItem}>
-              <Link href="/store">
-                Store Locator
-              </Link>
             </li>
             <li className={styles.menuNavItem}>
               <Link href="/about-us">
