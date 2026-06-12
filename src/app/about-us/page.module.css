@@ -33,11 +33,12 @@
 }
 
 .quote {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 800;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  font-style: italic;
   color: var(--color-accent);
-  text-transform: uppercase;
+  text-transform: none;
   border-left: 4px solid var(--color-accent);
   padding-left: 20px;
   margin: 20px 0;

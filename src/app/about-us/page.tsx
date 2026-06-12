@@ -16,24 +16,24 @@ export default function AboutUsPage() {
       />
 
       <div className={styles.content}>
-        <p>
+        <p className="font-editorial">
           Founded in 2020 in New Delhi, India, Yaperz was born out of a desire to create high-quality,
           gender-neutral streetwear that challenges traditional fashion boundaries. We blend global
           streetwear sensibilities with Indian craftsmanship to create unique drops that stand the test
           of time.
         </p>
 
-        <h2 className={styles.quote}>
+        <h2 className={`${styles.quote} font-editorial`}>
           "We don't make clothes for genders. We make clothes for the community."
         </h2>
 
-        <p>
+        <p className="font-editorial">
           Every piece in our catalog is engineered starting from the yarn. We prioritize fabrics with substantial
           heft, mock-neck ribs that don't stretch out, dropped shoulders that drape naturally, and detailed
           graphics executed with premium puff print and heavy thread embroideries.
         </p>
 
-        <p>
+        <p className="font-editorial">
           By adopting a limited drop model, we ensure that every collection remains exclusive and reduce
           unnecessary fashion waste. Today, we serve thousands of streetwear enthusiasts across the globe, with
           physical walk-in stores in major Indian urban hubs.
