@@ -5,7 +5,7 @@ import styles from '../policy.module.css';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className={`${styles.container} container`}>
+    <div className={styles.policyContainer}>
       <h1 className={styles.title}>Privacy Policy</h1>
       <p className={styles.date}>Last updated: June 2026</p>
 
