@@ -10,10 +10,9 @@
 
 @media (max-width: 768px) {
   .heroSection {
-    height: auto;
-    aspect-ratio: 4 / 5;
-    min-height: auto;
-    margin-bottom: 48px;
+    height: 70vh;
+    min-height: 450px;
+    margin-bottom: 40px;
   }
 }
 
@@ -142,6 +141,16 @@
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--gutter-desktop);
+}
+
+@media (max-width: 768px) {
+  .scrollGrid {
+    scroll-padding-left: var(--gutter-mobile);
+    gap: 16px;
+  }
 }
 
 .scrollGrid::-webkit-scrollbar {
@@ -150,6 +159,7 @@
 
 .scrollGridItem {
   flex: 0 0 280px;
+  scroll-snap-align: start;
 }
 
 @media (max-width: 480px) {

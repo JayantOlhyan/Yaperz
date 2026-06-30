@@ -44,8 +44,10 @@ html, body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-primary);
+  font-size: clamp(14px, 1.2vw, 16px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
 }
 
