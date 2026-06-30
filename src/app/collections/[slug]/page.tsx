@@ -285,7 +285,7 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
               ))}
               {maxPrice !== 40000 && (
                 <div onClick={() => { setMaxPrice(40000); updateURL({ sizes: selectedSizes, colors: selectedColors, inStock: inStockOnly, price: 40000, sort: sortOption, categories: selectedCategories }); }} className={styles.chip}>
-                  Under RS. {maxPrice.toLocaleString('en-IN')} <X size={12} />
+                  Under ₹ {maxPrice.toLocaleString('en-IN')} <X size={12} />
                 </div>
               )}
               <div onClick={clearAllFilters} className={styles.chip} style={{ color: 'var(--color-accent)', borderColor: 'var(--color-accent)' }}>
@@ -379,7 +379,7 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
                     className={styles.slider}
                   />
                   <span className={styles.priceLabel}>
-                    Under RS. {maxPrice.toLocaleString('en-IN')}
+                    Under ₹ {maxPrice.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
                     className={styles.slider}
                   />
                   <span className={styles.priceLabel}>
-                    Under RS. {maxPrice.toLocaleString('en-IN')}
+                    Under ₹ {maxPrice.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>

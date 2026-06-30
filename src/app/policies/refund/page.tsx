@@ -43,7 +43,7 @@ export default function RefundPolicyPage() {
 
         <h2>4. Non-Refundable Charges</h2>
         <p>
-          Initial shipping fees (RS. 150 for orders below RS. 5,000) or Express Shipping fees (RS. 350) are non-refundable unless the return is due to a defective product sent by us.
+          Initial shipping fees (₹ 150 for orders below ₹ 5,000) or Express Shipping fees (₹ 350) are non-refundable unless the return is due to a defective product sent by us.
         </p>
       </div>
     </div>

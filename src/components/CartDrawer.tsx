@@ -91,7 +91,7 @@ export const CartDrawer: React.FC = () => {
                     <div className={styles.itemHeader}>
                       <h4 className={styles.itemTitle}>{item.product.title}</h4>
                       <span className={styles.itemPrice}>
-                        RS. {item.product.price.toLocaleString('en-IN')}
+                        ₹ {item.product.price.toLocaleString('en-IN')}
                       </span>
                     </div>
                     <div className={styles.itemMeta}>
@@ -155,7 +155,7 @@ export const CartDrawer: React.FC = () => {
             <div className={styles.summaryRow}>
               <span className={styles.subtotalLabel}>Subtotal</span>
               <span className={styles.subtotalValue}>
-                RS. {cartSubtotal.toLocaleString('en-IN')}
+                ₹ {cartSubtotal.toLocaleString('en-IN')}
               </span>
             </div>
             <p className={styles.note}>

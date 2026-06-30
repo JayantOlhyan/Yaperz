@@ -86,15 +86,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {isOnSale ? (
             <>
               <span className={`${styles.price} ${styles.salePrice}`}>
-                RS. {product.price.toLocaleString('en-IN')}
+                ₹ {product.price.toLocaleString('en-IN')}
               </span>
               <span className={styles.comparePrice}>
-                RS. {product.compare_at_price?.toLocaleString('en-IN')}
+                ₹ {product.compare_at_price?.toLocaleString('en-IN')}
               </span>
             </>
           ) : (
             <span className={styles.price}>
-              RS. {product.price.toLocaleString('en-IN')}
+              ₹ {product.price.toLocaleString('en-IN')}
             </span>
           )}
         </div>

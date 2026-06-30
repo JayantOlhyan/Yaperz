@@ -22,10 +22,10 @@ export default function ShippingPolicyPage() {
         <h2>2. Shipping Charges & Methods</h2>
         <ul>
           <li>
-            <strong>Standard Shipping:</strong> Free for all orders above RS. 5,000. For orders under RS. 5,000, a flat shipping fee of RS. 150 applies. Delivery takes 3 to 5 business days.
+            <strong>Standard Shipping:</strong> Free for all orders above ₹ 5,000. For orders under ₹ 5,000, a flat shipping fee of ₹ 150 applies. Delivery takes 3 to 5 business days.
           </li>
           <li>
-            <strong>Express Shipping:</strong> Available at checkout for a flat fee of RS. 350. Delivery takes 1 to 2 business days (available in select metros).
+            <strong>Express Shipping:</strong> Available at checkout for a flat fee of ₹ 350. Delivery takes 1 to 2 business days (available in select metros).
           </li>
         </ul>
 

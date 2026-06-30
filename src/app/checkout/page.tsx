@@ -24,7 +24,7 @@ export default function CheckoutPage() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [pinCode, setPinCode] = useState('');
-  const [shippingMethod, setShippingMethod] = useState<'standard' | 'express'>('standard');
+  const [shippingMethod, setShippingMethod] = useState<'standard' | 'express' | 'hand'>('standard');
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
 
   // Error States
@@ -32,7 +32,9 @@ export default function CheckoutPage() {
 
   // Calculations
   const shippingCost =
-    shippingMethod === 'express'
+    shippingMethod === 'hand'
+      ? 6000
+      : shippingMethod === 'express'
       ? 350
       : cartSubtotal >= 5000
       ? 0
@@ -68,7 +70,7 @@ export default function CheckoutPage() {
 
     // Calculate delivery date
     const today = new Date();
-    const daysToAdd = shippingMethod === 'express' ? 2 : 5;
+    const daysToAdd = shippingMethod === 'hand' ? 1 : shippingMethod === 'express' ? 2 : 5;
     today.setDate(today.getDate() + daysToAdd);
     const dateStr = today.toLocaleDateString('en-IN', {
       weekday: 'long',
@@ -81,6 +83,15 @@ export default function CheckoutPage() {
     setIsOrdered(true);
     clearCart();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleAutofillAddress = () => {
+    setFirstName('Jayant');
+    setLastName('Olhyan');
+    setAddress('M-81, Block M, GK-II');
+    setCity('New Delhi');
+    setState('Delhi');
+    setPinCode('110048');
   };
 
   if (isOrdered) {
@@ -125,7 +136,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className={`${styles.container} container`}>
+    <div className={styles.container}>
       <div style={{ marginBottom: 24, textAlign: 'left' }}>
         <Link href="/collections/all-products" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--color-text-muted)' }}>
           <ArrowLeft size={16} /> Back to shop
@@ -167,7 +178,15 @@ export default function CheckoutPage() {
 
           {/* Shipping Address */}
           <div className={styles.formSection}>
-            <h2 className={styles.sectionTitle}>Shipping Address</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: 8, marginBottom: 8 }}>
+              <h2 className={styles.sectionTitle} style={{ borderBottom: 'none', paddingBottom: 0, marginBottom: 0 }}>Shipping Address</h2>
+              <button 
+                type="button" 
+                onClick={handleAutofillAddress}
+                style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-accent)', cursor: 'pointer', background: 'none', border: 'none' }}>
+                Use Saved Address
+              </button>
+            </div>
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
                 <label className={styles.label}>First Name</label>
@@ -286,7 +305,7 @@ export default function CheckoutPage() {
                   </div>
                 </div>
                 <span className={styles.radioPrice}>
-                  {cartSubtotal >= 5000 ? 'FREE' : 'RS. 150'}
+                  {cartSubtotal >= 5000 ? 'FREE' : '₹ 150'}
                 </span>
               </label>
 
@@ -305,7 +324,25 @@ export default function CheckoutPage() {
                     <p className={styles.radioDesc}>Delivered in 1 to 2 business days</p>
                   </div>
                 </div>
-                <span className={styles.radioPrice}>RS. 350</span>
+                <span className={styles.radioPrice}>₹ 350</span>
+              </label>
+
+              <label
+                className={`${styles.radioLabel} ${shippingMethod === 'hand' ? styles.radioLabelActive : ''}`}
+              >
+                <div className={styles.radioLeft}>
+                  <input
+                    type="radio"
+                    checked={shippingMethod === 'hand'}
+                    onChange={() => setShippingMethod('hand')}
+                    className={styles.radioInput}
+                  />
+                  <div>
+                    <span className={styles.radioTitle}>Hand Delivered by the Founding Team</span>
+                    <p className={styles.radioDesc}>Personally delivered to you tomorrow</p>
+                  </div>
+                </div>
+                <span className={styles.radioPrice}>₹ 6,000</span>
               </label>
             </div>
           </div>
@@ -375,7 +412,7 @@ export default function CheckoutPage() {
                   </p>
                 </div>
                 <span className={styles.itemPrice}>
-                  RS. {(item.product.price * item.quantity).toLocaleString('en-IN')}
+                  ₹ {(item.product.price * item.quantity).toLocaleString('en-IN')}
                 </span>
               </div>
             ))}
@@ -384,19 +421,19 @@ export default function CheckoutPage() {
           <div className={styles.breakdown}>
             <div className={styles.row}>
               <span>Subtotal</span>
-              <span>RS. {cartSubtotal.toLocaleString('en-IN')}</span>
+              <span>₹ {cartSubtotal.toLocaleString('en-IN')}</span>
             </div>
             <div className={styles.row}>
               <span>Shipping</span>
-              <span>{shippingCost === 0 ? 'FREE' : `RS. ${shippingCost}`}</span>
+              <span>{shippingCost === 0 ? 'FREE' : `₹ ${shippingCost}`}</span>
             </div>
             <div className={styles.row}>
               <span>Taxes (12% GST Included)</span>
-              <span>RS. {taxAmount.toLocaleString('en-IN')}</span>
+              <span>₹ {taxAmount.toLocaleString('en-IN')}</span>
             </div>
             <div className={styles.rowTotal}>
               <span>Total</span>
-              <span>RS. {grandTotal.toLocaleString('en-IN')}</span>
+              <span>₹ {grandTotal.toLocaleString('en-IN')}</span>
             </div>
           </div>
 

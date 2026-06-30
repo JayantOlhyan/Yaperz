@@ -147,7 +147,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                       <p className={styles.resultCategory}>{product.category}</p>
                     </div>
                     <span className={styles.resultPrice}>
-                      RS. {product.price.toLocaleString('en-IN')}
+                      ₹ {product.price.toLocaleString('en-IN')}
                     </span>
                   </button>
                 ))}

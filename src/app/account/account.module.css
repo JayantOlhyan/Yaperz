@@ -1,0 +1,64 @@
+.container {
+  padding: 80px 24px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 80px 40px;
+  }
+}
+
+.loginCard {
+  max-width: 440px;
+  margin: 0 auto;
+  border: 1px solid var(--color-border);
+  padding: 40px 24px;
+  background-color: var(--color-surface);
+  border-radius: 8px;
+}
+
+@media (min-width: 480px) {
+  .loginCard {
+    padding: 40px;
+  }
+}
+
+.dashboardHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .dashboardHeader {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  padding: 24px;
+  background-color: var(--color-surface);
+  border-radius: 8px;
+}

@@ -152,15 +152,15 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             {product.compare_at_price ? (
               <>
                 <span className={`${styles.price} ${styles.salePrice}`}>
-                  RS. {product.price.toLocaleString('en-IN')}
+                  ₹ {product.price.toLocaleString('en-IN')}
                 </span>
                 <span className={styles.comparePrice}>
-                  RS. {product.compare_at_price.toLocaleString('en-IN')}
+                  ₹ {product.compare_at_price.toLocaleString('en-IN')}
                 </span>
               </>
             ) : (
               <span className={styles.price}>
-                RS. {product.price.toLocaleString('en-IN')}
+                ₹ {product.price.toLocaleString('en-IN')}
               </span>
             )}
           </div>
@@ -297,7 +297,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               {accordions.shipping && (
                 <div className={styles.accordionContent}>
                   <p>
-                    Free shipping on orders above RS. 5,000 across India. Regular delivery takes 3 to 5
+                    Free shipping on orders above ₹ 5,000 across India. Regular delivery takes 3 to 5
                     business days. Express shipping (1 to 2 business days) available at checkout.
                   </p>
                   <p style={{ marginTop: 8 }}>
