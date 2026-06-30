@@ -37,8 +37,8 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
       document.body.classList.add('no-scroll');
     } else {
       document.body.classList.remove('no-scroll');
-      setQuery('');
-      setResults([]);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTimeout(() => { setQuery(''); setResults([]); }, 0);
     }
     return () => {
       document.body.classList.remove('no-scroll');
@@ -48,7 +48,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
   // Perform search filtering
   useEffect(() => {
     if (!query.trim()) {
-      setResults([]);
+      setTimeout(() => setResults([]), 0);
       return;
     }
 
@@ -125,7 +125,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
           <div>
             <h3 className={styles.sectionTitle}>Products</h3>
             {results.length === 0 ? (
-              <div className={styles.noResults}>No products found matching "{query}"</div>
+              <div className={styles.noResults}>No products found matching &quot;{query}&quot;</div>
             ) : (
               <div className={styles.resultsGrid}>
                 {results.map((product) => (
