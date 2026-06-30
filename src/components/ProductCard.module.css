@@ -3,6 +3,7 @@
   flex-direction: column;
   position: relative;
   width: 100%;
+  min-width: 0;
   cursor: pointer;
 }
 
@@ -39,6 +40,12 @@
 
 .card:hover .primaryImage {
   opacity: 0;
+}
+
+@media (hover: none) {
+  .hoverImage {
+    display: none; /* Disable hover images on touch devices for performance and clarity */
+  }
 }
 
 /* Badges */
@@ -94,6 +101,12 @@
   transform: translateY(0);
 }
 
+@media (hover: none) {
+  .sizeOverlay {
+    display: none; /* Hide quick add on touch devices to prevent accidental clicks */
+  }
+}
+
 .sizeTitle {
   font-size: 10px;
   font-weight: 700;
@@ -130,6 +143,8 @@
   flex-direction: column;
   gap: 6px;
   text-align: left;
+  width: 100%;
+  min-width: 0;
 }
 
 .title {
