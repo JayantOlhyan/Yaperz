@@ -1,37 +1,40 @@
 .policyContainer {
-  padding: 80px 24px;
+  padding: clamp(48px, 6vw, 80px) var(--gutter-fluid);
   max-width: 800px;
   margin: 0 auto;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 32px;
+  /* Fluid: 22px → 36px */
+  font-size: clamp(22px, 3.5vw, 36px);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 8px;
+  line-height: 1.2;
 }
 
 .date {
-  font-size: 13px;
+  font-size: clamp(12px, 1.1vw, 13px);
   color: var(--color-text-muted);
-  margin-bottom: 40px;
+  margin-bottom: clamp(24px, 4vw, 40px);
 }
 
 .content {
-  font-size: 15px;
+  font-size: clamp(14px, 1.3vw, 15px);
   color: var(--color-text-primary);
   line-height: 1.8;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 2.5vw, 24px);
 }
 
 .content h2 {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: clamp(14px, 1.5vw, 18px);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -45,7 +48,7 @@
 }
 
 .content ul {
-  padding-left: 20px;
+  padding-left: clamp(16px, 2.5vw, 20px);
   display: flex;
   flex-direction: column;
   gap: 8px;

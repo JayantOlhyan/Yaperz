@@ -1,16 +1,20 @@
 .container {
-  padding: 80px 0;
+  padding: clamp(48px, 6vw, 80px) 0;
   max-width: 800px;
-  margin: 0 auto;
+  margin-inline: auto;
+  /* Fluid inline padding for screens narrower than the max-width */
+  padding-inline: var(--gutter-fluid);
+  box-sizing: border-box;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 36px;
+  /* Fluid: 26px → 40px */
+  font-size: clamp(26px, 4vw, 40px);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 40px;
+  margin-bottom: clamp(24px, 4vw, 40px);
   text-align: center;
 }
 
@@ -19,61 +23,79 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background-color: var(--color-surface);
-  margin-bottom: 40px;
+  margin-bottom: clamp(24px, 4vw, 40px);
+}
+
+/* Taller on mobile to show more image */
+@media (max-width: 640px) {
+  .image {
+    aspect-ratio: 4 / 3;
+  }
 }
 
 .content {
-  font-size: 15px;
+  font-size: clamp(14px, 1.3vw, 15px);
   color: var(--color-text-primary);
   line-height: 1.8;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 2.5vw, 24px);
   text-align: justify;
 }
 
 .quote {
   font-family: var(--font-serif);
-  font-size: 22px;
+  /* Fluid: 18px → 24px */
+  font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 500;
   font-style: italic;
   color: var(--color-accent);
   text-transform: none;
   border-left: 4px solid var(--color-accent);
-  padding-left: 20px;
-  margin: 20px 0;
+  padding-left: clamp(16px, 2.5vw, 20px);
+  margin: clamp(16px, 3vw, 20px) 0;
   text-align: left;
 }
+
 .milestone {
   border-top: 1px solid var(--color-border);
-  padding-top: 40px;
-  margin-top: 40px;
+  padding-top: clamp(28px, 4vw, 40px);
+  margin-top: clamp(28px, 4vw, 40px);
 }
+
 .milestoneTitle {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: clamp(15px, 1.8vw, 18px);
   font-weight: 800;
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: clamp(16px, 2.5vw, 24px);
   text-align: left;
 }
+
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(14px, 2.5vw, 20px);
 }
+
 .timelineRow {
   display: flex;
-  gap: 20px;
+  gap: clamp(14px, 2.5vw, 20px);
   text-align: left;
+  align-items: flex-start;
 }
+
 .year {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 16px);
   color: var(--color-accent);
+  white-space: nowrap;
+  min-width: 48px;
 }
+
 .desc {
-  font-size: 14px;
+  font-size: clamp(13px, 1.2vw, 14px);
   color: var(--color-text-muted);
+  line-height: 1.6;
 }

@@ -1,37 +1,31 @@
 .container {
-  padding: 80px 0;
+  padding: clamp(48px, 6vw, 80px) 0;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 36px;
+  /* Fluid: 26px → 40px */
+  font-size: clamp(26px, 4vw, 40px);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 16px;
+  margin-bottom: clamp(10px, 1.5vw, 16px);
   text-align: left;
 }
 
 .subtitle {
-  font-size: 15px;
+  font-size: clamp(13px, 1.3vw, 15px);
   color: var(--color-text-muted);
-  margin-bottom: 48px;
+  margin-bottom: clamp(32px, 5vw, 48px);
   text-align: left;
+  line-height: 1.6;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-}
-
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  .imageWrapper {
-    aspect-ratio: 4 / 5;
-  }
+  /* Auto-fit: 2 cols above 560px, 1 col on mobile */
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: clamp(20px, 3.5vw, 32px);
 }
 
 .collabCard {
@@ -47,6 +41,14 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   background-color: #eee;
+  overflow: hidden;
+}
+
+/* Portrait on small phones for larger image preview */
+@media (max-width: 640px) {
+  .imageWrapper {
+    aspect-ratio: 4 / 5;
+  }
 }
 
 .image {
@@ -56,26 +58,31 @@
 }
 
 .details {
-  padding: 24px;
+  padding: clamp(16px, 2.5vw, 24px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .collabTitle {
   font-family: var(--font-display);
-  font-size: 20px;
+  /* Fluid: 16px → 22px */
+  font-size: clamp(16px, 2vw, 22px);
   font-weight: 800;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: clamp(8px, 1.5vw, 12px);
 }
 
 .desc {
-  font-size: 13px;
+  font-size: clamp(12px, 1.1vw, 13px);
   color: var(--color-text-muted);
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: clamp(14px, 2.5vw, 20px);
+  flex: 1;
 }
 
 .link {
-  font-size: 12px;
+  font-size: clamp(11px, 1vw, 12px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -83,6 +90,9 @@
   border-bottom: 2px solid var(--color-text-primary);
   align-self: flex-start;
   padding-bottom: 2px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .link:hover {
