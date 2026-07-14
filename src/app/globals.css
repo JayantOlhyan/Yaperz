@@ -18,12 +18,31 @@
   --color-success: #2d9e5f;
   --color-error: #c0392b;
 
-  /* Spacing */
+  /* Spacing — fluid using clamp(min, preferred, max) */
   --max-width: 1440px;
   --gutter-desktop: 80px;
+  --gutter-tablet: 40px;
   --gutter-mobile: 20px;
-  --header-height: 80px;
+  /* Fluid gutter: 20px on 320px → 80px on 1440px */
+  --gutter-fluid: clamp(20px, 4vw + 4px, 80px);
+  --header-height: clamp(64px, 6vw, 80px);
   --header-height-mobile: 64px;
+
+  /* Fluid Typography Scale */
+  --text-xs:   clamp(0.6875rem, 0.8vw, 0.75rem);    /* 11–12px */
+  --text-sm:   clamp(0.75rem,   0.9vw, 0.8125rem);  /* 12–13px */
+  --text-base: clamp(0.8125rem, 1vw,   0.875rem);   /* 13–14px */
+  --text-md:   clamp(0.875rem,  1.1vw, 1rem);       /* 14–16px */
+  --text-lg:   clamp(0.9375rem, 1.2vw, 1.0625rem);  /* 15–17px */
+  --text-xl:   clamp(1rem,      1.4vw, 1.25rem);    /* 16–20px */
+  --text-2xl:  clamp(1.25rem,   2vw,   1.5rem);     /* 20–24px */
+  --text-3xl:  clamp(1.375rem,  2.5vw, 2rem);       /* 22–32px */
+  --text-4xl:  clamp(1.625rem,  3.5vw, 2.5rem);     /* 26–40px */
+  --text-5xl:  clamp(1.75rem,   5vw,   4rem);       /* 28–64px */
+
+  /* Fluid Section Spacing */
+  --section-padding-y:    clamp(48px, 7vw, 96px);
+  --section-padding-sm-y: clamp(32px, 5vw, 64px);
 
   /* Layout and Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -72,6 +91,12 @@ input, select, textarea {
   outline: none;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -94,15 +119,33 @@ input, select, textarea {
 /* Helper Utilities */
 .container {
   max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--gutter-desktop);
+  margin-inline: auto;
+  padding-inline: var(--gutter-fluid);
   width: 100%;
 }
 
+/* Legacy breakpoint kept for backward compat */
 @media (max-width: 768px) {
   .container {
-    padding: 0 var(--gutter-mobile);
+    padding-inline: var(--gutter-mobile);
   }
+}
+
+/* Constrained container for narrow content (articles, forms) */
+.container-narrow {
+  max-width: 800px;
+  margin-inline: auto;
+  padding-inline: var(--gutter-fluid);
+  width: 100%;
+}
+
+/* Section vertical padding */
+.section-pad {
+  padding-block: var(--section-padding-y);
+}
+
+.section-pad-sm {
+  padding-block: var(--section-padding-sm-y);
 }
 
 .sr-only {
