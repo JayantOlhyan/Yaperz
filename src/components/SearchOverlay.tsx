@@ -62,6 +62,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
       );
     });
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setResults(filtered.slice(0, 5)); // Limit to 5 instant results
   }, [query]);
 

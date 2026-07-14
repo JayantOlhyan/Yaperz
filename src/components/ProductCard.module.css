@@ -13,7 +13,7 @@
   aspect-ratio: 4 / 5;
   background-color: var(--color-surface);
   overflow: hidden;
-  margin-bottom: 16px;
+  margin-bottom: clamp(10px, 1.5vw, 16px);
 }
 
 .image {
@@ -51,8 +51,8 @@
 /* Badges */
 .badgeContainer {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 10px;
+  left: 10px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -60,11 +60,11 @@
 }
 
 .badge {
-  font-size: 10px;
+  font-size: clamp(9px, 1.1vw, 10px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  padding: 4px 10px;
+  padding: 3px 8px;
   color: #fff;
 }
 
@@ -88,7 +88,7 @@
   width: 100%;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(5px);
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -123,6 +123,7 @@
   justify-content: center;
 }
 
+/* Size buttons: 44px minimum touch target on touch devices */
 .sizeButton {
   border: 1px solid var(--color-border);
   padding: 4px 8px;
@@ -141,36 +142,48 @@
 .info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: clamp(4px, 0.5vw, 6px);
   text-align: left;
   width: 100%;
   min-width: 0;
 }
 
 .title {
-  font-size: 14px;
+  font-size: clamp(12px, 1.1vw, 14px);
   font-weight: 600;
   color: var(--color-text-primary);
   line-height: 1.4;
+  /* Allow wrapping on very narrow cards; ellipsis on wider */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* On very small screens allow title to wrap */
+@media (max-width: 360px) {
+  .title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
 .priceRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: clamp(6px, 1vw, 10px);
+  flex-wrap: wrap;
 }
 
 .price {
-  font-size: 14px;
+  font-size: clamp(12px, 1.1vw, 14px);
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .comparePrice {
-  font-size: 13px;
+  font-size: clamp(11px, 1vw, 13px);
   color: var(--color-text-muted);
   text-decoration: line-through;
 }

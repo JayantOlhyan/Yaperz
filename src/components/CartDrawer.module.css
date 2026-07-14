@@ -21,9 +21,10 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 450px;
-  max-width: 100vw;
-  height: 100vh;
+  /* Fluid: full width on tiny phones, capped at 450px on larger screens */
+  width: min(450px, 100vw);
+  height: 100dvh; /* handles mobile browser chrome */
+  height: 100vh; /* fallback */
   background-color: var(--color-background);
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
   z-index: 501;
@@ -31,6 +32,8 @@
   flex-direction: column;
   transform: translateX(100%);
   transition: transform var(--transition-medium);
+  /* Safe area for notched phones */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .drawerOpen {
@@ -41,24 +44,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px;
+  padding: clamp(16px, 2.5vw, 24px);
   border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: clamp(15px, 1.5vw, 18px);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
+/* 44×44px touch target for close button */
 .closeButton {
   color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  min-width: 44px;
+  min-height: 44px;
   transition: color var(--transition-fast);
 }
 
@@ -69,7 +75,8 @@
 .itemsContainer {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(16px, 2.5vw, 24px);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -86,13 +93,13 @@
 }
 
 .emptyTitle {
-  font-size: 16px;
+  font-size: clamp(14px, 1.3vw, 16px);
   font-weight: 600;
   margin-bottom: 12px;
 }
 
 .emptySubtitle {
-  font-size: 14px;
+  font-size: clamp(13px, 1.2vw, 14px);
   color: var(--color-text-muted);
   margin-bottom: 24px;
 }
@@ -102,7 +109,8 @@
   background-color: var(--color-text-primary);
   color: #fff;
   padding: 12px 32px;
-  font-size: 13px;
+  min-height: 48px;
+  font-size: clamp(12px, 1.1vw, 13px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -116,21 +124,22 @@
 /* Cart Item */
 .item {
   display: flex;
-  gap: 16px;
+  gap: clamp(12px, 2vw, 16px);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 20px;
 }
 
 .itemImage {
   position: relative;
-  width: 90px;
-  height: 112px;
+  width: clamp(72px, 12vw, 90px);
+  height: clamp(90px, 15vw, 112px);
   background-color: var(--color-surface);
   flex-shrink: 0;
 }
 
 .itemDetails {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -139,28 +148,32 @@
 .itemHeader {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
 }
 
 .itemTitle {
-  font-size: 14px;
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 600;
   line-height: 1.4;
   color: var(--color-text-primary);
+  min-width: 0;
+  word-break: break-word;
 }
 
 .itemMeta {
-  font-size: 12px;
+  font-size: clamp(11px, 1vw, 12px);
   color: var(--color-text-muted);
   margin-top: 4px;
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .itemPrice {
-  font-size: 14px;
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 700;
   color: var(--color-text-primary);
+  white-space: nowrap;
 }
 
 .itemActions {
@@ -168,8 +181,11 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
+/* Quantity stepper with 44px touch targets */
 .quantityStepper {
   display: flex;
   align-items: center;
@@ -177,8 +193,8 @@
 }
 
 .stepperButton {
-  width: 28px;
-  height: 28px;
+  min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,6 +218,9 @@
   color: var(--color-text-muted);
   text-decoration: underline;
   transition: color var(--transition-fast);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .removeButton:hover {
@@ -210,16 +229,17 @@
 
 /* Summary Footer */
 .footer {
-  padding: 24px;
+  padding: clamp(16px, 2.5vw, 24px);
   border-top: 1px solid var(--color-border);
   background-color: var(--color-surface);
+  flex-shrink: 0;
 }
 
 .summaryRow {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
-  font-size: 14px;
+  font-size: clamp(13px, 1.2vw, 14px);
 }
 
 .subtotalLabel {
@@ -227,12 +247,12 @@
 }
 
 .subtotalValue {
-  font-size: 18px;
+  font-size: clamp(16px, 1.5vw, 18px);
   font-weight: 800;
 }
 
 .note {
-  font-size: 11px;
+  font-size: clamp(10px, 0.9vw, 11px);
   color: var(--color-text-muted);
   line-height: 1.5;
   margin-bottom: 20px;
@@ -246,7 +266,8 @@
   background-color: var(--color-text-primary);
   color: #fff;
   padding: 16px;
-  font-size: 14px;
+  min-height: 52px;
+  font-size: clamp(13px, 1.2vw, 14px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -264,7 +285,7 @@
 }
 
 .shortcutsTitle {
-  font-size: 12px;
+  font-size: clamp(11px, 1vw, 12px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -282,7 +303,11 @@
   background-color: #fff;
   border: 1px solid var(--color-border);
   padding: 8px 12px;
-  font-size: 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(11px, 1vw, 12px);
   text-align: center;
   font-weight: 500;
   text-transform: uppercase;

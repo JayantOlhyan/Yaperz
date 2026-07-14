@@ -1,10 +1,12 @@
 .storiesBar {
   display: flex;
-  gap: 24px;
+  gap: clamp(16px, 3vw, 24px);
   overflow-x: auto;
-  padding: 24px 0;
+  padding: clamp(16px, 2.5vw, 24px) 0;
   width: 100%;
   scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
 }
 
 .storiesBar::-webkit-scrollbar {
@@ -17,12 +19,14 @@
   align-items: center;
   flex-shrink: 0;
   cursor: pointer;
+  scroll-snap-align: start;
 }
 
 .thumbnailWrapper {
   position: relative;
-  width: 76px;
-  height: 76px;
+  /* Fluid thumbnail: 60px on mobile → 76px on desktop */
+  width: clamp(60px, 9vw, 76px);
+  height: clamp(60px, 9vw, 76px);
   border-radius: 50%;
   padding: 3px;
   border: 2px solid var(--color-accent);
@@ -42,13 +46,14 @@
 }
 
 .label {
-  margin-top: 8px;
-  font-size: 11px;
+  margin-top: clamp(6px, 1vw, 8px);
+  font-size: clamp(10px, 1.1vw, 11px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-text-primary);
   text-align: center;
+  white-space: nowrap;
 }
 
 /* Modal Overlay */
@@ -82,6 +87,7 @@
 @media (max-width: 480px) {
   .modalContent {
     max-height: 100vh;
+    padding: 0;
   }
 }
 
@@ -93,6 +99,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .modalImage {
@@ -101,13 +108,15 @@
   object-fit: cover;
 }
 
+/* 44px touch target for close button */
 .closeButton {
   position: absolute;
   top: 24px;
   right: 24px;
   color: #fff;
   z-index: 1010;
-  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   display: flex;
@@ -122,20 +131,20 @@
 
 .modalFooter {
   position: absolute;
-  bottom: 40px;
+  bottom: clamp(24px, 4vw, 40px);
   left: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 clamp(16px, 3vw, 24px);
   z-index: 1005;
 }
 
 .modalLabel {
   color: #fff;
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: clamp(16px, 2.5vw, 20px);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -147,8 +156,9 @@
 .modalCTA {
   background-color: #fff;
   color: var(--color-text-primary);
-  padding: 14px 36px;
-  font-size: 13px;
+  padding: clamp(12px, 1.5vw, 14px) clamp(24px, 4vw, 36px);
+  min-height: 48px;
+  font-size: clamp(12px, 1.1vw, 13px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -162,14 +172,15 @@
   color: #fff;
 }
 
+/* 44×44 navigation buttons */
 .navButton {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   color: #fff;
   background-color: rgba(0, 0, 0, 0.3);
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -194,4 +205,9 @@
   .navButton {
     display: none; /* Hide nav arrows on mobile, use swipe/tap eventually */
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
