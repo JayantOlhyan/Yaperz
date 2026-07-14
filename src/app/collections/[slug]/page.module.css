@@ -1,15 +1,16 @@
 .container {
-  padding-top: 40px;
-  padding-bottom: 80px;
+  padding-top: clamp(28px, 4vw, 40px);
+  padding-bottom: clamp(48px, 7vw, 80px);
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: clamp(24px, 4vw, 40px);
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 36px;
+  /* Fluid: 22px → 40px */
+  font-size: clamp(22px, 4vw, 40px);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -17,29 +18,34 @@
 }
 
 .count {
-  font-size: 14px;
+  font-size: clamp(12px, 1.1vw, 14px);
   color: var(--color-text-muted);
 }
 
+/* Toolbar */
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  padding: 16px 0;
-  margin-bottom: 40px;
+  padding: 14px 0;
+  margin-bottom: clamp(24px, 4vw, 40px);
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
+/* 48px touch target for mobile filter button */
 .mobileFilterBtn {
   display: none;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: clamp(12px, 1.1vw, 13px);
   font-weight: 600;
   text-transform: uppercase;
   border: 1px solid var(--color-border-dark);
   padding: 10px 20px;
+  min-height: 48px;
 }
 
 @media (max-width: 768px) {
@@ -52,7 +58,8 @@
   border: 1px solid var(--color-border);
   background-color: #fff;
   padding: 10px 16px;
-  font-size: 13px;
+  min-height: 48px;
+  font-size: clamp(12px, 1.1vw, 13px);
   font-weight: 500;
   color: var(--color-text-primary);
   cursor: pointer;
@@ -61,16 +68,16 @@
 /* Page Layout */
 .layout {
   display: flex;
-  gap: 40px;
+  gap: clamp(24px, 4vw, 40px);
 }
 
 /* Sidebar Filters (Desktop) */
 .sidebar {
-  width: 250px;
+  width: clamp(220px, 20vw, 260px);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: clamp(20px, 3vw, 32px);
 }
 
 @media (max-width: 768px) {
@@ -87,7 +94,7 @@
 
 .filterTitle {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: clamp(11px, 0.9vw, 12px);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -103,13 +110,21 @@
   gap: 10px;
 }
 
+/* 44px touch target for color swatches */
 .colorButton {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 1px solid #ccc;
   position: relative;
   transition: transform var(--transition-fast);
+}
+
+@media (hover: none) {
+  .colorButton {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .colorButton:hover {
@@ -132,7 +147,8 @@
   border: 1px solid var(--color-border);
   background-color: #fff;
   padding: 8px 0;
-  font-size: 12px;
+  min-height: 44px;
+  font-size: clamp(11px, 1vw, 12px);
   font-weight: 600;
   text-align: center;
   transition: all var(--transition-fast);
@@ -153,15 +169,17 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: clamp(13px, 1.1vw, 14px);
   color: var(--color-text-primary);
   cursor: pointer;
+  min-height: 44px;
 }
 
 .checkboxInput {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--color-accent);
+  flex-shrink: 0;
 }
 
 /* Price Slider */
@@ -174,50 +192,71 @@
 .slider {
   width: 100%;
   accent-color: var(--color-accent);
+  height: 24px; /* touch-friendly */
 }
 
 .priceLabel {
-  font-size: 13px;
+  font-size: clamp(12px, 1vw, 13px);
   color: var(--color-text-muted);
 }
 
 /* Main Grid */
 .main {
   flex: 1;
+  min-width: 0;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px 24px;
+  /* Auto-fill: avoids broken layout when sidebar is hidden */
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 45%), 1fr));
+  gap: clamp(20px, 3vw, 32px) clamp(12px, 2.5vw, 24px);
 }
 
-@media (max-width: 1024px) {
+/* Force 3 cols on desktop with sidebar visible */
+@media (min-width: 769px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
+/* 2 cols on tablet (no sidebar) */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(16px, 3vw, 24px) clamp(10px, 2vw, 16px);
+  }
+}
+
+/* 2 cols persists on mobile — narrow gap */
 @media (max-width: 480px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px 12px;
+    gap: clamp(12px, 3vw, 16px) clamp(8px, 2vw, 12px);
+  }
+}
+
+/* On very tiny phones (320px), ensure cards don't crush */
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 8px;
   }
 }
 
 .emptyState {
   text-align: center;
-  padding: 80px 0;
+  padding: clamp(48px, 7vw, 80px) 0;
 }
 
 .emptyTitle {
-  font-size: 18px;
+  font-size: clamp(15px, 1.5vw, 18px);
   font-weight: 600;
   margin-bottom: 12px;
 }
 
 .emptyDesc {
-  font-size: 14px;
+  font-size: clamp(13px, 1.2vw, 14px);
   color: var(--color-text-muted);
   margin-bottom: 24px;
 }
@@ -226,7 +265,8 @@
   background-color: var(--color-text-primary);
   color: #fff;
   padding: 12px 30px;
-  font-size: 13px;
+  min-height: 48px;
+  font-size: clamp(12px, 1.1vw, 13px);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -237,7 +277,8 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh; /* dynamic viewport */
+  height: 100vh; /* fallback */
   background-color: #fff;
   z-index: 700;
   display: flex;
@@ -254,13 +295,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: clamp(16px, 2.5vw, 20px);
   border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  min-height: 56px;
 }
 
 .mobileDrawerTitle {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -268,17 +311,20 @@
 .mobileDrawerContent {
   flex: 1;
   overflow-y: auto;
-  padding: 24px 20px;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(16px, 3vw, 24px) clamp(16px, 3vw, 20px);
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: clamp(20px, 4vw, 32px);
 }
 
 .mobileDrawerFooter {
-  padding: 20px;
+  padding: clamp(14px, 2.5vw, 20px);
   border-top: 1px solid var(--color-border);
   display: flex;
   gap: 12px;
+  flex-shrink: 0;
+  padding-bottom: calc(clamp(14px, 2.5vw, 20px) + env(safe-area-inset-bottom, 0px));
 }
 
 .applyBtn {
@@ -286,27 +332,32 @@
   background-color: var(--color-text-primary);
   color: #fff;
   padding: 14px 0;
-  font-size: 13px;
+  min-height: 52px;
+  font-size: clamp(12px, 1.2vw, 13px);
   font-weight: 700;
   text-transform: uppercase;
   text-align: center;
 }
+
 .resetBtn {
   flex: 1;
   border: 1px solid var(--color-border);
   color: var(--color-text-primary);
   padding: 14px 0;
-  font-size: 13px;
+  min-height: 52px;
+  font-size: clamp(12px, 1.2vw, 13px);
   font-weight: 700;
   text-transform: uppercase;
   text-align: center;
 }
+
 .activeChips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
 }
+
 .chip {
   display: flex;
   align-items: center;
@@ -314,10 +365,12 @@
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   padding: 6px 12px;
-  font-size: 12px;
+  min-height: 36px;
+  font-size: clamp(11px, 1vw, 12px);
   text-transform: capitalize;
   cursor: pointer;
 }
+
 .chip:hover {
   border-color: var(--color-error);
   color: var(--color-error);

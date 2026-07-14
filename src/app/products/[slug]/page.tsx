@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, use, useRef } from 'react';
+import React, { useState, use } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp, AlertCircle, ShoppingBag, X, RotateCcw } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertCircle, X, Ruler, Tag, Truck } from 'lucide-react';
 import productsData from '../../../data/products.json';
 import { Product } from '../../../types';
 import { useCart } from '../../../context/CartContext';
@@ -28,12 +28,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [sizeError, setSizeError] = useState(false);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [pincode, setPincode] = useState('');
 
   // Accordion state
   const [accordions, setAccordions] = useState({
-    description: true,
-    care: false,
-    shipping: false
+    shipping: false,
+    fabric: false,
+    more: false
   });
 
   // Init color once product is found
@@ -43,13 +45,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       setSelectedSize(null);
       setActiveImageIndex(0);
       setSizeError(false);
+      setQuantity(1);
     }
   }, [product]);
 
   if (!product) {
     return (
       <div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>
-        <AlertCircle size={48} style={{ color: 'var(--color-error)', marginBottom: 16 }} />
+        <AlertCircle size={48} style={{ color: 'var(--color-error)', margin: '0 auto 16px' }} />
         <h2 style={{ fontSize: 24, marginBottom: 16 }}>Product Not Found</h2>
         <p style={{ color: 'var(--color-text-muted)', marginBottom: 32 }}>
           The product you are looking for does not exist or has been removed.
@@ -62,7 +65,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   }
 
   const isSoldOut = product.inventory === 0;
-  const isLowStock = product.inventory > 0 && product.inventory < 5;
 
   // Zoom positioning trigger
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -78,10 +80,10 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       return;
     }
     setSizeError(false);
-    addToCart(product, 1, selectedSize, selectedColor);
+    addToCart(product, quantity, selectedSize, selectedColor);
   };
 
-  const toggleAccordion = (section: 'description' | 'care' | 'shipping') => {
+  const toggleAccordion = (section: 'shipping' | 'fabric' | 'more') => {
     setAccordions((prev) => ({
       ...prev,
       [section]: !prev[section]
@@ -92,6 +94,9 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const relatedProducts = (productsData as Product[])
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
+
+  // All possible sizes to match standard row look
+  const allSizes = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
   return (
     <div className={`${styles.container} container`}>
@@ -145,102 +150,98 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
         {/* Right Side: Product Details */}
         <div className={styles.infoPanel}>
-          <span className={styles.category}>{product.category}</span>
           <h1 className={styles.title}>{product.title}</h1>
 
           <div className={styles.priceRow}>
-            {product.compare_at_price ? (
+            <span className={styles.price}>
+              Rs. {product.price.toLocaleString('en-IN')}
+            </span>
+            {product.compare_at_price && (
               <>
-                <span className={`${styles.price} ${styles.salePrice}`}>
-                  ₹ {product.price.toLocaleString('en-IN')}
-                </span>
                 <span className={styles.comparePrice}>
-                  ₹ {product.compare_at_price.toLocaleString('en-IN')}
+                  Rs. {product.compare_at_price.toLocaleString('en-IN')}
+                </span>
+                <span className={styles.discount}>
+                  {Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}% OFF
                 </span>
               </>
-            ) : (
-              <span className={styles.price}>
-                ₹ {product.price.toLocaleString('en-IN')}
-              </span>
             )}
           </div>
+          <div className={styles.taxLabel}>(MRP incl. of all taxes)</div>
 
-          {/* Color Selection */}
-          <div className={styles.variantSection}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionLabel}>Color: {selectedColor}</span>
-            </div>
-            <div className={styles.colorGrid}>
-              {product.colors.map((color) => (
-                <button
-                  key={color}
-                  onClick={() => setSelectedColor(color)}
-                  className={`${styles.colorButton} ${selectedColor === color ? styles.colorButtonActive : ''}`}
-                  style={{
-                    backgroundColor:
-                      color.toLowerCase() === 'brown'
-                        ? '#5c4033'
-                        : color.toLowerCase() === 'cobalt blue'
-                        ? '#3b82f6'
-                        : color.toLowerCase() === 'bright orange'
-                        ? '#e65c00'
-                        : color.toLowerCase() === 'vintage black' || color.toLowerCase() === 'carbon black' || color.toLowerCase() === 'charcoal grey'
-                        ? '#1a1a1a'
-                        : color.toLowerCase() === 'off-white' || color.toLowerCase() === 'cream'
-                        ? '#fcfcfc'
-                        : color.toLowerCase() === 'emerald green' || color.toLowerCase() === 'forest green'
-                        ? '#006400'
-                        : '#ccc'
-                  }}
-                  title={color}
-                  aria-label={`Select color ${color}`}
-                />
-              ))}
-            </div>
-          </div>
+          <div className={styles.divider} />
 
           {/* Size Selection */}
           <div className={styles.variantSection}>
             <div className={styles.sectionHeader}>
-              <span className={styles.sectionLabel}>
-                Size: {selectedSize || 'Select Size'}
-              </span>
+              <span className={styles.sectionLabel}>Select Size</span>
               <button
                 onClick={() => setIsSizeGuideOpen(true)}
                 className={styles.sizeGuideLink}
               >
-                Size Guide
+                <Ruler size={14} /> size guide
               </button>
             </div>
             <div className={styles.sizeGrid}>
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => {
-                    setSelectedSize(size);
-                    setSizeError(false);
-                  }}
-                  className={`${styles.sizeButton} ${selectedSize === size ? styles.sizeButtonActive : ''}`}
+              {allSizes.map((size) => {
+                const isAvailable = product.sizes.includes(size);
+                return (
+                  <button
+                    key={size}
+                    onClick={() => {
+                      if (isAvailable) {
+                        setSelectedSize(size);
+                        setSizeError(false);
+                      }
+                    }}
+                    disabled={!isAvailable}
+                    className={`${styles.sizeButton} ${
+                      selectedSize === size ? styles.sizeButtonActive : ''
+                    } ${!isAvailable ? styles.sizeButtonDisabled : ''}`}
+                  >
+                    {size}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={styles.divider} />
+
+          {/* Quantity Selection */}
+          <div className={styles.variantSection}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionLabel}>Select Quantity</span>
+            </div>
+            <div className={styles.quantityWrapper}>
+              <div className={styles.quantitySelector}>
+                <button 
+                  className={styles.quantityBtn} 
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  aria-label="Decrease quantity"
                 >
-                  {size}
+                  -
                 </button>
-              ))}
+                <div className={styles.quantityValue}>{quantity}</div>
+                <button 
+                  className={styles.quantityBtn} 
+                  onClick={() => setQuantity(quantity + 1)}
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Validation Warnings */}
           {sizeError && (
-            <div className={styles.errorAlert}>
+            <div className={styles.errorAlert} style={{ marginTop: 16 }}>
               Please select a size before adding to bag.
             </div>
           )}
 
-          {/* Inventory warning */}
-          {isLowStock && (
-            <div className={styles.inventoryAlert}>
-              Running low! Only {product.inventory} units left.
-            </div>
-          )}
+          <div className={styles.divider} />
 
           {/* CTA Add to bag */}
           <button
@@ -248,61 +249,107 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             disabled={isSoldOut}
             className={`${styles.addToBagBtn} ${isSoldOut ? styles.addToBagBtnDisabled : ''}`}
           >
-            {isSoldOut ? 'Sold Out' : 'Add to Bag'}
+            {isSoldOut ? 'SOLD OUT' : 'ADD TO CART'}
           </button>
+
+          <div className={styles.divider} />
+
+          {/* Delivery Options */}
+          <div className={styles.deliveryBlock}>
+            <div className={styles.deliveryTitle}>
+              Delivery Options <Truck size={18} />
+            </div>
+            <div className={styles.pincodeInputWrapper}>
+              <input 
+                type="text" 
+                placeholder="Enter Pincode" 
+                className={styles.pincodeInput}
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+              />
+              <button className={styles.pincodeBtn}>CHECK</button>
+            </div>
+            <div className={styles.deliverySubtext}>
+              Please enter PIN code to check delivery time & Pay on Delivery Availability
+            </div>
+            <div className={styles.perkText}>Cash on Delivery (COD) available</div>
+            <div className={styles.perkText}>Easy return & exchange</div>
+          </div>
+
+          {/* Offers Block */}
+          <div className={styles.offersBlock}>
+            <div className={styles.offersHeader}>
+              <span className={styles.offersTitle}>3 Offers</span>
+              <span className={styles.offersViewAll}>VIEW ALL</span>
+            </div>
+            <div className={styles.offerItem}>
+              <Tag size={16} className={styles.offerIcon} />
+              <div className={styles.offerText}>
+                Buy 2 and get additional 15% off on selected styles.<br />
+                Use Code : BUY2EXTRA15
+              </div>
+            </div>
+            <div className={styles.offerItem}>
+              <Tag size={16} className={styles.offerIcon} />
+              <div className={styles.offerText}>
+                Buy 2 and get additional 12% off on selected styles.<br />
+                Use Code : BUY2EXTRA12
+              </div>
+            </div>
+          </div>
 
           {/* Details Accordions */}
           <div className={styles.accordions}>
-            {/* Description */}
-            <div className={styles.accordion}>
-              <button
-                className={styles.accordionHeader}
-                onClick={() => toggleAccordion('description')}
-              >
-                <span className={styles.accordionTitle}>Description</span>
-                {accordions.description ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              {accordions.description && (
-                <div className={styles.accordionContent}>
-                  <p>{product.description}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Care instructions */}
-            <div className={styles.accordion}>
-              <button
-                className={styles.accordionHeader}
-                onClick={() => toggleAccordion('care')}
-              >
-                <span className={styles.accordionTitle}>Care Details</span>
-                {accordions.care ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              {accordions.care && (
-                <div className={styles.accordionContent}>
-                  <p>{product.care}</p>
-                </div>
-              )}
-            </div>
-
             {/* Shipping & Returns */}
             <div className={styles.accordion}>
               <button
                 className={styles.accordionHeader}
                 onClick={() => toggleAccordion('shipping')}
               >
-                <span className={styles.accordionTitle}>Shipping & Returns</span>
-                {accordions.shipping ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                <span className={styles.accordionTitle}>Shipping & Return</span>
+                {accordions.shipping ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
               </button>
               {accordions.shipping && (
                 <div className={styles.accordionContent}>
                   <p>
                     Free shipping on orders above ₹ 5,000 across India. Regular delivery takes 3 to 5
-                    business days. Express shipping (1 to 2 business days) available at checkout.
+                    business days.
                   </p>
                   <p style={{ marginTop: 8 }}>
                     Easy 7-day returns and exchanges handled directly through our returns portal.
                   </p>
+                </div>
+              )}
+            </div>
+
+            {/* Fabric and Care */}
+            <div className={styles.accordion}>
+              <button
+                className={styles.accordionHeader}
+                onClick={() => toggleAccordion('fabric')}
+              >
+                <span className={styles.accordionTitle}>Fabric and Care</span>
+                {accordions.fabric ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              </button>
+              {accordions.fabric && (
+                <div className={styles.accordionContent}>
+                  <p>{product.care || 'Machine wash cold. Do not bleach. Tumble dry low.'}</p>
+                </div>
+              )}
+            </div>
+            
+            {/* More Information */}
+            <div className={styles.accordion}>
+              <button
+                className={styles.accordionHeader}
+                onClick={() => toggleAccordion('more')}
+              >
+                <span className={styles.accordionTitle}>More Information</span>
+                {accordions.more ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              </button>
+              {accordions.more && (
+                <div className={styles.accordionContent}>
+                  <p>{product.description}</p>
                 </div>
               )}
             </div>
