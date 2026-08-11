@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import LayoutShell from "../components/LayoutShell";
+import PWAProvider from "../components/PWAProvider";
 
 export const metadata: Metadata = {
   title: "Yaperz | Premium Streetwear E-Commerce",
@@ -8,6 +9,20 @@ export const metadata: Metadata = {
   keywords: "streetwear India, premium streetwear, unisex streetwear, Gen Z clothing brand India, oversized t-shirts, luxury streetwear",
   authors: [{ name: "Yaperz Team" }],
   metadataBase: new URL("https://yaperz.com"),
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "Yaperz",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "Yaperz | Premium Streetwear E-Commerce",
     description: "Premium gender-neutral streetwear clothing brand from India. High quality oversized hoodies, t-shirts, varsity jackets, caps, and accessories.",
@@ -47,8 +62,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <LayoutShell>{children}</LayoutShell>
+        <PWAProvider>
+          <LayoutShell>{children}</LayoutShell>
+        </PWAProvider>
       </body>
     </html>
   );
 }
+
