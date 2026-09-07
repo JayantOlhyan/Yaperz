@@ -1,3 +1,7 @@
+/**
+ * @component LocationModal
+ * @description Modal selector for physical retail store locations and operating hours.
+ */
 'use client';
 
 import React, { useEffect } from 'react';
