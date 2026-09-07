@@ -1,3 +1,7 @@
+/**
+ * @file CartContext.tsx
+ * @description Centralized shopping cart state management with localStorage synchronization.
+ */
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
