@@ -156,3 +156,10 @@ export const FREE_SHIPPING_THRESHOLD = 2999;
 export function getAmountNeededForFreeShipping(subtotal: number): number {
   return Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
 }
+
+/**
+ * Returns whether a given subtotal qualifies for free shipping.
+ */
+export function isEligibleForFreeShipping(subtotal: number): boolean {
+  return subtotal >= FREE_SHIPPING_THRESHOLD;
+}
