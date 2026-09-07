@@ -73,3 +73,6 @@ export default function FaqPage() {
     </div>
   );
 }
+
+// Primary FAQ categories
+export const FAQ_CATEGORY_TABS = ['All', 'Sizing', 'Shipping', 'Returns', 'Payment'] as const;
