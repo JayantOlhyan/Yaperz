@@ -61,3 +61,23 @@ export interface CartItemComputed extends CartItem {
   lineTotal: number;
   isAvailable: boolean;
 }
+
+/**
+ * Customer review and rating structure for products.
+ */
+export interface ProductReview {
+  id: string;
+  productId: string;
+  authorName: string;
+  rating: number; // 1 to 5
+  title: string;
+  comment: string;
+  createdAt: string;
+  verifiedPurchase: boolean;
+}
+
+export interface RatingDistribution {
+  averageRating: number;
+  totalReviews: number;
+  starCounts: Record<1 | 2 | 3 | 4 | 5, number>;
+}
