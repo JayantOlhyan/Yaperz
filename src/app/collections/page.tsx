@@ -74,3 +74,6 @@ export default function CollectionsPage() {
 
 // Collections directory banner title
 export const COLLECTIONS_PAGE_TITLE = 'All Collections & Drops';
+
+// Default grid columns for collection cards
+export const COLLECTIONS_GRID_COLUMNS = 'repeat(auto-fit, minmax(280px, 1fr))';
