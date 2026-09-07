@@ -1,3 +1,7 @@
+/**
+ * @component LayoutShell
+ * @description Common wrapper composing Header, main content area, Footer, and CartDrawer.
+ */
 'use client';
 
 import React, { useState } from 'react';
