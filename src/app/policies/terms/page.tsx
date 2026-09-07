@@ -1,3 +1,7 @@
+/**
+ * @page TermsOfService
+ * @description User agreement, purchasing terms, intellectual property, and governing law.
+ */
 'use client';
 
 import React from 'react';
