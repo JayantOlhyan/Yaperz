@@ -103,3 +103,6 @@ export default function TrackOrderPage() {
     </div>
   );
 }
+
+// Order tracking format prefix
+export const ORDER_TRACKING_PREFIX = 'YPR-';
