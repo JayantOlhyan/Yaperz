@@ -25,3 +25,15 @@ export function safeLocalStorageSet<T>(key: string, value: T): boolean {
     return false;
   }
 }
+
+/**
+ * Safely clears or removes a key from localStorage.
+ */
+export function safeLocalStorageRemove(key: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.removeItem(key);
+  } catch (error) {
+    console.warn(`Error removing localStorage key "${key}":`, error);
+  }
+}
