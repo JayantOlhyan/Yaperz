@@ -1,3 +1,7 @@
+/**
+ * @component ProductCard
+ * @description Product preview card with image carousel, hover zoom, and quick action buttons.
+ */
 'use client';
 
 import React from 'react';
