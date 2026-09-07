@@ -40,3 +40,16 @@ export type ProductCategoryKey = 'streetwear' | 'oversized' | 'hoodies' | 'acces
  * Supported collection identifiers across the storefront.
  */
 export type CollectionType = 'new-arrivals' | 'best-sellers' | 'trending' | 'sale';
+
+/**
+ * Represents an individual variant combination for inventory tracking.
+ */
+export interface ProductVariant {
+  sku: string;
+  size: string;
+  color: string;
+  inventory: number;
+  inStock: boolean;
+}
+
+export type InventoryStatus = 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK';
