@@ -1,3 +1,7 @@
+/**
+ * @component Header
+ * @description Primary navigation bar with sticky positioning, search toggle, and cart trigger.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';
