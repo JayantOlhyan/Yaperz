@@ -189,3 +189,19 @@ export interface BreadcrumbItem {
   href: string;
   isCurrent?: boolean;
 }
+
+/**
+ * Product catalog search and filtering options.
+ */
+export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'newest' | 'discount';
+
+export interface ProductFilterState {
+  category?: string;
+  collection?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sizes: string[];
+  colors: string[];
+  inStockOnly: boolean;
+  sortBy: SortOption;
+}
