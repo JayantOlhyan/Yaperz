@@ -71,3 +71,6 @@ export default function CollectionsPage() {
     </div>
   );
 }
+
+// Collections directory banner title
+export const COLLECTIONS_PAGE_TITLE = 'All Collections & Drops';
