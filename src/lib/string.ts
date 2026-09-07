@@ -37,3 +37,12 @@ export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength).trimEnd() + '...';
 }
+
+/**
+ * Strips dangerous HTML tags and whitespace from input strings.
+ */
+export function sanitizeInput(input: string): string {
+  return input
+    .replace(/[<>]/g, '')
+    .trim();
+}
