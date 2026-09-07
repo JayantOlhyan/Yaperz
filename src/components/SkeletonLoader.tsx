@@ -167,3 +167,6 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ type, count = 6 
     </div>
   );
 };
+
+// Supported skeleton layout variants
+export type SkeletonVariantType = 'card' | 'banner' | 'text' | 'detail' | 'list';
