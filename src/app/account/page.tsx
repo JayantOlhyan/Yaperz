@@ -280,3 +280,6 @@ export default function AccountPage() {
 
 // Account tab navigation identifiers
 export const ACCOUNT_TABS = ['ORDERS', 'PROFILE', 'ADDRESSES', 'SETTINGS'] as const;
+
+// Default placeholder avatar path
+export const DEFAULT_AVATAR_PATH = '/images/default-avatar.png';
