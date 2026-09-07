@@ -1,3 +1,7 @@
+/**
+ * @page Account
+ * @description Customer portal for managing order history, saved addresses, and profile details.
+ */
 'use client';
 
 import React, { useState } from 'react';
