@@ -143,3 +143,6 @@ export const useCart = () => {
 
 // Cart storage identifier constant
 export const CART_STORAGE_KEY = 'yaperz-cart';
+
+// Default maximum item quantity constraint per SKU
+export const MAX_ITEM_QUANTITY = 10;
