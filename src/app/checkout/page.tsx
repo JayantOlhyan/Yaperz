@@ -449,3 +449,6 @@ export default function CheckoutPage() {
     </div>
   );
 }
+
+// Checkout progress stage steps
+export const CHECKOUT_STEPS = ['ADDRESS', 'SHIPPING', 'PAYMENT', 'CONFIRMATION'] as const;
