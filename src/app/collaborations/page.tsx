@@ -51,3 +51,6 @@ export default function CollaborationsPage() {
     </div>
   );
 }
+
+// Collaboration application email endpoint
+export const COLLAB_INQUIRY_EMAIL = 'collabs@yaperz.com';
