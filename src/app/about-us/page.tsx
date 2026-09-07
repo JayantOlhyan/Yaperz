@@ -79,3 +79,6 @@ export default function AboutUsPage() {
 
 // Brand founding milestone year
 export const BRAND_FOUNDED_YEAR = 2024;
+
+// Core brand design tenets
+export const BRAND_TENETS = ['Architectural Fits', 'Heavyweight Fabrics', 'Uncompromised Longevity'] as const;
