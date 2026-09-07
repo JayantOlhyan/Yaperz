@@ -263,3 +263,13 @@ export interface AnalyticsEvent {
   properties?: Record<string, string | number | boolean | undefined>;
   timestamp: number;
 }
+
+/**
+ * Standard API envelope pattern for endpoints.
+ */
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  statusCode: number;
+}
