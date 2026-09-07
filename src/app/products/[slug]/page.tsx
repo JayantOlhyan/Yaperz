@@ -445,3 +445,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
 // Default size pre-selection for new visits
 export const DEFAULT_SELECTED_SIZE = 'M';
+
+// Standard garment care guidelines
+export const DEFAULT_GARMENT_CARE = 'Machine wash cold inside out with like colors. Do not tumble dry.';
