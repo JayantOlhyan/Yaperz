@@ -1,3 +1,7 @@
+/**
+ * @component Footer
+ * @description Storefront footer including newsletter subscription, brand links, and legal policies.
+ */
 'use client';
 
 import React from 'react';
