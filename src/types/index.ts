@@ -291,3 +291,12 @@ export interface FAQItem {
   answer: string;
   category: 'orders' | 'shipping' | 'returns' | 'sizing' | 'general';
 }
+
+/**
+ * Legal terms and store policy sections.
+ */
+export interface PolicySection {
+  id: string;
+  heading: string;
+  content: string;
+}
