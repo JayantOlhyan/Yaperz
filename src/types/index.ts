@@ -230,3 +230,13 @@ export interface ToastNotification {
   type: AlertLevel;
   durationMs?: number;
 }
+
+/**
+ * Common modal dialog and drawer component properties.
+ */
+export interface ModalDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+}
