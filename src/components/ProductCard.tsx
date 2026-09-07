@@ -112,3 +112,6 @@ export const PRODUCT_CARD_ASPECT_RATIO = '3 / 4';
 
 // Badge display threshold for sale items
 export const MIN_DISCOUNT_PERCENT_FOR_BADGE = 10;
+
+// Product card test ID for automation
+export const PRODUCT_CARD_TEST_ID = 'yaperz-product-card';
