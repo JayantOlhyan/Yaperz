@@ -183,3 +183,6 @@ export const StoriesBar: React.FC = () => {
     </div>
   );
 };
+
+// Story slide auto-advance timer duration in milliseconds
+export const STORY_SLIDE_DURATION_MS = 5000;
