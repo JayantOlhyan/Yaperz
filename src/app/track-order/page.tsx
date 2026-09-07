@@ -1,3 +1,7 @@
+/**
+ * @page TrackOrder
+ * @description Live delivery tracking lookup by order ID or phone number.
+ */
 'use client';
 
 import React, { useState } from 'react';
