@@ -160,3 +160,13 @@ export interface CustomerProfile {
   newsletterOptIn: boolean;
   orderHistoryIds: string[];
 }
+
+/**
+ * Physical retail store location and contact details.
+ */
+export interface RetailLocation extends StoreInfo {
+  id: string;
+  latitude: number;
+  longitude: number;
+  isOpenToday: boolean;
+}
