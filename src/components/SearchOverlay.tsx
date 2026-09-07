@@ -1,3 +1,7 @@
+/**
+ * @component SearchOverlay
+ * @description Full-screen search dialog with instant auto-suggestions and keyboard navigation.
+ */
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
