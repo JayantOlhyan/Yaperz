@@ -30,3 +30,8 @@ export interface StoreInfo {
   hours: string;
   mapLink: string;
 }
+
+/**
+ * Represents a product collection category key.
+ */
+export type ProductCategoryKey = 'streetwear' | 'oversized' | 'hoodies' | 'accessories' | 'all';
