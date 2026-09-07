@@ -177,3 +177,6 @@ export const PWAProvider: React.FC<PWAProviderProps> = ({ children }) => {
 
 export default PWAProvider;
 
+
+// PWA installation dismissed storage key
+export const PWA_DISMISSED_KEY = 'yaperz-pwa-dismissed';
