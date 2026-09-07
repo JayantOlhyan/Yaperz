@@ -1,3 +1,7 @@
+/**
+ * @page AboutUs
+ * @description Brand identity, founding philosophy, architectural inspiration, and craftsmanship.
+ */
 'use client';
 
 import React from 'react';
