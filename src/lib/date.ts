@@ -30,3 +30,12 @@ export function getEstimatedDeliveryRange(daysFromNowMin = 3, daysFromNowMax = 5
 
   return `${minStr} - ${maxStr}`;
 }
+
+/**
+ * Determines whether a store is currently open given standard 10 AM - 9 PM hours.
+ */
+export function isStoreOpenNow(): boolean {
+  const now = new Date();
+  const currentHour = now.getHours();
+  return currentHour >= 10 && currentHour < 21;
+}
