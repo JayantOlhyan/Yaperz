@@ -1,3 +1,7 @@
+/**
+ * @page Collections
+ * @description Category directory highlighting current seasons, capsules, and curated edits.
+ */
 'use client';
 
 import React from 'react';
