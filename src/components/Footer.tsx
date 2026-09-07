@@ -134,3 +134,6 @@ export function getCurrentCopyrightYear(): number {
 
 // Footer navigation groups metadata
 export const FOOTER_COLUMNS = ['SHOP', 'ABOUT', 'HELP', 'LEGAL'] as const;
+
+// Footer payment provider badges
+export const ACCEPTED_PAYMENT_METHODS = ['UPI', 'Visa', 'Mastercard', 'RuPay', 'NetBanking'] as const;
