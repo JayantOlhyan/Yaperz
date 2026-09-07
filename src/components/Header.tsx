@@ -439,3 +439,6 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
     </>
   );
 };
+
+// Header layout constants
+export const HEADER_HEIGHT_PX = 80;
