@@ -175,3 +175,6 @@ export default function Home() {
 
 // Homepage hero section identifier
 export const HOMEPAGE_HERO_SECTION_ID = 'hero-banner';
+
+// Maximum trending items displayed on the homepage
+export const HOMEPAGE_FEATURED_LIMIT = 8;
