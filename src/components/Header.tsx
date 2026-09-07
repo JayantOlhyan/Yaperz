@@ -442,3 +442,6 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
 
 // Header layout constants
 export const HEADER_HEIGHT_PX = 80;
+
+// Header animation transition duration
+export const HEADER_TRANSITION_MS = 250;
