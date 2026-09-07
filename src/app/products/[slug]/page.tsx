@@ -442,3 +442,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
     </div>
   );
 }
+
+// Default size pre-selection for new visits
+export const DEFAULT_SELECTED_SIZE = 'M';
