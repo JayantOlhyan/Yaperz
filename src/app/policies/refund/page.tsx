@@ -1,3 +1,7 @@
+/**
+ * @page RefundPolicy
+ * @description Policy detailing return windows, eligibility, store credits, and refund timelines.
+ */
 'use client';
 
 import React from 'react';
