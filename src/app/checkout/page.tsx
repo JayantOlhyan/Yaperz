@@ -1,3 +1,7 @@
+/**
+ * @page Checkout
+ * @description Multi-step checkout flow for customer address, shipping options, and payment gateway.
+ */
 'use client';
 
 import React, { useState } from 'react';
