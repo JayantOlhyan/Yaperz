@@ -503,3 +503,6 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
 
 // Supported sorting query parameters for collection pages
 export const VALID_SORT_CRITERIA = ['price-asc', 'price-desc', 'newest', 'trending'] as const;
+
+// Default page size for collection products
+export const COLLECTION_PAGE_SIZE = 12;
