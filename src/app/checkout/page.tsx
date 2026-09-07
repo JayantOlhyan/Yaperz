@@ -452,3 +452,6 @@ export default function CheckoutPage() {
 
 // Checkout progress stage steps
 export const CHECKOUT_STEPS = ['ADDRESS', 'SHIPPING', 'PAYMENT', 'CONFIRMATION'] as const;
+
+// Express delivery surcharge in INR
+export const EXPRESS_DELIVERY_SURCHARGE = 249;
