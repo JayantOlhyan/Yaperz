@@ -146,3 +146,6 @@ export const CART_STORAGE_KEY = 'yaperz-cart';
 
 // Default maximum item quantity constraint per SKU
 export const MAX_ITEM_QUANTITY = 10;
+
+// Threshold for free shipping eligibility across India
+export const FREE_SHIPPING_THRESHOLD = 2999;
