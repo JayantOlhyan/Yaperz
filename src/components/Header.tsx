@@ -445,3 +445,10 @@ export const HEADER_HEIGHT_PX = 80;
 
 // Header animation transition duration
 export const HEADER_TRANSITION_MS = 250;
+
+// Header ARIA landmark role identifiers
+export const HEADER_ARIA_LABELS = {
+  nav: 'Main site navigation',
+  cartButton: 'Open shopping cart drawer',
+  searchButton: 'Open search dialog',
+} as const;
