@@ -140,3 +140,6 @@ export const useCart = () => {
   }
   return context;
 };
+
+// Cart storage identifier constant
+export const CART_STORAGE_KEY = 'yaperz-cart';
