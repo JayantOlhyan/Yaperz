@@ -167,3 +167,6 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
 
 // Minimum character length to trigger search query execution
 export const SEARCH_MIN_QUERY_LENGTH = 2;
+
+// Search debounce latency in milliseconds
+export const SEARCH_DEBOUNCE_DELAY_MS = 300;
