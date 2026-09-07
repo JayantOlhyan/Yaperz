@@ -1,3 +1,7 @@
+/**
+ * @page ProductDetail
+ * @description Dynamic PDP presenting image carousel, size selection, inventory status, and care info.
+ */
 'use client';
 
 import React, { useState, use } from 'react';
