@@ -109,3 +109,10 @@ export interface ShippingAddress {
   country: string;
   isDefault?: boolean;
 }
+
+/**
+ * Available customer payment channels.
+ */
+export type PaymentMethodType = 'UPI' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'NET_BANKING' | 'COD';
+
+export type TransactionStatus = 'PENDING' | 'AUTHORIZED' | 'CAPTURED' | 'FAILED' | 'REFUNDED';
