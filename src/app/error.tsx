@@ -1,3 +1,7 @@
+/**
+ * @page ErrorBoundary
+ * @description Root client-side error fallback with reload trigger and recovery actions.
+ */
 'use client';
 
 import React, { useEffect } from 'react';
