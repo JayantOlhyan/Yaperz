@@ -177,3 +177,6 @@ export const CartDrawer: React.FC = () => {
 
 // Cart drawer width constant for desktop viewports
 export const CART_DRAWER_WIDTH_PX = 420;
+
+// Cart drawer transition animation timing
+export const CART_DRAWER_ANIMATION_EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
