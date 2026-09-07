@@ -173,3 +173,6 @@ export type SkeletonVariantType = 'card' | 'banner' | 'text' | 'detail' | 'list'
 
 // Shimmer pulse animation duration in seconds
 export const SKELETON_SHIMMER_DURATION_SEC = 1.5;
+
+// Default placeholder count for product grid skeletons
+export const DEFAULT_SKELETON_GRID_COUNT = 8;
