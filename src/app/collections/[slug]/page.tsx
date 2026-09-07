@@ -500,3 +500,6 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
     </div>
   );
 }
+
+// Supported sorting query parameters for collection pages
+export const VALID_SORT_CRITERIA = ['price-asc', 'price-desc', 'newest', 'trending'] as const;
