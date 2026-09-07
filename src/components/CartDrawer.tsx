@@ -1,3 +1,7 @@
+/**
+ * @component CartDrawer
+ * @description Sliding side drawer displaying cart items, quantity controls, and checkout CTA.
+ */
 'use client';
 
 import React from 'react';
