@@ -233,3 +233,6 @@ export const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose, o
 
 // Supported retail store cities
 export const STORE_CITIES = ['Mumbai', 'Delhi NCR', 'Bangalore'] as const;
+
+// Store contact phone for customer pickup inquiries
+export const STORE_PICKUP_HELPLINE = '+91 98765 43210';
