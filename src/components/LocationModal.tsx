@@ -236,3 +236,6 @@ export const STORE_CITIES = ['Mumbai', 'Delhi NCR', 'Bangalore'] as const;
 
 // Store contact phone for customer pickup inquiries
 export const STORE_PICKUP_HELPLINE = '+91 98765 43210';
+
+// Default map zoom level for retail locations
+export const STORE_MAP_DEFAULT_ZOOM = 15;
