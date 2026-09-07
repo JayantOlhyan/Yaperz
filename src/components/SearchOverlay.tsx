@@ -164,3 +164,6 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
     </div>
   );
 };
+
+// Minimum character length to trigger search query execution
+export const SEARCH_MIN_QUERY_LENGTH = 2;
