@@ -1,3 +1,7 @@
+/**
+ * @component StoriesBar
+ * @description Horizontal story avatar reel inspired by Instagram stories with fullscreen modal viewer.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';
