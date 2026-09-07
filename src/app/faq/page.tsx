@@ -76,3 +76,6 @@ export default function FaqPage() {
 
 // Primary FAQ categories
 export const FAQ_CATEGORY_TABS = ['All', 'Sizing', 'Shipping', 'Returns', 'Payment'] as const;
+
+// Contact CTA link from FAQ
+export const FAQ_HELP_CONTACT_URL = 'mailto:care@yaperz.com';
