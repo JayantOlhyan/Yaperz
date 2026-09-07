@@ -174,3 +174,6 @@ export const CartDrawer: React.FC = () => {
     </>
   );
 };
+
+// Cart drawer width constant for desktop viewports
+export const CART_DRAWER_WIDTH_PX = 420;
