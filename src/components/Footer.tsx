@@ -126,3 +126,8 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
+// Footer copyright year helper
+export function getCurrentCopyrightYear(): number {
+  return new Date().getFullYear();
+}
