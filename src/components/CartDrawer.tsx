@@ -180,3 +180,10 @@ export const CART_DRAWER_WIDTH_PX = 420;
 
 // Cart drawer transition animation timing
 export const CART_DRAWER_ANIMATION_EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+// Cart drawer accessibility labels
+export const CART_DRAWER_LABELS = {
+  close: 'Close cart drawer',
+  checkout: 'Proceed to checkout',
+  emptyMessage: 'Your cart is currently empty',
+} as const;
