@@ -18,3 +18,18 @@ export const SUPPORT_CONTACT = {
   phone: '+91 98765 43210',
   operatingHours: '10:00 AM - 7:00 PM IST, Monday through Saturday',
 } as const;
+
+export const STORE_ROUTES = {
+  HOME: '/',
+  COLLECTIONS: '/collections',
+  ABOUT: '/about-us',
+  ACCOUNT: '/account',
+  CHECKOUT: '/checkout',
+  TRACK: '/track-order',
+  FAQ: '/faq',
+  COLLABORATIONS: '/collaborations',
+  PRIVACY: '/policies/privacy',
+  TERMS: '/policies/terms',
+  REFUND: '/policies/refund',
+  SHIPPING: '/policies/shipping',
+} as const;
