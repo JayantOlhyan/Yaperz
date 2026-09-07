@@ -131,3 +131,6 @@ export const Footer: React.FC = () => {
 export function getCurrentCopyrightYear(): number {
   return new Date().getFullYear();
 }
+
+// Footer navigation groups metadata
+export const FOOTER_COLUMNS = ['SHOP', 'ABOUT', 'HELP', 'LEGAL'] as const;
