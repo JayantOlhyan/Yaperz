@@ -218,3 +218,15 @@ export interface PaginatedResult<T> {
   hasNextPage: boolean;
   hasPrevPage: boolean;
 }
+
+/**
+ * UI Toast notification message structure.
+ */
+export type AlertLevel = 'info' | 'success' | 'warning' | 'error';
+
+export interface ToastNotification {
+  id: string;
+  message: string;
+  type: AlertLevel;
+  durationMs?: number;
+}
