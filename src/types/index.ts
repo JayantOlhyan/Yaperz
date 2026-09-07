@@ -94,3 +94,18 @@ export interface DiscountCode {
   expiresAt?: string;
   isActive: boolean;
 }
+
+/**
+ * Customer delivery destination address information.
+ */
+export interface ShippingAddress {
+  fullName: string;
+  phoneNumber: string;
+  streetAddress: string;
+  apartmentSuite?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault?: boolean;
+}
