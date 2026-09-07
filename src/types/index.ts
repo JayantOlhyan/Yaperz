@@ -273,3 +273,11 @@ export interface ApiResponse<T> {
   error?: string;
   statusCode: number;
 }
+
+/**
+ * Field-level form validation error mapping.
+ */
+export interface FormValidationResult {
+  isValid: boolean;
+  errors: Record<string, string>;
+}
