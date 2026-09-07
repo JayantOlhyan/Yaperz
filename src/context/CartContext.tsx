@@ -174,3 +174,6 @@ export function calculateOrderTotal(subtotal: number): number {
   const shipping = isEligibleForFreeShipping(subtotal) ? 0 : STANDARD_SHIPPING_FEE;
   return subtotal + shipping;
 }
+
+// Cart event observer types for external integrations
+export type CartChangeEventType = 'ADD' | 'REMOVE' | 'UPDATE' | 'CLEAR';
