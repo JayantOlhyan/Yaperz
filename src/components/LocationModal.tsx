@@ -230,3 +230,6 @@ export const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose, o
     </div>
   );
 };
+
+// Supported retail store cities
+export const STORE_CITIES = ['Mumbai', 'Delhi NCR', 'Bangalore'] as const;
