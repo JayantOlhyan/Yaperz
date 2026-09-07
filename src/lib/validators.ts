@@ -21,3 +21,24 @@ export function validatePincode(pincode: string): boolean {
   const cleaned = pincode.replace(/[^0-9]/g, '');
   return /^[1-9][0-9]{5}$/.test(cleaned);
 }
+
+/**
+ * Checks all required shipping address fields for presence.
+ */
+export function validateAddress(address: {
+  fullName: string;
+  phoneNumber: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  postalCode: string;
+}): boolean {
+  return Boolean(
+    address.fullName.trim() &&
+    validatePhone(address.phoneNumber) &&
+    address.streetAddress.trim() &&
+    address.city.trim() &&
+    address.state.trim() &&
+    validatePincode(address.postalCode)
+  );
+}
