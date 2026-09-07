@@ -54,3 +54,6 @@ export default function CollaborationsPage() {
 
 // Collaboration application email endpoint
 export const COLLAB_INQUIRY_EMAIL = 'collabs@yaperz.com';
+
+// Maximum file size for lookbook uploads in MB
+export const MAX_LOOKBOOK_UPLOAD_MB = 15;
