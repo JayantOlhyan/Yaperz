@@ -170,3 +170,6 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ type, count = 6 
 
 // Supported skeleton layout variants
 export type SkeletonVariantType = 'card' | 'banner' | 'text' | 'detail' | 'list';
+
+// Shimmer pulse animation duration in seconds
+export const SKELETON_SHIMMER_DURATION_SEC = 1.5;
