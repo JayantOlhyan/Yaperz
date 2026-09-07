@@ -1,3 +1,7 @@
+/**
+ * @component SkeletonLoader
+ * @description Animated placeholder skeletons for card, list, and detail views during suspense hydration.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';
