@@ -53,3 +53,11 @@ export interface ProductVariant {
 }
 
 export type InventoryStatus = 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK';
+
+/**
+ * Detailed cart line item with computed line pricing.
+ */
+export interface CartItemComputed extends CartItem {
+  lineTotal: number;
+  isAvailable: boolean;
+}
