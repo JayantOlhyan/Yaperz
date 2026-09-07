@@ -76,3 +76,6 @@ export default function AboutUsPage() {
     </div>
   );
 }
+
+// Brand founding milestone year
+export const BRAND_FOUNDED_YEAR = 2024;
