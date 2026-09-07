@@ -1,3 +1,7 @@
+/**
+ * @page NotFound
+ * @description 404 error page directing lost visitors back to primary storefront collections.
+ */
 'use client';
 
 import React from 'react';
