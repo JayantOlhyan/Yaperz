@@ -300,3 +300,15 @@ export interface PolicySection {
   heading: string;
   content: string;
 }
+
+/**
+ * Social media and ephemeral brand story slide model.
+ */
+export interface StorySlide {
+  id: string;
+  title: string;
+  thumbnail: string;
+  mediaUrl: string;
+  linkText?: string;
+  linkHref?: string;
+}
