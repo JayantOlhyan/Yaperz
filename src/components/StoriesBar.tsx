@@ -186,3 +186,6 @@ export const StoriesBar: React.FC = () => {
 
 // Story slide auto-advance timer duration in milliseconds
 export const STORY_SLIDE_DURATION_MS = 5000;
+
+// Story ring border gradient colors
+export const STORY_RING_GRADIENT = 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)';
