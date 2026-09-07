@@ -26,3 +26,29 @@ export function buildMetaTags(title: string, description = APP_DESCRIPTION, slug
     },
   };
 }
+
+/**
+ * Generates JSON-LD structured schema script object for products.
+ */
+export function generateStructuredProductData(product: {
+  title: string;
+  description: string;
+  price: number;
+  images: string[];
+  slug: string;
+}) {
+  return {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: product.title,
+    image: product.images,
+    description: product.description,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+      url: `https://yaperz.com/products/${product.slug}`,
+    },
+  };
+}
