@@ -1,3 +1,7 @@
+/**
+ * @page Collaborations
+ * @description Brand partnership inquiry portal and gallery of creator capsules.
+ */
 'use client';
 
 import React from 'react';
