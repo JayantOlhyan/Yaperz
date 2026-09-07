@@ -163,3 +163,6 @@ export function getAmountNeededForFreeShipping(subtotal: number): number {
 export function isEligibleForFreeShipping(subtotal: number): boolean {
   return subtotal >= FREE_SHIPPING_THRESHOLD;
 }
+
+// Estimated standard flat shipping rate in INR
+export const STANDARD_SHIPPING_FEE = 149;
