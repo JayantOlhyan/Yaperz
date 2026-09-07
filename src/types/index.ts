@@ -205,3 +205,16 @@ export interface ProductFilterState {
   inStockOnly: boolean;
   sortBy: SortOption;
 }
+
+/**
+ * Generic paginated result wrapper for listing queries.
+ */
+export interface PaginatedResult<T> {
+  data: T[];
+  page: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
