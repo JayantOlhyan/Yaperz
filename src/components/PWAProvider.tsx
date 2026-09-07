@@ -1,3 +1,7 @@
+/**
+ * @component PWAProvider
+ * @description Manages Progressive Web App installation prompts and offline network status.
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';
