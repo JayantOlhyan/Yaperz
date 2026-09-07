@@ -35,3 +35,8 @@ export interface StoreInfo {
  * Represents a product collection category key.
  */
 export type ProductCategoryKey = 'streetwear' | 'oversized' | 'hoodies' | 'accessories' | 'all';
+
+/**
+ * Supported collection identifiers across the storefront.
+ */
+export type CollectionType = 'new-arrivals' | 'best-sellers' | 'trending' | 'sale';
