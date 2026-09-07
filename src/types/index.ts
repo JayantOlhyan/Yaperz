@@ -129,3 +129,20 @@ export interface OrderTrackingMilestone {
   location?: string;
   isCompleted: boolean;
 }
+
+/**
+ * Full order summary for checkout and invoice generation.
+ */
+export interface OrderSummary {
+  orderId: string;
+  customerEmail: string;
+  items: CartItem[];
+  subtotal: number;
+  discountTotal: number;
+  shippingFee: number;
+  grandTotal: number;
+  paymentMethod: PaymentMethodType;
+  shippingAddress: ShippingAddress;
+  status: OrderStatus;
+  createdAt: string;
+}
