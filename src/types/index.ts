@@ -170,3 +170,13 @@ export interface RetailLocation extends StoreInfo {
   longitude: number;
   isOpenToday: boolean;
 }
+
+/**
+ * Day-by-day operating hours schedule for physical stores.
+ */
+export interface StoreHoursSchedule {
+  dayOfWeek: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+  openTime: string;
+  closeTime: string;
+  isClosed: boolean;
+}
