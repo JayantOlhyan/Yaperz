@@ -1,3 +1,7 @@
+/**
+ * @page CollectionDetail
+ * @description Dynamic collection category view with filtering, sorting, and product cards.
+ */
 'use client';
 
 import React, { useState, useEffect, use } from 'react';
