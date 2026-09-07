@@ -11,3 +11,17 @@ export function safeLocalStorageGet<T>(key: string, defaultValue: T): T {
     return defaultValue;
   }
 }
+
+/**
+ * Safely writes a serializable value into localStorage.
+ */
+export function safeLocalStorageSet<T>(key: string, value: T): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (error) {
+    console.warn(`Error saving to localStorage key "${key}":`, error);
+    return false;
+  }
+}
