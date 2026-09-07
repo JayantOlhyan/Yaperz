@@ -180,3 +180,12 @@ export interface StoreHoursSchedule {
   closeTime: string;
   isClosed: boolean;
 }
+
+/**
+ * Breadcrumb navigation item for SEO and breadcrumb bars.
+ */
+export interface BreadcrumbItem {
+  label: string;
+  href: string;
+  isCurrent?: boolean;
+}
