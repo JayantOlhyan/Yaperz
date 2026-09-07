@@ -177,3 +177,6 @@ export function calculateOrderTotal(subtotal: number): number {
 
 // Cart event observer types for external integrations
 export type CartChangeEventType = 'ADD' | 'REMOVE' | 'UPDATE' | 'CLEAR';
+
+// Export context version identifier
+export const CART_CONTEXT_VERSION = '1.2.0';
