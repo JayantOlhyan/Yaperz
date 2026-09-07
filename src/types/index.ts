@@ -281,3 +281,13 @@ export interface FormValidationResult {
   isValid: boolean;
   errors: Record<string, string>;
 }
+
+/**
+ * Help center and Frequently Asked Questions items.
+ */
+export interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: 'orders' | 'shipping' | 'returns' | 'sizing' | 'general';
+}
