@@ -1,3 +1,7 @@
+/**
+ * @page Home
+ * @description Storefront homepage featuring hero banner, seasonal collections, and trending products.
+ */
 'use client';
 
 import React, { useState } from 'react';
