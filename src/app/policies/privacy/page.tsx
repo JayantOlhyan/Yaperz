@@ -1,3 +1,7 @@
+/**
+ * @page PrivacyPolicy
+ * @description Customer privacy rights, cookie usage, data handling, and compliance.
+ */
 'use client';
 
 import React from 'react';
