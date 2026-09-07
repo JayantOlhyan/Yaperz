@@ -1,3 +1,7 @@
+/**
+ * @page FAQ
+ * @description Frequently asked questions covering sizing, orders, shipping, and fabric maintenance.
+ */
 'use client';
 
 import React, { useState } from 'react';
