@@ -240,3 +240,16 @@ export interface ModalDialogProps {
   title?: string;
   children: React.ReactNode;
 }
+
+/**
+ * Storefront color theme and visual mode.
+ */
+export type ThemeMode = 'dark' | 'light' | 'system';
+
+export interface DesignTokenPalette {
+  primary: string;
+  secondary: string;
+  background: string;
+  text: string;
+  accent: string;
+}
