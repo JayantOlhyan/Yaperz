@@ -81,3 +81,16 @@ export interface RatingDistribution {
   totalReviews: number;
   starCounts: Record<1 | 2 | 3 | 4 | 5, number>;
 }
+
+/**
+ * Coupon or promotional discount code definition.
+ */
+export interface DiscountCode {
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  value: number;
+  minSubtotal?: number;
+  maxDiscount?: number;
+  expiresAt?: string;
+  isActive: boolean;
+}
