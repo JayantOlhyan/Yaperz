@@ -106,3 +106,6 @@ export default function TrackOrderPage() {
 
 // Order tracking format prefix
 export const ORDER_TRACKING_PREFIX = 'YPR-';
+
+// Delivery partner helpline contact
+export const CARRIER_SUPPORT_PHONE = '+91 1800 123 4567';
