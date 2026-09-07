@@ -106,3 +106,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     </div>
   );
 };
+
+// Product card default aspect ratio for image containers
+export const PRODUCT_CARD_ASPECT_RATIO = '3 / 4';
