@@ -116,3 +116,16 @@ export interface ShippingAddress {
 export type PaymentMethodType = 'UPI' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'NET_BANKING' | 'COD';
 
 export type TransactionStatus = 'PENDING' | 'AUTHORIZED' | 'CAPTURED' | 'FAILED' | 'REFUNDED';
+
+/**
+ * Order fulfillment progression states.
+ */
+export type OrderStatus = 'PLACED' | 'CONFIRMED' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+
+export interface OrderTrackingMilestone {
+  status: OrderStatus;
+  label: string;
+  timestamp: string;
+  location?: string;
+  isCompleted: boolean;
+}
