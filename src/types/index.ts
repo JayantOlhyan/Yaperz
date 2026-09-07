@@ -146,3 +146,17 @@ export interface OrderSummary {
   status: OrderStatus;
   createdAt: string;
 }
+
+/**
+ * Customer account profile and notification preferences.
+ */
+export interface CustomerProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  savedAddresses: ShippingAddress[];
+  newsletterOptIn: boolean;
+  orderHistoryIds: string[];
+}
