@@ -253,3 +253,13 @@ export interface DesignTokenPalette {
   text: string;
   accent: string;
 }
+
+/**
+ * Telemetry and behavioral analytics event definition.
+ */
+export interface AnalyticsEvent {
+  eventName: string;
+  category: 'ecommerce' | 'engagement' | 'navigation' | 'search';
+  properties?: Record<string, string | number | boolean | undefined>;
+  timestamp: number;
+}
