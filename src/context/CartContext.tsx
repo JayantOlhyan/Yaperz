@@ -149,3 +149,10 @@ export const MAX_ITEM_QUANTITY = 10;
 
 // Threshold for free shipping eligibility across India
 export const FREE_SHIPPING_THRESHOLD = 2999;
+
+/**
+ * Helper to compute remaining amount required for free shipping eligibility.
+ */
+export function getAmountNeededForFreeShipping(subtotal: number): number {
+  return Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
+}
