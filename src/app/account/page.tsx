@@ -277,3 +277,6 @@ export default function AccountPage() {
     </div>
   );
 }
+
+// Account tab navigation identifiers
+export const ACCOUNT_TABS = ['ORDERS', 'PROFILE', 'ADDRESSES', 'SETTINGS'] as const;
