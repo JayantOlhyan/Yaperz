@@ -170,3 +170,11 @@ export const SEARCH_MIN_QUERY_LENGTH = 2;
 
 // Search debounce latency in milliseconds
 export const SEARCH_DEBOUNCE_DELAY_MS = 300;
+
+// Search overlay keyboard shortcuts reference
+export const SEARCH_SHORTCUTS = {
+  close: 'Escape',
+  navigateDown: 'ArrowDown',
+  navigateUp: 'ArrowUp',
+  select: 'Enter',
+} as const;
