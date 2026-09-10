@@ -11,7 +11,7 @@ import { UnauthorizedError, ForbiddenError, NotFoundError, AppError } from '@/li
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const rawSessionToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
@@ -24,7 +24,7 @@ export async function GET(
       throw new UnauthorizedError('Session expired or invalid');
     }
 
-    const orderIdOrNumber = params.id;
+    const { id: orderIdOrNumber } = await context.params;
     const order = await orderRepository.findByIdOrNumber(orderIdOrNumber);
 
     if (!order) {
