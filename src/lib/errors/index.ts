@@ -18,6 +18,13 @@ export type ErrorCode =
   | 'VALIDATION_ERROR'
   | 'PAYMENT_FAILED'
   | 'PAYMENT_REQUIRED'
+  | 'UNAUTHORIZED'
+  | 'FORBIDDEN'
+  | 'INVALID_CREDENTIALS'
+  | 'DUPLICATE_ACCOUNT'
+  | 'ACCOUNT_SUSPENDED'
+  | 'INVALID_TOKEN'
+  | 'RATE_LIMITED'
   | 'INTERNAL_ERROR';
 
 export class AppError extends Error {
@@ -70,3 +77,46 @@ export class IdempotencyConflictError extends AppError {
     super(message, 'IDEMPOTENCY_CONFLICT', 409);
   }
 }
+
+export class UnauthorizedError extends AppError {
+  constructor(message = 'Authentication required to access this resource') {
+    super(message, 'UNAUTHORIZED', 401);
+  }
+}
+
+export class ForbiddenError extends AppError {
+  constructor(message = 'You do not have permission to access this resource') {
+    super(message, 'FORBIDDEN', 403);
+  }
+}
+
+export class InvalidCredentialsError extends AppError {
+  constructor(message = 'Invalid email address or password') {
+    super(message, 'INVALID_CREDENTIALS', 401);
+  }
+}
+
+export class DuplicateAccountError extends AppError {
+  constructor(message = 'An account with this email address already exists') {
+    super(message, 'DUPLICATE_ACCOUNT', 409);
+  }
+}
+
+export class AccountSuspendedError extends AppError {
+  constructor(message = 'Account has been suspended. Please contact customer support') {
+    super(message, 'ACCOUNT_SUSPENDED', 403);
+  }
+}
+
+export class InvalidTokenError extends AppError {
+  constructor(message = 'Token is invalid, expired, or has already been used') {
+    super(message, 'INVALID_TOKEN', 400);
+  }
+}
+
+export class RateLimitedError extends AppError {
+  constructor(message = 'Too many requests. Please try again later') {
+    super(message, 'RATE_LIMITED', 429);
+  }
+}
+
