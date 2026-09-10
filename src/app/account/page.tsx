@@ -1,173 +1,505 @@
 /**
  * @page Account
- * @description Customer portal for managing order history, saved addresses, and profile details.
+ * @description Customer portal for authentication, order history, saved addresses, and profile details.
+ * Connects directly to server-authoritative authentication & account APIs.
  */
 'use client';
 
-import React, { useState } from 'react';
-import { LogIn, ShoppingBag, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { LogIn, ShoppingBag, MapPin, User, LogOut, Plus, Trash2, Edit } from 'lucide-react';
 import styles from './account.module.css';
 
+interface CustomerProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  marketingConsent: boolean;
+  accountStatus: string;
+  createdAt: string;
+}
+
+interface AddressItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  landmark?: string;
+  addressType: 'HOME' | 'WORK' | 'OTHER';
+  isDefault: boolean;
+}
+
+interface OrderItem {
+  id: string;
+  orderNumber: string;
+  status: string;
+  grandTotal: number; // in paise
+  createdAt: string;
+  items: Array<{
+    productTitle: string;
+    size: string;
+    color: string;
+    quantity: number;
+    unitPrice: number;
+  }>;
+}
+
 export default function AccountPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [customer, setCustomer] = useState<CustomerProfile | null>(null);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+
+  // Form states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState('');
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [isAddingAddress, setIsAddingAddress] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setErrors('Please fill in all fields.');
-      return;
+  // Account dashboard state
+  const [orders, setOrders] = useState<OrderItem[]>([]);
+  const [addresses, setAddresses] = useState<AddressItem[]>([]);
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
+
+  // Address form fields
+  const [addrFirstName, setAddrFirstName] = useState('');
+  const [addrLastName, setAddrLastName] = useState('');
+  const [addrPhone, setAddrPhone] = useState('');
+  const [addrLine1, setAddrLine1] = useState('');
+  const [addrLine2, setAddrLine2] = useState('');
+  const [addrCity, setAddrCity] = useState('');
+  const [addrState, setAddrState] = useState('');
+  const [addrPostalCode, setAddrPostalCode] = useState('');
+
+  const fetchOrders = async () => {
+    try {
+      const res = await fetch('/api/account/orders');
+      const data = await res.json();
+      if (data.success && data.data) {
+        setOrders(data.data);
+      }
+    } catch {
+      setOrders([]);
     }
-    setErrors('');
-    setIsLoggedIn(true);
   };
 
-  const mockOrders = [
-    {
-      id: 'YP-882319',
-      date: 'June 02, 2026',
-      total: 18500,
-      status: 'Delivered',
-      items: 'Brown Wildloom Heavyweight Hoodie (Size: M)'
-    },
-    {
-      id: 'YP-821903',
-      date: 'May 14, 2026',
-      total: 3500,
-      status: 'Processing',
-      items: 'Basics Oversized Tee - Off White (Size: S)'
+  const fetchAddresses = async () => {
+    try {
+      const res = await fetch('/api/account/addresses');
+      const data = await res.json();
+      if (data.success && data.data) {
+        setAddresses(data.data);
+      }
+    } catch {
+      setAddresses([]);
     }
-  ];
+  };
+
+  // Initial session check
+  useEffect(() => {
+    let active = true;
+    fetch('/api/auth/session')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!active) return;
+        if (data.authenticated && data.customer) {
+          setCustomer(data.customer);
+          fetchOrders();
+          fetchAddresses();
+        } else {
+          setCustomer(null);
+        }
+      })
+      .catch(() => {
+        if (active) setCustomer(null);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+    setSubmitting(true);
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Login failed. Please verify credentials.');
+        return;
+      }
+
+      setCustomer(data.data.customer);
+      await Promise.all([fetchOrders(), fetchAddresses()]);
+    } catch {
+      setErrorMsg('Network error occurred. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (password !== confirmPassword) {
+      setErrorMsg('Passwords do not match');
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone: phone || undefined,
+          password,
+          confirmPassword,
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Registration failed. Please check your information.');
+        return;
+      }
+
+      setCustomer(data.data.customer);
+      await Promise.all([fetchOrders(), fetchAddresses()]);
+    } catch {
+      setErrorMsg('Network error occurred during registration.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // Clean local state regardless
+    } finally {
+      setCustomer(null);
+      setOrders([]);
+      setAddresses([]);
+    }
+  };
+
+  const handleSaveAddress = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    const payload = {
+      firstName: addrFirstName,
+      lastName: addrLastName,
+      phone: addrPhone,
+      addressLine1: addrLine1,
+      addressLine2: addrLine2 || undefined,
+      city: addrCity,
+      state: addrState,
+      postalCode: addrPostalCode,
+      country: 'IN',
+    };
+
+    try {
+      let res;
+      if (editingAddressId) {
+        res = await fetch(`/api/account/addresses/${editingAddressId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        res = await fetch('/api/account/addresses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Failed to save address');
+        return;
+      }
+
+      setShowAddressForm(false);
+      setEditingAddressId(null);
+      resetAddressForm();
+      await fetchAddresses();
+    } catch {
+      setErrorMsg('Error saving address');
+    }
+  };
+
+  const handleDeleteAddress = async (id: string) => {
+    try {
+      const res = await fetch(`/api/account/addresses/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        await fetchAddresses();
+      }
+    } catch {
+      setErrorMsg('Failed to delete address');
+    }
+  };
+
+  const startEditAddress = (addr: AddressItem) => {
+    setEditingAddressId(addr.id);
+    setAddrFirstName(addr.firstName);
+    setAddrLastName(addr.lastName);
+    setAddrPhone(addr.phone);
+    setAddrLine1(addr.addressLine1);
+    setAddrLine2(addr.addressLine2 || '');
+    setAddrCity(addr.city);
+    setAddrState(addr.state);
+    setAddrPostalCode(addr.postalCode);
+    setShowAddressForm(true);
+  };
+
+  const resetAddressForm = () => {
+    setAddrFirstName('');
+    setAddrLastName('');
+    setAddrPhone('');
+    setAddrLine1('');
+    setAddrLine2('');
+    setAddrCity('');
+    setAddrState('');
+    setAddrPostalCode('');
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.container} style={{ textAlign: 'center', padding: '80px 20px' }}>
+        <p style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--color-text-muted)' }}>
+          Loading account status...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
-      {!isLoggedIn ? (
+      {!customer ? (
         <div className={styles.loginCard}>
           <div style={{ textAlign: 'center', marginBottom: 24 }}>
             <LogIn size={40} style={{ color: 'var(--color-accent)' }} />
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 900, textTransform: 'uppercase', marginTop: 12 }}>
-              Account Login
+              {authMode === 'login' ? 'Account Login' : 'Create Account'}
             </h1>
             <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginTop: 4 }}>
-              Sign in to manage orders and saved details.
+              {authMode === 'login'
+                ? 'Sign in to access your order history and saved addresses.'
+                : 'Join Yaperz for seamless streetwear shopping and order tracking.'}
             </p>
           </div>
 
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={{ border: '1px solid var(--color-border)', padding: 12, fontSize: 14 }}
-                placeholder="name@email.com"
-              />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ border: '1px solid var(--color-border)', padding: 12, fontSize: 14 }}
-                placeholder="••••••••"
-              />
-            </div>
-
-            {errors && <p style={{ fontSize: 12, color: 'var(--color-error)' }}>{errors}</p>}
-
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', marginBottom: 20 }}>
             <button
-              type="submit"
+              type="button"
+              onClick={() => { setAuthMode('login'); setErrorMsg(''); }}
               style={{
-                backgroundColor: 'var(--color-text-primary)',
-                color: '#fff',
-                padding: 14,
-                fontSize: 13,
+                flex: 1,
+                padding: '10px 0',
+                fontSize: 12,
                 fontWeight: 700,
                 textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginTop: 8,
-                cursor: 'pointer',
-                border: 'none'
+                borderBottom: authMode === 'login' ? '2px solid var(--color-text-primary)' : 'none',
+                color: authMode === 'login' ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
               }}
             >
               Sign In
             </button>
-            
-            <div style={{ display: 'flex', alignItems: 'center', margin: '16px 0', color: 'var(--color-text-muted)' }}>
-              <div style={{ flex: 1, height: 1, backgroundColor: 'var(--color-border)' }} />
-              <span style={{ padding: '0 12px', fontSize: 12, fontWeight: 600 }}>OR</span>
-              <div style={{ flex: 1, height: 1, backgroundColor: 'var(--color-border)' }} />
-            </div>
-
             <button
               type="button"
-              onClick={() => {
-                setEmail('google.user@gmail.com');
-                setIsLoggedIn(true);
-              }}
+              onClick={() => { setAuthMode('register'); setErrorMsg(''); }}
               style={{
-                backgroundColor: '#fff',
-                color: 'var(--color-text-primary)',
-                border: '1px solid var(--color-border-dark)',
-                padding: 14,
-                fontSize: 13,
+                flex: 1,
+                padding: '10px 0',
+                fontSize: 12,
                 fontWeight: 700,
                 textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12
+                borderBottom: authMode === 'register' ? '2px solid var(--color-text-primary)' : 'none',
+                color: authMode === 'register' ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-              Continue with Google
+              Create Account
             </button>
+          </div>
 
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('+91 98765 43210');
-                setIsLoggedIn(true);
-              }}
-              style={{
-                backgroundColor: '#fff',
-                color: 'var(--color-text-primary)',
-                border: '1px solid var(--color-border-dark)',
-                padding: 14,
-                fontSize: 13,
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-              </svg>
-              Continue with Phone
-            </button>
-          </form>
+          {authMode === 'login' ? (
+            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ border: '1px solid var(--color-border)', padding: 12, fontSize: 14 }}
+                  placeholder="name@email.com"
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ border: '1px solid var(--color-border)', padding: 12, fontSize: 14 }}
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {errorMsg && <p style={{ fontSize: 12, color: 'var(--color-error)' }}>{errorMsg}</p>}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                style={{
+                  backgroundColor: 'var(--color-text-primary)',
+                  color: '#fff',
+                  padding: 14,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  marginTop: 8,
+                  cursor: submitting ? 'not-allowed' : 'pointer',
+                  border: 'none',
+                  opacity: submitting ? 0.7 : 1,
+                }}
+              >
+                {submitting ? 'Authenticating...' : 'Sign In'}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>First Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    style={{ border: '1px solid var(--color-border)', padding: 10, fontSize: 13 }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Last Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    style={{ border: '1px solid var(--color-border)', padding: 10, fontSize: 13 }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Email Address</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ border: '1px solid var(--color-border)', padding: 10, fontSize: 13 }}
+                  placeholder="name@email.com"
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Phone (Optional)</label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  style={{ border: '1px solid var(--color-border)', padding: 10, fontSize: 13 }}
+                  placeholder="9876543210"
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Password (Min 8 chars)</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ border: '1px solid var(--color-border)', padding: 10, fontSize: 13 }}
+                  placeholder="••••••••"
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Confirm Password</label>
+                <input
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  style={{ border: '1px solid var(--color-border)', padding: 10, fontSize: 13 }}
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {errorMsg && <p style={{ fontSize: 12, color: 'var(--color-error)' }}>{errorMsg}</p>}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                style={{
+                  backgroundColor: 'var(--color-text-primary)',
+                  color: '#fff',
+                  padding: 14,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  marginTop: 6,
+                  cursor: submitting ? 'not-allowed' : 'pointer',
+                  border: 'none',
+                  opacity: submitting ? 0.7 : 1,
+                }}
+              >
+                {submitting ? 'Creating Account...' : 'Register'}
+              </button>
+            </form>
+          )}
         </div>
       ) : (
         <div>
@@ -177,98 +509,162 @@ export default function AccountPage() {
                 My Account
               </h1>
               <p style={{ fontSize: 14, color: 'var(--color-text-muted)' }}>
-                Welcome back, {email.split('@')[0]}
+                Welcome back, {customer.firstName} {customer.lastName} ({customer.email})
               </p>
             </div>
             <button
-              onClick={() => setIsLoggedIn(false)}
-              style={{ border: '1px solid var(--color-border-dark)', padding: '8px 20px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}
+              onClick={handleLogout}
+              style={{
+                border: '1px solid var(--color-border-dark)',
+                padding: '8px 20px',
+                fontSize: 12,
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+              }}
             >
-              Log Out
+              <LogOut size={16} /> Log Out
             </button>
           </div>
 
           <div className={styles.grid}>
-            {/* Left column: Orders */}
+            {/* Left column: Order History */}
             <div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800, textTransform: 'uppercase', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <ShoppingBag size={18} /> Order History
               </h2>
-              {mockOrders.map((ord) => (
-                <div key={ord.id} className={styles.card} style={{ marginBottom: 16 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                    <span style={{ fontWeight: 700, color: 'var(--color-accent)' }}>{ord.id}</span>
-                    <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>{ord.date}</span>
-                  </div>
-                  <p style={{ fontSize: 13, fontWeight: 600 }}>{ord.items}</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, borderTop: '1px solid var(--color-border)', paddingTop: 12, fontSize: 13 }}>
-                    <span>Total: <strong>₹ {ord.total.toLocaleString('en-IN')}</strong></span>
-                    <span style={{
-                      color: ord.status === 'Delivered' ? 'var(--color-success)' : 'var(--color-accent)',
-                      fontWeight: 700
-                    }}>
-                      {ord.status}
-                    </span>
-                  </div>
+
+              {orders.length === 0 ? (
+                <div className={styles.card} style={{ textAlign: 'center', padding: '32px 16px' }}>
+                  <p style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>No orders placed yet.</p>
                 </div>
-              ))}
+              ) : (
+                orders.map((ord) => (
+                  <div key={ord.id} className={styles.card} style={{ marginBottom: 16 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                      <span style={{ fontWeight: 700, color: 'var(--color-accent)' }}>{ord.orderNumber}</span>
+                      <span style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>
+                        {new Date(ord.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: 13, display: 'flex', flexDirection: 'column', gap: 4, margin: '8px 0' }}>
+                      {ord.items.map((item, idx) => (
+                        <p key={idx} style={{ margin: 0, fontWeight: 600 }}>
+                          {item.productTitle} ({item.size} / {item.color}) × {item.quantity}
+                        </p>
+                      ))}
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, borderTop: '1px solid var(--color-border)', paddingTop: 12, fontSize: 13 }}>
+                      <span>Total: <strong>₹ {(ord.grandTotal / 100).toLocaleString('en-IN')}</strong></span>
+                      <span style={{
+                        color: ord.status === 'DELIVERED' ? 'var(--color-success)' : 'var(--color-accent)',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        fontSize: 12
+                      }}>
+                        {ord.status}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
 
-            {/* Right column: Address */}
+            {/* Right column: Address Book */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 8, margin: 0 }}>
                   <MapPin size={18} /> Addresses
                 </h2>
-                {!isAddingAddress && !isEditingAddress && (
-                  <button 
-                    onClick={() => setIsAddingAddress(true)}
-                    style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-accent)' }}>
-                    + Add New
+                {!showAddressForm && (
+                  <button
+                    onClick={() => { resetAddressForm(); setEditingAddressId(null); setShowAddressForm(true); }}
+                    style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-accent)', cursor: 'pointer', background: 'none', border: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
+                  >
+                    <Plus size={14} /> Add New
                   </button>
                 )}
               </div>
 
-              {(isEditingAddress || isAddingAddress) ? (
-                <div className={styles.card}>
+              {showAddressForm ? (
+                <form onSubmit={handleSaveAddress} className={styles.card}>
                   <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 16 }}>
-                    {isEditingAddress ? 'Edit Address' : 'Add New Address'}
+                    {editingAddressId ? 'Edit Address' : 'Add New Address'}
                   </h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    <input type="text" placeholder="Full Name" defaultValue={isEditingAddress ? email.split('@')[0] : ''} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
-                    <input type="text" placeholder="Address Line 1" defaultValue={isEditingAddress ? 'M-81, Block M, GK-II' : ''} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
-                    <input type="text" placeholder="City" defaultValue={isEditingAddress ? 'New Delhi' : ''} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
-                    <input type="text" placeholder="Postal Code" defaultValue={isEditingAddress ? '110048' : ''} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <input type="text" placeholder="First Name" required value={addrFirstName} onChange={(e) => setAddrFirstName(e.target.value)} style={{ flex: 1, padding: 10, border: '1px solid var(--color-border)' }} />
+                      <input type="text" placeholder="Last Name" required value={addrLastName} onChange={(e) => setAddrLastName(e.target.value)} style={{ flex: 1, padding: 10, border: '1px solid var(--color-border)' }} />
+                    </div>
+                    <input type="tel" placeholder="Phone Number" required value={addrPhone} onChange={(e) => setAddrPhone(e.target.value)} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
+                    <input type="text" placeholder="Address Line 1" required value={addrLine1} onChange={(e) => setAddrLine1(e.target.value)} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
+                    <input type="text" placeholder="Address Line 2 (Optional)" value={addrLine2} onChange={(e) => setAddrLine2(e.target.value)} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <input type="text" placeholder="City" required value={addrCity} onChange={(e) => setAddrCity(e.target.value)} style={{ flex: 1, padding: 10, border: '1px solid var(--color-border)' }} />
+                      <input type="text" placeholder="State" required value={addrState} onChange={(e) => setAddrState(e.target.value)} style={{ flex: 1, padding: 10, border: '1px solid var(--color-border)' }} />
+                    </div>
+                    <input type="text" placeholder="Postal Code (6 digits)" required value={addrPostalCode} onChange={(e) => setAddrPostalCode(e.target.value)} style={{ padding: 10, border: '1px solid var(--color-border)' }} />
+
                     <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-                      <button 
-                        onClick={() => { setIsEditingAddress(false); setIsAddingAddress(false); }}
-                        style={{ flex: 1, padding: 12, backgroundColor: 'var(--color-text-primary)', color: '#fff', fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>
+                      <button
+                        type="submit"
+                        style={{ flex: 1, padding: 12, backgroundColor: 'var(--color-text-primary)', color: '#fff', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', cursor: 'pointer', border: 'none' }}
+                      >
                         Save
                       </button>
-                      <button 
-                        onClick={() => { setIsEditingAddress(false); setIsAddingAddress(false); }}
-                        style={{ flex: 1, padding: 12, border: '1px solid var(--color-border-dark)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase' }}>
+                      <button
+                        type="button"
+                        onClick={() => { setShowAddressForm(false); setEditingAddressId(null); }}
+                        style={{ flex: 1, padding: 12, border: '1px solid var(--color-border-dark)', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', cursor: 'pointer', background: 'none' }}
+                      >
                         Cancel
                       </button>
                     </div>
                   </div>
+                </form>
+              ) : addresses.length === 0 ? (
+                <div className={styles.card} style={{ textAlign: 'center', padding: '32px 16px' }}>
+                  <p style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>No saved delivery addresses.</p>
                 </div>
               ) : (
-                <div className={styles.card}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <p style={{ fontWeight: 600, fontSize: 14 }}>{email.split('@')[0]} <span style={{ fontSize: 10, backgroundColor: 'var(--color-border)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>DEFAULT</span></p>
+                addresses.map((addr) => (
+                  <div key={addr.id} className={styles.card} style={{ marginBottom: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <p style={{ fontWeight: 600, fontSize: 14, margin: 0 }}>
+                        {addr.firstName} {addr.lastName}
+                        {addr.isDefault && (
+                          <span style={{ fontSize: 10, backgroundColor: 'var(--color-border)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>DEFAULT</span>
+                        )}
+                      </p>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button
+                          onClick={() => startEditAddress(addr)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }}
+                          title="Edit Address"
+                        >
+                          <Edit size={14} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteAddress(addr.id)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-error)' }}
+                          title="Delete Address"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                    <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginTop: 8, lineHeight: 1.6 }}>
+                      {addr.addressLine1} {addr.addressLine2 ? `, ${addr.addressLine2}` : ''}<br />
+                      {addr.city}, {addr.state} {addr.postalCode}<br />
+                      India | Phone: {addr.phone}
+                    </p>
                   </div>
-                  <p style={{ fontSize: 13, color: 'var(--color-text-muted)', marginTop: 8, lineHeight: 1.6 }}>
-                    M-81, Block M, GK-II<br />
-                    New Delhi, Delhi 110048<br />
-                    India
-                  </p>
-                  <button 
-                    onClick={() => setIsEditingAddress(true)}
-                    style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', borderBottom: '2px solid var(--color-text-primary)', marginTop: 16 }}>
-                    Edit Details
-                  </button>
-                </div>
+                ))
               )}
             </div>
           </div>
