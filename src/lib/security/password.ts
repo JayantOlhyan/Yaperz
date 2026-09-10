@@ -3,10 +3,7 @@
  * @description Cryptographic utilities for password hashing (scrypt) and secure token generation/hashing.
  */
 
-import { scrypt, randomBytes, timingSafeEqual, createHash } from 'crypto';
-import { promisify } from 'util';
-
-const scryptAsync = promisify(scrypt);
+import { scryptSync, randomBytes, timingSafeEqual, createHash } from 'crypto';
 
 const SCRYPT_PARAMS = {
   N: 16384,
@@ -24,16 +21,16 @@ export function normalizeEmail(email: string): string {
 }
 
 /**
- * Hashes a plaintext password using Node's crypto.scrypt.
+ * Hashes a plaintext password using Node's native crypto.scryptSync.
  * Output format: scrypt$N=16384,r=8,p=1$<saltHex>$<derivedKeyHex>
  */
 export async function hashPassword(password: string): Promise<string> {
   const salt = randomBytes(SCRYPT_PARAMS.saltLen);
-  const derivedKey = (await scryptAsync(password, salt, SCRYPT_PARAMS.keylen, {
+  const derivedKey = scryptSync(password, salt, SCRYPT_PARAMS.keylen, {
     N: SCRYPT_PARAMS.N,
     r: SCRYPT_PARAMS.r,
     p: SCRYPT_PARAMS.p,
-  })) as Buffer;
+  });
 
   return `scrypt$N=${SCRYPT_PARAMS.N},r=${SCRYPT_PARAMS.r},p=${SCRYPT_PARAMS.p}$${salt.toString('hex')}$${derivedKey.toString('hex')}`;
 }
@@ -61,11 +58,11 @@ export async function verifyPassword(password: string, storedHash: string): Prom
     const salt = Buffer.from(saltHex, 'hex');
     const keyBuffer = Buffer.from(keyHex, 'hex');
 
-    const derivedKey = (await scryptAsync(password, salt, keyBuffer.length, {
+    const derivedKey = scryptSync(password, salt, keyBuffer.length, {
       N: params.N || SCRYPT_PARAMS.N,
       r: params.r || SCRYPT_PARAMS.r,
       p: params.p || SCRYPT_PARAMS.p,
-    })) as Buffer;
+    });
 
     if (derivedKey.length !== keyBuffer.length) {
       return false;
