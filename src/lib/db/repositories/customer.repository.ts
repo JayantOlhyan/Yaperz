@@ -1,7 +1,7 @@
 /**
  * @file customer.repository.ts
- * @description Customer and Address Data Access Layer.
- * Manages customer profiles, saved delivery destinations, and account history lookup.
+ * @description Customer Data Access Layer.
+ * Manages customer profiles, registration persistence, and account status updates.
  */
 
 import { AddressInput } from '../../validation/checkout.schema';
@@ -14,30 +14,87 @@ export interface CustomerRecord {
   lastName: string;
   marketingConsent: boolean;
   accountStatus: 'ACTIVE' | 'SUSPENDED' | 'GUEST';
+  externalAuthId?: string;
   savedAddresses: Array<AddressInput & { id: string; isDefault: boolean }>;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const customerStore = new Map<string, CustomerRecord>(); // email -> CustomerRecord
+const customerStore = new Map<string, CustomerRecord>(); // customerId -> CustomerRecord
+const emailIndex = new Map<string, string>(); // normalized email -> customerId
 
 export class CustomerRepository {
   /**
-   * Finds customer by email.
+   * Finds customer by email (deterministic normalization).
    */
   async findByEmail(email: string): Promise<CustomerRecord | null> {
     const key = email.toLowerCase().trim();
-    return customerStore.get(key) || null;
+    const id = emailIndex.get(key);
+    if (!id) return null;
+    return customerStore.get(id) || null;
   }
 
   /**
    * Finds customer by ID.
    */
   async findById(id: string): Promise<CustomerRecord | null> {
-    for (const cust of customerStore.values()) {
-      if (cust.id === id) return cust;
+    return customerStore.get(id) || null;
+  }
+
+  /**
+   * Creates a new registered customer record.
+   */
+  async createCustomer(data: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone?: string;
+    marketingConsent?: boolean;
+    accountStatus?: 'ACTIVE' | 'SUSPENDED' | 'GUEST';
+  }): Promise<CustomerRecord> {
+    const key = data.email.toLowerCase().trim();
+    if (emailIndex.has(key)) {
+      throw new Error('Customer with this email already exists');
     }
-    return null;
+
+    const id = `cust-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const record: CustomerRecord = {
+      id,
+      email: key,
+      phone: data.phone,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      marketingConsent: data.marketingConsent || false,
+      accountStatus: data.accountStatus || 'ACTIVE',
+      savedAddresses: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    customerStore.set(id, record);
+    emailIndex.set(key, id);
+    return record;
+  }
+
+  /**
+   * Updates an existing customer profile.
+   */
+  async updateCustomer(
+    id: string,
+    data: Partial<Pick<CustomerRecord, 'firstName' | 'lastName' | 'phone' | 'marketingConsent' | 'accountStatus'>>
+  ): Promise<CustomerRecord | null> {
+    const record = customerStore.get(id);
+    if (!record) return null;
+
+    if (data.firstName !== undefined) record.firstName = data.firstName;
+    if (data.lastName !== undefined) record.lastName = data.lastName;
+    if (data.phone !== undefined) record.phone = data.phone;
+    if (data.marketingConsent !== undefined) record.marketingConsent = data.marketingConsent;
+    if (data.accountStatus !== undefined) record.accountStatus = data.accountStatus;
+    record.updatedAt = new Date();
+
+    customerStore.set(id, record);
+    return record;
   }
 
   /**
@@ -51,7 +108,7 @@ export class CustomerRepository {
     address?: AddressInput;
   }): Promise<CustomerRecord> {
     const key = data.email.toLowerCase().trim();
-    const existing = customerStore.get(key);
+    const existing = await this.findByEmail(key);
 
     if (existing) {
       existing.phone = data.phone;
@@ -74,27 +131,36 @@ export class CustomerRepository {
         }
       }
 
-      customerStore.set(key, existing);
+      customerStore.set(existing.id, existing);
       return existing;
     }
 
-    const newCustomer: CustomerRecord = {
-      id: `cust-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+    const newCustomer = await this.createCustomer({
       email: key,
       phone: data.phone,
       firstName: data.firstName,
       lastName: data.lastName,
-      marketingConsent: false,
       accountStatus: 'GUEST',
-      savedAddresses: data.address
-        ? [{ id: `addr-${Date.now()}`, ...data.address, isDefault: true }]
-        : [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    });
 
-    customerStore.set(key, newCustomer);
+    if (data.address) {
+      newCustomer.savedAddresses.push({
+        id: `addr-${Date.now()}`,
+        ...data.address,
+        isDefault: true,
+      });
+    }
+
+    customerStore.set(newCustomer.id, newCustomer);
     return newCustomer;
+  }
+
+  /**
+   * Resets customer store for testing.
+   */
+  public resetForTesting() {
+    customerStore.clear();
+    emailIndex.clear();
   }
 }
 
