@@ -6,7 +6,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { LogIn, ShoppingBag, MapPin, User, LogOut, Plus, Trash2, Edit } from 'lucide-react';
+import { LogIn, ShoppingBag, MapPin, LogOut, Plus, Trash2, Edit } from 'lucide-react';
 import styles from './account.module.css';
 
 interface CustomerProfile {
