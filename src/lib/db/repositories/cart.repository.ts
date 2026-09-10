@@ -1,7 +1,7 @@
 /**
  * @file cart.repository.ts
  * @description Server-Side Cart Repository.
- * Manages persistent user sessions, line-item quantities, and variant associations.
+ * Manages persistent user sessions, line-item quantities, variant associations, and customer cart lookup.
  */
 
 export interface PersistedCartItem {
@@ -49,6 +49,18 @@ export class CartRepository {
 
     cartsStore.set(sessionToken, newCart);
     return newCart;
+  }
+
+  /**
+   * Finds a cart by customer ID.
+   */
+  async findByCustomerId(customerId: string): Promise<PersistedCart | null> {
+    for (const cart of cartsStore.values()) {
+      if (cart.customerId === customerId) {
+        return cart;
+      }
+    }
+    return null;
   }
 
   /**
@@ -118,6 +130,20 @@ export class CartRepository {
     cart.updatedAt = new Date();
     cartsStore.set(sessionToken, cart);
     return cart;
+  }
+
+  /**
+   * Deletes a cart completely (e.g. after merging guest cart).
+   */
+  async deleteCart(sessionToken: string): Promise<void> {
+    cartsStore.delete(sessionToken);
+  }
+
+  /**
+   * Resets carts store for testing.
+   */
+  public resetForTesting() {
+    cartsStore.clear();
   }
 }
 
