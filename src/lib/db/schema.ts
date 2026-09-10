@@ -609,6 +609,62 @@ export const auditLogs = pgTable(
 );
 
 // ============================================================================
+// AUTHENTICATION & SESSIONS
+// ============================================================================
+
+export const customerCredentials = pgTable(
+  'customer_credentials',
+  {
+    id: text('id').primaryKey(),
+    customerId: text('customer_id')
+      .notNull()
+      .unique()
+      .references(() => customers.id, { onDelete: 'cascade' }),
+    passwordHash: text('password_hash').notNull(),
+    passwordAlgo: text('password_algo').notNull().default('scrypt'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex('idx_cust_cred_customer').on(table.customerId)]
+);
+
+export const sessions = pgTable(
+  'sessions',
+  {
+    id: text('id').primaryKey(),
+    tokenHash: text('token_hash').notNull().unique(),
+    customerId: text('customer_id')
+      .notNull()
+      .references(() => customers.id, { onDelete: 'cascade' }),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    lastActiveAt: timestamp('last_active_at', { withTimezone: true }).notNull().defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('idx_sessions_token_hash').on(table.tokenHash),
+    index('idx_sessions_customer').on(table.customerId),
+  ]
+);
+
+export const passwordResetTokens = pgTable(
+  'password_reset_tokens',
+  {
+    id: text('id').primaryKey(),
+    tokenHash: text('token_hash').notNull().unique(),
+    customerId: text('customer_id')
+      .notNull()
+      .references(() => customers.id, { onDelete: 'cascade' }),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    usedAt: timestamp('used_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('idx_pwd_reset_token_hash').on(table.tokenHash),
+    index('idx_pwd_reset_customer').on(table.customerId),
+  ]
+);
+
+// ============================================================================
 // RELATIONS
 // ============================================================================
 
@@ -647,6 +703,38 @@ export const productCollectionsRelations = relations(productCollections, ({ one 
   }),
 }));
 
+export const customersRelations = relations(customers, ({ one, many }) => ({
+  credentials: one(customerCredentials, {
+    fields: [customers.id],
+    references: [customerCredentials.customerId],
+  }),
+  sessions: many(sessions),
+  addresses: many(customerAddresses),
+  orders: many(orders),
+  resetTokens: many(passwordResetTokens),
+}));
+
+export const customerCredentialsRelations = relations(customerCredentials, ({ one }) => ({
+  customer: one(customers, {
+    fields: [customerCredentials.customerId],
+    references: [customers.id],
+  }),
+}));
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  customer: one(customers, {
+    fields: [sessions.customerId],
+    references: [customers.id],
+  }),
+}));
+
+export const passwordResetTokensRelations = relations(passwordResetTokens, ({ one }) => ({
+  customer: one(customers, {
+    fields: [passwordResetTokens.customerId],
+    references: [customers.id],
+  }),
+}));
+
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   customer: one(customers, {
     fields: [orders.customerId],
@@ -672,3 +760,4 @@ export const orderItemsRelations = relations(orderItems, ({ one }) => ({
     references: [orders.id],
   }),
 }));
+
