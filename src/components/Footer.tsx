@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
                 <Link href="/collaborations">Collaborations</Link>
               </li>
               <li className={styles.linkItem}>
-                <Link href="/careers">Careers</Link>
+                <a href="mailto:careers@yaperz.com">Careers</a>
               </li>
             </ul>
           </div>

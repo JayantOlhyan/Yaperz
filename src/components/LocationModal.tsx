@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import styles from './LocationModal.module.css';
 
-interface Location {
+export interface Location {
   code: string;
   currency: string;
   symbol: string;

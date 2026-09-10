@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search, User, ShoppingBag, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { LocationModal } from './LocationModal';
+import { LocationModal, Location } from './LocationModal';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -36,14 +36,15 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
     const saved = localStorage.getItem('yaperz_location');
     if (saved) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedLocation(JSON.parse(saved));
-      } catch (e) {
+      } catch {
         // Ignore
       }
     }
   }, []);
 
-  const handleSelectLocation = (location: any) => {
+  const handleSelectLocation = (location: Location) => {
     setSelectedLocation(location);
     localStorage.setItem('yaperz_location', JSON.stringify(location));
     setIsLocationOpen(false);
@@ -78,6 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
 
   // Auto-close menu when path changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMenuOpen(false);
   }, [pathname]);
 
@@ -123,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
                       <Link href="/collections/t-shirts" className={styles.megaLink}>Polo Shirts</Link>
                       <Link href="/collections/t-shirts" className={styles.megaLink}>Shirts</Link>
                       <Link href="/collections/t-shirts" className={styles.megaLink}>3 for 2 Tops</Link>
-                      <Link href="/collections/summer-basics" className={styles.megaLink}>The Father's Day Edit</Link>
+                      <Link href="/collections/summer-basics" className={styles.megaLink}>The Father&apos;s Day Edit</Link>
                     </div>
                     <div className={styles.megaMenuColumn}>
                       <Link href="/collections/summer-basics" className={styles.megaLink}>Linen Collection</Link>

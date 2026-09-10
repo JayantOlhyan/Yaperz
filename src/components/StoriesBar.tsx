@@ -68,7 +68,7 @@ export const StoriesBar: React.FC = () => {
       thumbnail: '/images/hero-desktop.png',
       media: '/images/hero-desktop.png',
       ctaText: 'Visit Stores',
-      ctaLink: '/store'
+      ctaLink: '/about-us'
     }
   ];
 

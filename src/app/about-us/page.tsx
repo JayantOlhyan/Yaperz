@@ -28,12 +28,12 @@ export default function AboutUsPage() {
         </p>
 
         <h2 className={`${styles.quote} font-editorial`}>
-          "We don't make clothes for genders. We make clothes for the community."
+          &ldquo;We don&apos;t make clothes for genders. We make clothes for the community.&rdquo;
         </h2>
 
         <p className="font-editorial">
           Every piece in our catalog is engineered starting from the yarn. We prioritize fabrics with substantial
-          heft, mock-neck ribs that don't stretch out, dropped shoulders that drape naturally, and detailed
+          heft, mock-neck ribs that don&apos;t stretch out, dropped shoulders that drape naturally, and detailed
           graphics executed with premium puff print and heavy thread embroideries.
         </p>
 
@@ -55,7 +55,7 @@ export default function AboutUsPage() {
             <div className={styles.timelineRow}>
               <span className={styles.year}>2022</span>
               <p className={styles.desc}>
-                Launched the first 'Racing Club' collection, establishing our signature heavyweight silhouettes.
+                Launched the first &apos;Racing Club&apos; collection, establishing our signature heavyweight silhouettes.
               </p>
             </div>
             <div className={styles.timelineRow}>
@@ -78,7 +78,7 @@ export default function AboutUsPage() {
 }
 
 // Brand founding milestone year
-export const BRAND_FOUNDED_YEAR = 2024;
+export const BRAND_FOUNDED_YEAR = 2020;
 
 // Core brand design tenets
 export const BRAND_TENETS = ['Architectural Fits', 'Heavyweight Fabrics', 'Uncompromised Longevity'] as const;

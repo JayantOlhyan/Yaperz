@@ -45,6 +45,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   // Init color once product is found
   React.useEffect(() => {
     if (product) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedColor(product.colors[0]);
       setSelectedSize(null);
       setActiveImageIndex(0);

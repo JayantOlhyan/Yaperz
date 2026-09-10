@@ -11,7 +11,7 @@ export default function ReturnsPolicyPage() {
 
       <div className={styles.content}>
         <p>
-          We want you to love your streetwear. If a fit isn't right, we offer hassle-free returns and exchanges within 7 days of delivery.
+          We want you to love your streetwear. If a fit isn&apos;t right, we offer hassle-free returns and exchanges within 7 days of delivery.
         </p>
 
         <h2>1. Return & Exchange Window</h2>

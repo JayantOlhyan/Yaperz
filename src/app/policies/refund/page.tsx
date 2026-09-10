@@ -42,7 +42,7 @@ export default function RefundPolicyPage() {
         </p>
         <ul>
           <li><strong>UPI:</strong> 1 to 2 business days.</li>
-          <li><strong>Netbanking / Cards:</strong> 3 to 5 business days, depending on your bank's processing cycles.</li>
+          <li><strong>Netbanking / Cards:</strong> 3 to 5 business days, depending on your bank&apos;s processing cycles.</li>
         </ul>
 
         <h2>4. Non-Refundable Charges</h2>

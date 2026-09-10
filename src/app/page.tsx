@@ -153,7 +153,7 @@ export default function Home() {
           {isSeoExpanded && (
             <div className={styles.seoContent}>
               <p>
-                Welcome to Yaperz, India's premier high-end unisex streetwear destination. Designed
+                Welcome to Yaperz, India&apos;s premier high-end unisex streetwear destination. Designed
                 for Gen-Z and urban streetwear enthusiasts in Delhi, Mumbai, Bangalore, and across India,
                 our drops feature oversized t-shirts, heavy combed cotton hoodies, statement jackets,
                 racing club inspired caps, and premium custom accessories.

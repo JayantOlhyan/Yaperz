@@ -14,8 +14,8 @@ export const SOCIAL_LINKS = {
 } as const;
 
 export const SUPPORT_CONTACT = {
-  email: 'care@yaperz.com',
-  phone: '+91 98765 43210',
+  email: 'support@yaperz.com',
+  phone: '+91 82851 72372',
   operatingHours: '10:00 AM - 7:00 PM IST, Monday through Saturday',
 } as const;
 

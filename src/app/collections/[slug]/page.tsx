@@ -76,6 +76,7 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
     const queryParam = searchParams.get('search');
     const categoryParam = searchParams.get('category');
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (sizeParam) setSelectedSizes(sizeParam.split(','));
     else setSelectedSizes([]);
 

@@ -41,7 +41,6 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
       document.body.classList.add('no-scroll');
     } else {
       document.body.classList.remove('no-scroll');
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTimeout(() => { setQuery(''); setResults([]); }, 0);
     }
     return () => {

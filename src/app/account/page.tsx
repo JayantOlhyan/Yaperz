@@ -5,7 +5,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { User, LogIn, ShoppingBag, MapPin } from 'lucide-react';
+import { LogIn, ShoppingBag, MapPin } from 'lucide-react';
 import styles from './account.module.css';
 
 export default function AccountPage() {
