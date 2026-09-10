@@ -1,7 +1,7 @@
 /**
  * @file order.repository.ts
  * @description Order Repository managing transactional order persistence, historical item snapshots,
- * delivery address records, and idempotency guarantees.
+ * delivery address records, customer order history lookups, and idempotency guarantees.
  */
 
 import { NotFoundError } from '../../errors';
@@ -209,6 +209,23 @@ export class OrderRepository {
   }
 
   /**
+   * Finds all orders placed by a customer ID or associated email.
+   */
+  async findByCustomerId(customerId: string, email?: string): Promise<PersistedOrder[]> {
+    const targetEmail = email ? email.toLowerCase().trim() : null;
+    const matching: PersistedOrder[] = [];
+    for (const order of ordersStore.values()) {
+      if (
+        order.customerId === customerId ||
+        (targetEmail && order.guestEmail.toLowerCase() === targetEmail)
+      ) {
+        matching.push(order);
+      }
+    }
+    return matching.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  /**
    * Finds all orders placed by an email address.
    */
   async findByEmail(email: string): Promise<PersistedOrder[]> {
@@ -238,6 +255,14 @@ export class OrderRepository {
     order.updatedAt = new Date();
     ordersStore.set(orderId, order);
     return order;
+  }
+
+  /**
+   * Resets orders store for testing.
+   */
+  public resetForTesting() {
+    ordersStore.clear();
+    idempotencyStore.clear();
   }
 }
 
