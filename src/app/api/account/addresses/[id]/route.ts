@@ -13,7 +13,7 @@ import { UnauthorizedError, ForbiddenError, NotFoundError, AppError } from '@/li
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const rawSessionToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
@@ -26,7 +26,7 @@ export async function PATCH(
       throw new UnauthorizedError('Session expired or invalid');
     }
 
-    const addressId = params.id;
+    const { id: addressId } = await context.params;
     const existing = await authRepository.findAddressById(addressId);
     if (!existing) {
       throw new NotFoundError('Address not found');
@@ -59,7 +59,7 @@ export async function PATCH(
     }
     if (error instanceof ZodError) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: error.errors },
+        { success: false, error: 'Validation failed', details: error.issues },
         { status: 400 }
       );
     }
@@ -73,7 +73,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const rawSessionToken = request.cookies.get(AUTH_COOKIE_NAME)?.value;
@@ -86,7 +86,7 @@ export async function DELETE(
       throw new UnauthorizedError('Session expired or invalid');
     }
 
-    const addressId = params.id;
+    const { id: addressId } = await context.params;
     const existing = await authRepository.findAddressById(addressId);
     if (!existing) {
       throw new NotFoundError('Address not found');
