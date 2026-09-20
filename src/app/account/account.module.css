@@ -125,7 +125,19 @@
 
 .stepDotActive {
   background: var(--color-text-primary);
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 4px rgba(220, 39, 67, 0.25);
+  animation: pulseBeacon 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes pulseBeacon {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(220, 39, 67, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(220, 39, 67, 0.45);
+    transform: scale(1.15);
+  }
 }
 
 .stepDotDone {
