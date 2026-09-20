@@ -1,20 +1,76 @@
 /**
  * @page Home
- * @description Storefront homepage featuring hero banner, seasonal collections, and trending products.
+ * @description Storefront homepage featuring dynamic hero banner (video/image),
+ * stories reel, seasonal collections, spotlight features, and trending products.
  */
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { StoriesBar } from '../components/StoriesBar';
 import { ProductCard } from '../components/ProductCard';
 import productsData from '../data/products.json';
-import { Product } from '../types';
+import { Product, SiteConfig } from '../types';
 import styles from './page.module.css';
 
+const DEFAULT_CONFIG: SiteConfig = {
+  brand: {
+    name: 'Yaperz',
+    tagline: 'Premium Streetwear Redefined',
+    displayPicture: '/images/hero-desktop.png',
+    announcement: {
+      enabled: true,
+      text: 'COMPLIMENTARY DOMESTIC EXPRESS SHIPPING ACROSS INDIA | NEW IN: BLUORNG RACING DROP',
+      link: '/collections/new-in',
+    },
+  },
+  hero: {
+    title: 'Premium Streetwear\nRedefined.',
+    subtitle: 'Discover artisanal oversized silhouettes engineered with heavyweight luxury cotton.',
+    ctaText: 'Shop Now',
+    ctaLink: '/collections/new-in',
+    mediaType: 'image',
+    desktopMedia: '/images/hero-desktop.png',
+    mobileMedia: '/images/hero-mobile.png',
+  },
+  spotlights: [
+    {
+      id: 'spotlight-1',
+      title: 'Winter Collection',
+      subtitle: 'Heavyweight French Terry Hoodies & Outerwear',
+      image: '/images/products/hoodie-brown-1.jpg',
+      link: '/collections/winter-collection',
+      cta: 'Shop Collection',
+    },
+    {
+      id: 'spotlight-2',
+      title: 'Racing Club',
+      subtitle: 'Satin Bombers & High-Octane Streetwear',
+      image: '/images/products/jacket-racing-1.jpg',
+      link: '/collections/bluorng-racing-club',
+      cta: 'Shop Collection',
+    },
+  ],
+};
+
 export default function Home() {
+  const [siteConfig, setSiteConfig] = useState<SiteConfig>(DEFAULT_CONFIG);
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
+
+  // Fetch dynamic site config
+  useEffect(() => {
+    fetch('/api/site-config')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data) {
+          setSiteConfig(data.data);
+        }
+      })
+      .catch(() => {
+        // Keep default config
+      });
+  }, []);
 
   // Filter products for various sections
   const allProducts = productsData as Product[];
@@ -22,26 +78,45 @@ export default function Home() {
   const capProducts = allProducts.filter((p) => p.category === 'Caps').slice(0, 4);
   const caseProducts = allProducts.filter((p) => p.category === 'Cases').slice(0, 4);
 
+  const isHeroVideo =
+    siteConfig.hero.mediaType === 'video' ||
+    siteConfig.hero.desktopMedia.match(/\.(mp4|webm|mov)$/i);
+
   return (
     <>
       {/* 1. Stories Highlights Bar */}
       <StoriesBar />
 
-      {/* 2. Hero Banner */}
+      {/* 2. Hero Banner (Supports Video & Editorial Image) */}
       <section className={styles.heroSection}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/hero-desktop.png"
-          alt="Yaperz Premium Streetwear Editorial"
-          className={styles.heroImage}
-        />
+        {isHeroVideo ? (
+          <video
+            src={siteConfig.hero.desktopMedia}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={styles.heroVideo}
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={siteConfig.hero.desktopMedia || '/images/hero-desktop.png'}
+            alt="Yaperz Premium Streetwear Editorial"
+            className={styles.heroImage}
+          />
+        )}
         <div className={styles.heroOverlay}>
           <h1 className={styles.heroTitle}>
-            Premium Streetwear<br />
-            Redefined.
+            {siteConfig.hero.title.split('\n').map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                {idx < siteConfig.hero.title.split('\n').length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </h1>
-          <Link href="/collections/new-in" className={styles.heroCTA}>
-            Shop Now
+          <Link href={siteConfig.hero.ctaLink || '/collections/new-in'} className={styles.heroCTA}>
+            {siteConfig.hero.ctaText || 'Shop Now'}
           </Link>
         </div>
       </section>
@@ -72,32 +147,24 @@ export default function Home() {
             <h2 className={styles.sectionTitle}>Spotlight</h2>
           </div>
           <div className={styles.spotlightGrid}>
-            <Link href="/collections/winter-collection" className={styles.spotlightCard}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/products/hoodie-brown-1.jpg"
-                alt="Winter Collection"
-                className={styles.spotlightImage}
-              />
-              <div className={styles.spotlightOverlay} />
-              <div className={styles.spotlightContent}>
-                <h3 className={styles.spotlightTitle}>Winter Collection</h3>
-                <span className={styles.spotlightCTA}>Shop Collection</span>
-              </div>
-            </Link>
-            <Link href="/collections/bluorng-racing-club" className={styles.spotlightCard}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/products/jacket-racing-1.jpg"
-                alt="Racing Club"
-                className={styles.spotlightImage}
-              />
-              <div className={styles.spotlightOverlay} />
-              <div className={styles.spotlightContent}>
-                <h3 className={styles.spotlightTitle}>Racing Club</h3>
-                <span className={styles.spotlightCTA}>Shop Collection</span>
-              </div>
-            </Link>
+            {(siteConfig.spotlights && siteConfig.spotlights.length > 0
+              ? siteConfig.spotlights
+              : DEFAULT_CONFIG.spotlights
+            ).map((spotlight) => (
+              <Link key={spotlight.id} href={spotlight.link} className={styles.spotlightCard}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={spotlight.image}
+                  alt={spotlight.title}
+                  className={styles.spotlightImage}
+                />
+                <div className={styles.spotlightOverlay} />
+                <div className={styles.spotlightContent}>
+                  <h3 className={styles.spotlightTitle}>{spotlight.title}</h3>
+                  <span className={styles.spotlightCTA}>{spotlight.cta || 'Shop Collection'}</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -140,7 +207,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. SEO Copy Block */}
+      {/* 7. SEO Copy Block */}
       <section className={styles.seoCopySection}>
         <div className="container">
           <div
@@ -173,8 +240,5 @@ export default function Home() {
   );
 }
 
-// Homepage hero section identifier
 export const HOMEPAGE_HERO_SECTION_ID = 'hero-banner';
-
-// Maximum trending items displayed on the homepage
 export const HOMEPAGE_FEATURED_LIMIT = 8;

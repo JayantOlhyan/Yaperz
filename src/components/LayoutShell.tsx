@@ -10,6 +10,7 @@ import { Header } from './Header';
 import { CartDrawer } from './CartDrawer';
 import { SearchOverlay } from './SearchOverlay';
 import { Footer } from './Footer';
+import { MobileBottomNav } from './MobileBottomNav';
 
 interface LayoutShellProps {
   children: React.ReactNode;
@@ -27,6 +28,7 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
       </main>
       
       <Footer />
+      <MobileBottomNav />
       
       <CartDrawer />
       <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />

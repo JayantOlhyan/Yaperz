@@ -1,0 +1,125 @@
+[
+  {
+    "id": "ord_mock_101",
+    "orderNumber": "YP-89421",
+    "guestEmail": "rahul.sharma@example.com",
+    "guestPhone": "+91 98765 43210",
+    "status": "CONFIRMED",
+    "subtotal": 1850000,
+    "discountTotal": 0,
+    "shippingFee": 0,
+    "shippingMethod": "express",
+    "taxTotal": 222000,
+    "grandTotal": 1850000,
+    "currency": "INR",
+    "shippingAddress": {
+      "firstName": "Rahul",
+      "lastName": "Sharma",
+      "phone": "+91 98765 43210",
+      "addressLine1": "Flat 402, Signature Towers",
+      "addressLine2": "Sector 43, Golf Course Road",
+      "city": "Gurugram",
+      "state": "Haryana",
+      "postalCode": "122002",
+      "country": "IN"
+    },
+    "items": [
+      {
+        "id": "item_1",
+        "productTitle": "Brown Wildloom Heavyweight Hoodie",
+        "variantSku": "YP-HD-BRN-L",
+        "size": "L",
+        "color": "Brown",
+        "unitPrice": 1850000,
+        "quantity": 1,
+        "lineTotal": 1850000
+      }
+    ],
+    "trackingNumber": "SR98371289IN",
+    "carrier": "Delhivery Express",
+    "createdAt": "2026-09-18T10:30:00.000Z",
+    "updatedAt": "2026-09-18T14:20:00.000Z"
+  },
+  {
+    "id": "ord_mock_102",
+    "orderNumber": "YP-89422",
+    "guestEmail": "priya.mehta@example.com",
+    "guestPhone": "+91 98111 22334",
+    "status": "SHIPPED",
+    "subtotal": 3200000,
+    "discountTotal": 320000,
+    "shippingFee": 0,
+    "shippingMethod": "standard",
+    "taxTotal": 384000,
+    "grandTotal": 2880000,
+    "currency": "INR",
+    "shippingAddress": {
+      "firstName": "Priya",
+      "lastName": "Mehta",
+      "phone": "+91 98111 22334",
+      "addressLine1": "14/B, Bandra West, Pali Hill",
+      "addressLine2": "Near Nargis Dutt Road",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "postalCode": "400050",
+      "country": "IN"
+    },
+    "items": [
+      {
+        "id": "item_2",
+        "productTitle": "Bluorng Racing Satin Club Jacket",
+        "variantSku": "YP-JKT-RACE-M",
+        "size": "M",
+        "color": "Racing Blue",
+        "unitPrice": 3200000,
+        "quantity": 1,
+        "lineTotal": 3200000
+      }
+    ],
+    "trackingNumber": "BLR74819234IN",
+    "carrier": "Blue Dart Express",
+    "createdAt": "2026-09-19T14:15:00.000Z",
+    "updatedAt": "2026-09-20T09:10:00.000Z"
+  },
+  {
+    "id": "ord_mock_103",
+    "orderNumber": "YP-89423",
+    "guestEmail": "arjun.kapoor@example.com",
+    "guestPhone": "+91 99223 34455",
+    "status": "DELIVERED",
+    "subtotal": 450000,
+    "discountTotal": 0,
+    "shippingFee": 0,
+    "shippingMethod": "standard",
+    "taxTotal": 54000,
+    "grandTotal": 450000,
+    "currency": "INR",
+    "shippingAddress": {
+      "firstName": "Arjun",
+      "lastName": "Kapoor",
+      "phone": "+91 99223 34455",
+      "addressLine1": "Villa 7, Indiranagar 100ft Road",
+      "addressLine2": "Defence Colony",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "postalCode": "560038",
+      "country": "IN"
+    },
+    "items": [
+      {
+        "id": "item_3",
+        "productTitle": "Racing Club 5-Panel Cap",
+        "variantSku": "YP-CAP-RACE-OS",
+        "size": "One Size",
+        "color": "Black",
+        "unitPrice": 450000,
+        "quantity": 1,
+        "lineTotal": 450000
+      }
+    ],
+    "trackingNumber": "DLV99283120IN",
+    "carrier": "Delhivery Surface",
+    "createdAt": "2026-09-16T11:00:00.000Z",
+    "updatedAt": "2026-09-19T16:45:00.000Z"
+  }
+]

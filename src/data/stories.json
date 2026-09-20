@@ -1,0 +1,68 @@
+[
+  {
+    "id": "story-1",
+    "label": "Winter Drop",
+    "thumbnail": "/images/products/hoodie-brown-1.jpg",
+    "media": "/images/products/hoodie-brown-1.jpg",
+    "mediaType": "image",
+    "ctaText": "Shop Winter",
+    "ctaLink": "/collections/winter-collection",
+    "duration": 5,
+    "isActive": true
+  },
+  {
+    "id": "story-2",
+    "label": "Racing Club",
+    "thumbnail": "/images/products/jacket-racing-1.jpg",
+    "media": "/images/products/jacket-racing-1.jpg",
+    "mediaType": "image",
+    "ctaText": "Explore Racing",
+    "ctaLink": "/collections/bluorng-racing-club",
+    "duration": 5,
+    "isActive": true
+  },
+  {
+    "id": "story-3",
+    "label": "New Cases",
+    "thumbnail": "/images/products/case-denim-1.jpg",
+    "media": "/images/products/case-denim-1.jpg",
+    "mediaType": "image",
+    "ctaText": "Shop Cases",
+    "ctaLink": "/collections/iphone-case",
+    "duration": 5,
+    "isActive": true
+  },
+  {
+    "id": "story-4",
+    "label": "Basics",
+    "thumbnail": "/images/products/tee-basics-white-1.jpg",
+    "media": "/images/products/tee-basics-white-1.jpg",
+    "mediaType": "image",
+    "ctaText": "Shop Basics",
+    "ctaLink": "/collections/summer-basics",
+    "duration": 5,
+    "isActive": true
+  },
+  {
+    "id": "story-5",
+    "label": "New Caps",
+    "thumbnail": "/images/products/cap-racing-1.jpg",
+    "media": "/images/products/cap-racing-1.jpg",
+    "mediaType": "image",
+    "ctaText": "Shop Caps",
+    "ctaLink": "/collections/caps",
+    "duration": 5,
+    "isActive": true
+  },
+  {
+    "id": "story-6",
+    "label": "Editorial Look",
+    "thumbnail": "/images/hero-desktop.png",
+    "media": "/images/hero-desktop.png",
+    "mediaType": "image",
+    "ctaText": "Our Story",
+    "ctaLink": "/about-us",
+    "duration": 6,
+    "isActive": true
+  }
+]

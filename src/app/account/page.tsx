@@ -6,7 +6,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { LogIn, ShoppingBag, MapPin, LogOut, Plus, Trash2, Edit } from 'lucide-react';
+import Link from 'next/link';
+import { LogIn, ShoppingBag, MapPin, LogOut, Plus, Trash2, Edit, Camera, Truck, Shield, ExternalLink } from 'lucide-react';
 import styles from './account.module.css';
 
 interface CustomerProfile {
@@ -81,6 +82,46 @@ export default function AccountPage() {
   const [addrCity, setAddrCity] = useState('');
   const [addrState, setAddrState] = useState('');
   const [addrPostalCode, setAddrPostalCode] = useState('');
+
+  // User DP State
+  const [userDp, setUserDp] = useState('/images/hero-desktop.png');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('yaperz_user_dp');
+    if (saved) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setUserDp(saved);
+    }
+  }, []);
+
+  const handleDpUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        setUserDp(data.url);
+        localStorage.setItem('yaperz_user_dp', data.url);
+      }
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setUserDp(reader.result);
+          localStorage.setItem('yaperz_user_dp', reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const fetchOrders = async () => {
     try {
@@ -512,22 +553,73 @@ export default function AccountPage() {
                 Welcome back, {customer.firstName} {customer.lastName} ({customer.email})
               </p>
             </div>
-            <button
-              onClick={handleLogout}
-              style={{
-                border: '1px solid var(--color-border-dark)',
-                padding: '8px 20px',
-                fontSize: 12,
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <LogOut size={16} /> Log Out
-            </button>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <Link
+                href="/admin"
+                style={{
+                  border: '1px solid var(--color-border-dark)',
+                  backgroundColor: '#0b0b0d',
+                  color: '#ffffff',
+                  padding: '8px 16px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  borderRadius: 4,
+                }}
+              >
+                <Shield size={14} /> Admin Portal
+              </Link>
+              <button
+                onClick={handleLogout}
+                style={{
+                  border: '1px solid var(--color-border-dark)',
+                  padding: '8px 20px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <LogOut size={16} /> Log Out
+              </button>
+            </div>
+          </div>
+
+          {/* User Profile & DP Section */}
+          <div className={styles.userProfileCard}>
+            <div className={styles.avatarWrapper}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={userDp} alt="User DP" className={styles.avatarImg} />
+              <label className={styles.avatarEditBtn} title="Upload New Profile Picture">
+                <Camera size={10} style={{ margin: '0 auto' }} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={handleDpUpload}
+                />
+              </label>
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>
+                  {customer.firstName} {customer.lastName}
+                </h3>
+                <span style={{ fontSize: 11, background: 'rgba(0,0,0,0.06)', padding: '2px 8px', borderRadius: 12, fontWeight: 600 }}>
+                  {customer.accountStatus}
+                </span>
+              </div>
+              <p style={{ fontSize: 13, color: 'var(--color-text-muted)', margin: '4px 0 0' }}>
+                {customer.email} {customer.phone ? `• ${customer.phone}` : ''}
+              </p>
+            </div>
           </div>
 
           <div className={styles.grid}>
@@ -559,6 +651,45 @@ export default function AccountPage() {
                       ))}
                     </div>
 
+                    {/* Visual 4-Step Order Progress Tracker */}
+                    <div className={styles.orderTracker}>
+                      <div className={styles.trackerLine} />
+                      <div className={styles.trackerStep}>
+                        <div className={`${styles.stepDot} ${styles.stepDotDone}`} />
+                        <span>Placed</span>
+                      </div>
+                      <div className={styles.trackerStep}>
+                        <div
+                          className={`${styles.stepDot} ${
+                            ['CONFIRMED', 'SHIPPED', 'DELIVERED'].includes(ord.status)
+                              ? styles.stepDotDone
+                              : styles.stepDotActive
+                          }`}
+                        />
+                        <span>Confirmed</span>
+                      </div>
+                      <div className={styles.trackerStep}>
+                        <div
+                          className={`${styles.stepDot} ${
+                            ['SHIPPED', 'DELIVERED'].includes(ord.status)
+                              ? styles.stepDotDone
+                              : ord.status === 'CONFIRMED'
+                              ? styles.stepDotActive
+                              : ''
+                          }`}
+                        />
+                        <span>Shipped</span>
+                      </div>
+                      <div className={styles.trackerStep}>
+                        <div
+                          className={`${styles.stepDot} ${
+                            ord.status === 'DELIVERED' ? styles.stepDotDone : ''
+                          }`}
+                        />
+                        <span>Delivered</span>
+                      </div>
+                    </div>
+
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, borderTop: '1px solid var(--color-border)', paddingTop: 12, fontSize: 13 }}>
                       <span>Total: <strong>₹ {(ord.grandTotal / 100).toLocaleString('en-IN')}</strong></span>
                       <span style={{
@@ -569,6 +700,18 @@ export default function AccountPage() {
                       }}>
                         {ord.status}
                       </span>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, fontSize: 12, color: 'var(--color-text-muted)' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <Truck size={14} /> Express Fulfillment
+                      </span>
+                      <Link
+                        href={`/track-order?orderId=${ord.orderNumber}`}
+                        style={{ color: 'var(--color-text-primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}
+                      >
+                        Live Tracking <ExternalLink size={12} />
+                      </Link>
                     </div>
                   </div>
                 ))

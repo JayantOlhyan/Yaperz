@@ -1,0 +1,46 @@
+{
+  "brand": {
+    "name": "Yaperz",
+    "tagline": "Premium Streetwear Redefined",
+    "displayPicture": "/images/hero-desktop.png",
+    "logoUrl": "",
+    "announcement": {
+      "enabled": true,
+      "text": "COMPLIMENTARY DOMESTIC EXPRESS SHIPPING ACROSS INDIA | NEW IN: BLUORNG RACING DROP",
+      "link": "/collections/new-in"
+    }
+  },
+  "hero": {
+    "title": "Premium Streetwear\nRedefined.",
+    "subtitle": "Discover artisanal oversized silhouettes engineered with heavyweight luxury cotton.",
+    "ctaText": "Shop Now",
+    "ctaLink": "/collections/new-in",
+    "mediaType": "image",
+    "desktopMedia": "/images/hero-desktop.png",
+    "mobileMedia": "/images/hero-mobile.png",
+    "videoUrl": ""
+  },
+  "spotlights": [
+    {
+      "id": "spotlight-1",
+      "title": "Winter Collection",
+      "subtitle": "Heavyweight French Terry Hoodies & Outerwear",
+      "image": "/images/products/hoodie-brown-1.jpg",
+      "link": "/collections/winter-collection",
+      "cta": "Shop Collection"
+    },
+    {
+      "id": "spotlight-2",
+      "title": "Racing Club",
+      "subtitle": "Satin Bombers & High-Octane Streetwear",
+      "image": "/images/products/jacket-racing-1.jpg",
+      "link": "/collections/bluorng-racing-club",
+      "cta": "Shop Collection"
+    }
+  ],
+  "deviceDefaults": {
+    "mobileEntry": "stories_and_feed",
+    "tabletEntry": "dual_grid",
+    "desktopEntry": "editorial_widescreen"
+  }
+}

@@ -31,6 +31,27 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
     countryName: 'Rest of the world'
   });
 
+  const [announcement, setAnnouncement] = useState<{
+    enabled: boolean;
+    text: string;
+    link: string;
+  }>({
+    enabled: true,
+    text: 'COMPLIMENTARY DOMESTIC EXPRESS SHIPPING ACROSS INDIA | NEW IN: BLUORNG RACING DROP',
+    link: '/collections/new-in'
+  });
+
+  useEffect(() => {
+    fetch('/api/site-config')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.data?.brand?.announcement) {
+          setAnnouncement(d.data.brand.announcement);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   // Load saved location on mount to avoid hydration mismatch
   useEffect(() => {
     const saved = localStorage.getItem('yaperz_location');
@@ -85,6 +106,13 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
 
   return (
     <>
+      {announcement.enabled && announcement.text && (
+        <div className={styles.announcementBar}>
+          <Link href={announcement.link || '/collections/new-in'} className={styles.announcementLink}>
+            {announcement.text}
+          </Link>
+        </div>
+      )}
       <header className={styles.header}>
         <div className={styles.headerContainer}>
           {/* Mobile-Only: Hamburger Toggle Button */}
@@ -426,6 +454,11 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
             <li className={styles.menuNavItem}>
               <Link href="/account">
                 My Account
+              </Link>
+            </li>
+            <li className={styles.menuNavItem}>
+              <Link href="/admin" style={{ color: '#ec4899', fontWeight: 700 }}>
+                Admin Portal
               </Link>
             </li>
           </ul>

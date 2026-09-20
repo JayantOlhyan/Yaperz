@@ -312,3 +312,92 @@ export interface StorySlide {
   linkText?: string;
   linkHref?: string;
 }
+
+export interface StoryItem {
+  id: string;
+  label: string;
+  thumbnail: string;
+  media: string;
+  mediaType?: 'image' | 'video';
+  ctaText: string;
+  ctaLink: string;
+  duration?: number;
+  isActive?: boolean;
+}
+
+export interface SiteConfig {
+  brand: {
+    name: string;
+    tagline: string;
+    displayPicture: string;
+    logoUrl?: string;
+    announcement: {
+      enabled: boolean;
+      text: string;
+      link: string;
+    };
+  };
+  hero: {
+    title: string;
+    subtitle: string;
+    ctaText: string;
+    ctaLink: string;
+    mediaType: 'image' | 'video';
+    desktopMedia: string;
+    mobileMedia: string;
+    videoUrl?: string;
+  };
+  spotlights: Array<{
+    id: string;
+    title: string;
+    subtitle: string;
+    image: string;
+    link: string;
+    cta: string;
+  }>;
+  deviceDefaults?: {
+    mobileEntry: string;
+    tabletEntry: string;
+    desktopEntry: string;
+  };
+}
+
+export interface AdminOrder {
+  id: string;
+  orderNumber: string;
+  guestEmail: string;
+  guestPhone: string;
+  status: string;
+  subtotal: number;
+  discountTotal: number;
+  shippingFee: number;
+  shippingMethod: string;
+  taxTotal: number;
+  grandTotal: number;
+  currency: string;
+  shippingAddress: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  items: Array<{
+    id: string;
+    productTitle: string;
+    variantSku: string;
+    size: string;
+    color: string;
+    unitPrice: number;
+    quantity: number;
+    lineTotal: number;
+  }>;
+  trackingNumber?: string;
+  carrier?: string;
+  createdAt: string;
+  updatedAt: string;
+}
