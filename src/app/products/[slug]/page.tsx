@@ -11,6 +11,8 @@ import productsData from '../../../data/products.json';
 import { Product } from '../../../types';
 import { useCart } from '../../../context/CartContext';
 import { ProductCard } from '../../../components/ProductCard';
+import { ClothingRailSection } from '../../../components/ClothingRailSection';
+import { isHangingClothingProduct } from '../../../lib/rail-garments';
 import styles from './page.module.css';
 
 interface ProductDetailPageProps {
@@ -96,9 +98,25 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   };
 
   // Get related products
-  const relatedProducts = (productsData as Product[])
+  const allProductsList = productsData as Product[];
+  const relatedProducts = allProductsList
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
+
+  // Build interactive clothing rail pairing current garment with matching apparel pieces
+  const showClothingRail = isHangingClothingProduct(product);
+  const railPairings = showClothingRail
+    ? [
+        product,
+        ...allProductsList.filter(
+          (p) =>
+            p.id !== product.id &&
+            isHangingClothingProduct(p) &&
+            (p.category === product.category ||
+              p.collections.some((c) => product.collections.includes(c)))
+        ),
+      ].slice(0, 7)
+    : [];
 
   // All possible sizes to match standard row look
   const allSizes = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
@@ -361,6 +379,21 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Interactive Clothing Rail for Apparel PDPs */}
+      {showClothingRail && railPairings.length > 0 && (
+        <section className={styles.relatedSection}>
+          <ClothingRailSection
+            products={railPairings}
+            eyebrow={`${product.category} & Capsule Pairings`}
+            heading="Inspect This Look On The Rail"
+            caption="Brush across matching pieces or click any garment to turn it 360° and quick-add to bag."
+            ctaLabel={`Shop All ${product.category}`}
+            ctaHref={`/collections/${product.category.toLowerCase()}`}
+            hanger={product.category === 'Shirts' || product.category === 'Polos' ? 'wood' : 'matte'}
+          />
+        </section>
+      )}
 
       {/* Related Products ("You May Also Like") */}
       {relatedProducts.length > 0 && (
