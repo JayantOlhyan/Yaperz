@@ -15,6 +15,7 @@ Yaperz is a simulated e-commerce web application designed to demonstrate a compl
 ## Features
 
 ### Implemented Features
+- **Interactive 3D Clothing Rail Gallery**: Physics-driven hanging clothing rail (`ClothingRailHero` in `src/components/ui/product-rail-gallery.tsx`) integrated across all clothing sections — Homepage (Latest Drop, Hoodies & Outerwear, Tees/Shirts/Knitwear), Collections directory, every dynamic apparel collection route (`/collections/[slug]`), apparel product detail pages, and Collaborations capsules. Includes spring-drape hover/drag physics, mobile carousel mode, INR hang-tags, 3D front/back inspection modal, inline size selector, and direct Add to Bag.
 - **Product Catalog**: Browsing products loaded from a static JSON datastore.
 - **Product Details**: Dynamic routing for individual product pages (`/products/[slug]`).
 - **Shopping Cart**: Fully functional frontend cart using React Context with `localStorage` persistence.
@@ -53,7 +54,7 @@ The application relies completely on client-side state and static assets:
 ### Frontend
 - **Framework**: Next.js (16.2.9)
 - **Language**: TypeScript
-- **Styling**: CSS Modules (`.module.css`)
+- **Styling**: Tailwind CSS v4 + shadcn/ui structure (`components.json`, `src/components/ui/`) alongside CSS Modules (`.module.css`)
 - **Icons**: `lucide-react`
 - **Image Optimization**: `sharp` (Node.js)
 
@@ -74,10 +75,14 @@ yaperz/
 │   └── optimize-images.js
 ├── src/
 │   ├── app/                # Next.js App Router pages and layouts
-│   ├── components/         # Reusable UI components (Header, Footer, CartDrawer)
+│   ├── components/         # Reusable storefront components (Header, Footer, CartDrawer, ClothingRailSection)
+│   │   └── ui/             # shadcn/ui primitives (product-rail-gallery.tsx)
 │   ├── context/            # React Context providers (CartContext)
 │   ├── data/               # Static data (products.json)
+│   ├── lib/                # Utilities (cn/debounce, currency, rail-garments mapper)
 │   └── types/              # TypeScript interfaces
+├── components.json         # shadcn/ui configuration & component aliases
+├── postcss.config.mjs      # Tailwind CSS v4 PostCSS setup
 ├── package.json
 └── next.config.ts
 ```
@@ -117,6 +122,7 @@ To run this project locally, follow these steps:
 | `npm run build` | Builds the application for production. |
 | `npm run start` | Starts the production server (requires a prior build). |
 | `npm run lint` | Runs ESLint to check for code quality issues. |
+| `npm test` | Runs unit and integration tests with Vitest. |
 | `node scripts/generate-pwa-icons.js` | Generates required PWA icon sizes. |
 | `node scripts/optimize-images.js` | Optimizes static images using Sharp. |
 
