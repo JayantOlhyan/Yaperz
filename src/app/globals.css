@@ -1,10 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@0,9..144,400..500;1,9..144,400..500&family=Inter:wght@400;500&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-primary);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
 
 :root {
   /* Fonts */
   --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Archivo Black', sans-serif;
   --font-serif: 'Fraunces', serif;
+
+  /* shadcn/ui Semantic Tokens (aligned with Yaperz brand palette) */
+  --background: #ffffff;
+  --foreground: #111111;
+  --card: #ffffff;
+  --card-foreground: #111111;
+  --popover: #ffffff;
+  --popover-foreground: #111111;
+  --primary: #111111;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f7;
+  --secondary-foreground: #111111;
+  --muted: #f7f7f7;
+  --muted-foreground: #707070;
+  --destructive: #c0392b;
+  --destructive-foreground: #ffffff;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #111111;
+  --radius: 0.5rem;
 
   /* Colors */
   --color-background: #ffffff;
@@ -50,51 +99,59 @@
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Global Reset */
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+/* Global Reset (layered so Tailwind utilities override cleanly while CSS Modules take precedence) */
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
 
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-  font-family: var(--font-primary);
-  font-size: clamp(14px, 1.2vw, 16px);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-tap-highlight-color: transparent;
-  scroll-behavior: smooth;
-}
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-primary);
+    font-size: clamp(14px, 1.2vw, 16px);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
 
-button {
-  font-family: inherit;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-}
+  button {
+    font-family: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+  }
 
-input, select, textarea {
-  font-family: inherit;
-  font-size: 16px; /* Prevents auto-zoom on iOS */
-  outline: none;
-}
+  input, select, textarea {
+    font-family: inherit;
+    font-size: 16px; /* Prevents auto-zoom on iOS */
+    outline: none;
+  }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Headings and Display Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.05em; /* Wide spacing for Archivo Black */
+  }
 }
 
 /* Custom Scrollbar */
@@ -202,12 +259,6 @@ img {
 .badge-new {
   background-color: var(--color-text-primary);
   color: #fff;
-}
-
-/* Headings and Display Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  letter-spacing: 0.05em; /* Wide spacing for Archivo Black */
 }
 
 /* Editorial / Founder Story typography utility */
