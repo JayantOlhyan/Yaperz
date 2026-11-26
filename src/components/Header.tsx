@@ -149,9 +149,9 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
                   <div className={styles.megaMenuLinks}>
                     <div className={styles.megaMenuColumn}>
                       <Link href="/collections/new-in" className={styles.megaLink}>NEW IN</Link>
-                      <Link href="/collections/winter-collection" className={styles.megaLink}>Knitwear</Link>
-                      <Link href="/collections/t-shirts" className={styles.megaLink}>Polo Shirts</Link>
-                      <Link href="/collections/t-shirts" className={styles.megaLink}>Shirts</Link>
+                      <Link href="/collections/hoodies" className={styles.megaLink}>Hoodies &amp; Knitwear</Link>
+                      <Link href="/collections/polos" className={styles.megaLink}>Polo Shirts</Link>
+                      <Link href="/collections/shirts" className={styles.megaLink}>Shirts</Link>
                       <Link href="/collections/t-shirts" className={styles.megaLink}>3 for 2 Tops</Link>
                       <Link href="/collections/summer-basics" className={styles.megaLink}>The Father&apos;s Day Edit</Link>
                     </div>
@@ -431,6 +431,12 @@ export const Header: React.FC<HeaderProps> = ({ onSearchOpen }) => {
                   </Link>
                   <Link href="/collections/jackets" className={styles.menuSubLink}>
                     Jackets
+                  </Link>
+                  <Link href="/collections/shirts" className={styles.menuSubLink}>
+                    Shirts
+                  </Link>
+                  <Link href="/collections/polos" className={styles.menuSubLink}>
+                    Knitted Polos
                   </Link>
                   <Link href="/collections/caps" className={styles.menuSubLink}>
                     Caps
