@@ -6,9 +6,21 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { ClothingRailSection } from '../../components/ClothingRailSection';
+import productsData from '../../data/products.json';
+import { Product } from '../../types';
 import styles from './page.module.css';
 
 export default function CollaborationsPage() {
+  const allProducts = productsData as Product[];
+  const basicsCapsule = allProducts.filter((p) => p.collections.includes('summer-basics'));
+  const racingCapsule = allProducts.filter((p) => p.collections.includes('bluorng-racing-club'));
+  const allCollabApparel = allProducts.filter(
+    (p) =>
+      p.collections.includes('summer-basics') ||
+      p.collections.includes('bluorng-racing-club')
+  );
+
   const collabs = [
     {
       title: 'Yaperz x Samay Raina',
@@ -47,6 +59,41 @@ export default function CollaborationsPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-14">
+        <ClothingRailSection
+          hanger="matte"
+          tabs={[
+            {
+              id: 'all-collabs',
+              label: 'All Collab Pieces',
+              products: allCollabApparel,
+              eyebrow: 'Limited Edition Capsules',
+              heading: 'Collaboration Drops On The Rail',
+              ctaLabel: 'Browse All Collections',
+              ctaHref: '/collections',
+            },
+            {
+              id: 'samay-basics',
+              label: 'Yaperz × Samay Raina',
+              products: basicsCapsule,
+              eyebrow: 'Oversized Basics Capsule',
+              heading: 'Yaperz × Samay Raina Rack',
+              ctaLabel: 'Shop Basics Capsule',
+              ctaHref: '/collections/summer-basics',
+            },
+            {
+              id: 'motorsport-racing',
+              label: 'Motorsport Racing Club',
+              products: racingCapsule,
+              eyebrow: 'Track-Ready Streetwear',
+              heading: 'Motorsport Racing Club Rack',
+              ctaLabel: 'Shop Racing Club',
+              ctaHref: '/collections/bluorng-racing-club',
+            },
+          ]}
+        />
       </div>
     </div>
   );
