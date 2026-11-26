@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { StoriesBar } from '../components/StoriesBar';
 import { ProductCard } from '../components/ProductCard';
+import { ClothingRailSection } from '../components/ClothingRailSection';
 import productsData from '../data/products.json';
 import { Product, SiteConfig } from '../types';
 import styles from './page.module.css';
@@ -75,6 +76,23 @@ export default function Home() {
   // Filter products for various sections
   const allProducts = productsData as Product[];
   const latestDrops = allProducts.filter((p) => p.collections.includes('new-in')).slice(0, 6);
+  const hoodieProducts = allProducts.filter((p) => p.category === 'Hoodies');
+  const jacketProducts = allProducts.filter((p) => p.category === 'Jackets');
+  const outerwearProducts = allProducts.filter(
+    (p) => p.category === 'Hoodies' || p.category === 'Jackets'
+  );
+  const racingProducts = allProducts.filter((p) =>
+    p.collections.includes('bluorng-racing-club')
+  );
+  const teeProducts = allProducts.filter((p) => p.category === 'T-shirts');
+  const shirtProducts = allProducts.filter((p) => p.category === 'Shirts');
+  const poloProducts = allProducts.filter((p) => p.category === 'Polos');
+  const coreTopsProducts = allProducts.filter(
+    (p) =>
+      p.category === 'T-shirts' ||
+      p.category === 'Shirts' ||
+      p.category === 'Polos'
+  );
   const capProducts = allProducts.filter((p) => p.category === 'Caps').slice(0, 4);
   const caseProducts = allProducts.filter((p) => p.category === 'Cases').slice(0, 4);
 
@@ -130,6 +148,17 @@ export default function Home() {
               Discover More
             </Link>
           </div>
+          <ClothingRailSection
+            products={latestDrops}
+            eyebrow="New Season · Latest Drop"
+            heading="Handle The Latest Drop"
+            caption="Brush along the rail, slide a hanger, or lift any piece to inspect front & back."
+            ctaLabel="Shop Latest Drop"
+            ctaHref="/collections/new-in"
+            autoplay
+            hanger="matte"
+            className="mb-10"
+          />
           <div className={styles.scrollGrid}>
             {latestDrops.map((product) => (
               <div key={product.id} className={styles.scrollGridItem}>
@@ -166,6 +195,112 @@ export default function Home() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 4b. Heavyweight Outerwear & Hoodies Clothing Rail */}
+      <section className={styles.section}>
+        <div className="container">
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Hoodies &amp; Outerwear</h2>
+            <Link href="/collections/winter-collection" className={styles.discoverLink}>
+              Shop Winter Edit
+            </Link>
+          </div>
+          <ClothingRailSection
+            hanger="matte"
+            tabs={[
+              {
+                id: 'all-outerwear',
+                label: 'All Outerwear',
+                products: outerwearProducts,
+                eyebrow: 'Heavyweight Streetwear · 450–500 GSM & Full-Grain Leather',
+                heading: 'Winter Hoodies & Statement Jackets',
+                ctaLabel: 'Shop Winter Collection',
+                ctaHref: '/collections/winter-collection',
+              },
+              {
+                id: 'hoodies',
+                label: 'Hoodies',
+                products: hoodieProducts,
+                eyebrow: 'Loopback French Terry · Oversized Silhouette',
+                heading: 'Heavyweight Hoodies On The Rail',
+                ctaLabel: 'Shop All Hoodies',
+                ctaHref: '/collections/hoodies',
+              },
+              {
+                id: 'jackets',
+                label: 'Jackets',
+                products: jacketProducts,
+                eyebrow: 'Nappa Leather & Collegiate Wool',
+                heading: 'Bombers & Varsity Jackets',
+                ctaLabel: 'Shop All Jackets',
+                ctaHref: '/collections/jackets',
+              },
+              {
+                id: 'racing-club',
+                label: 'Racing Club',
+                products: racingProducts,
+                eyebrow: 'Motorsport Capsule · Limited Edition',
+                heading: 'Bluorng Racing Club Edit',
+                ctaLabel: 'Explore Racing Club',
+                ctaHref: '/collections/bluorng-racing-club',
+              },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* 4c. Tees, Shirts & Knitted Polos Clothing Rail */}
+      <section className={styles.section}>
+        <div className="container">
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Tees, Shirts &amp; Knitwear</h2>
+            <Link href="/collections/summer-basics" className={styles.discoverLink}>
+              Shop Core Apparel
+            </Link>
+          </div>
+          <ClothingRailSection
+            hanger="wood"
+            tabs={[
+              {
+                id: 'all-tops',
+                label: 'All Tops',
+                products: coreTopsProducts,
+                eyebrow: 'Ready To Wear · 260–280 GSM Cotton, Linen & Knit',
+                heading: 'Core Tees, Resort Shirts & Knit Polos',
+                ctaLabel: 'Shop All Apparel',
+                ctaHref: '/collections/all-products',
+              },
+              {
+                id: 'tees',
+                label: 'Oversized Tees',
+                products: teeProducts,
+                eyebrow: 'Boxy Drop-Shoulder · Heavy Combed Cotton',
+                heading: 'Oversized Graphic & Essential Tees',
+                ctaLabel: 'Shop All T-Shirts',
+                ctaHref: '/collections/t-shirts',
+              },
+              {
+                id: 'shirts',
+                label: 'Shirts',
+                products: shirtProducts,
+                eyebrow: 'Yacht Summer · Pure Linen & Tencel',
+                heading: 'Resort & Casual Linen Shirts',
+                ctaLabel: 'Shop All Shirts',
+                ctaHref: '/collections/shirts',
+              },
+              {
+                id: 'polos',
+                label: 'Knitted Polos',
+                products: poloProducts,
+                eyebrow: 'Polo Club · Long-Staple Ribbed Knit',
+                heading: 'Knitted Ribbed Polos',
+                ctaLabel: 'Shop All Polos',
+                ctaHref: '/collections/polos',
+              },
+            ]}
+          />
         </div>
       </section>
 
