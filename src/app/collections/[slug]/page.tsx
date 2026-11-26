@@ -9,6 +9,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Filter, X, RotateCcw } from 'lucide-react';
 import { ProductCard } from '../../../components/ProductCard';
 import { SkeletonLoader } from '../../../components/SkeletonLoader';
+import { ClothingRailSection } from '../../../components/ClothingRailSection';
+import { isHangingClothingProduct } from '../../../lib/rail-garments';
 import productsData from '../../../data/products.json';
 import { Product } from '../../../types';
 import styles from './page.module.css';
@@ -230,6 +232,15 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
       .replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
+  const clothingRailProducts = sortedProducts.filter(isHangingClothingProduct);
+  const railHanger =
+    slug.includes('shirt') ||
+    slug.includes('polo') ||
+    slug.includes('yacht') ||
+    slug.includes('summer')
+      ? 'wood'
+      : 'matte';
+
   return (
     <div className={`${styles.container} container`}>
       <div className={styles.loadingContainer}>
@@ -245,6 +256,19 @@ export default function CollectionDetailPage({ params }: CollectionPageProps) {
             <h1 className={styles.title}>{getCollectionTitle()}</h1>
             <p className={styles.count}>{filteredProducts.length} Products found</p>
           </div>
+
+          {/* Interactive Clothing Rail for all apparel collections */}
+          {clothingRailProducts.length > 0 && (
+            <ClothingRailSection
+              products={clothingRailProducts}
+              eyebrow={`${getCollectionTitle()} · Interactive Rail`}
+              heading={`Handle ${getCollectionTitle()} On The Rail`}
+              caption="Brush along the hangers, drag a piece along the bar, or click to inspect front & back."
+              hanger={railHanger}
+              autoplay={false}
+              className="mb-8"
+            />
+          )}
 
           {/* Filter toolbar */}
           <div className={styles.toolbar}>
